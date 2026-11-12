@@ -237,3 +237,17 @@ details.lab-more > summary { color: #e8a58c; font-size: 15px; }
 details.lab-more > summary::before { background: var(--lab-panel-2); color: var(--lab-ink); }
 details.lab-more[open] > summary { margin-bottom: 4px; }
 details.lab-more > .lab-lower, details.lab-more > .lab-vs { margin-top: 18px; }
+
+/* Results dashboard */
+.dash-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 44px 0 22px; padding: 4px; background: var(--surface); border-radius: 10px; width: fit-content; max-width: 100%; }
+.dash-tab { font: 500 14px/1 var(--font); color: var(--ink-2); background: none; border: 0; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+.dash-tab[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+.dash-tab:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dash-panel[hidden] { display: none; }
+.dash-panel .dash-hide { display: none; }
+.dash-panel > .grid:first-child, .dash-panel > .chart-legend:first-child { margin-top: 0 !important; }
+.chart-card .sub { font-size: 13px; color: var(--muted); }
+details.more.note { margin-top: 10px; border-top: 0; }
+details.more.note > summary { padding-top: 4px; font-size: 13px; }
+details.more.note > summary::before { width: 16px; height: 16px; font-size: 12px; }
+.stat .l { font-size: 14px; }

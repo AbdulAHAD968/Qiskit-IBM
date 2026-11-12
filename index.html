@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="web/styles.css?v=20261112c">
-<link rel="stylesheet" href="web/lab.css?v=20261112c">
-<link rel="stylesheet" href="web/motion.css?v=20261112c">
-<link rel="stylesheet" href="web/theme.css?v=20261112c">
+<link rel="stylesheet" href="web/styles.css?v=20261112d">
+<link rel="stylesheet" href="web/lab.css?v=20261112d">
+<link rel="stylesheet" href="web/motion.css?v=20261112d">
+<link rel="stylesheet" href="web/theme.css?v=20261112d">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -499,16 +499,16 @@
     <p class="lead reveal">Every number is measured against the exact optimum. Noise-free simulation unless stated.</p>
 
     <div class="grid g4 mt2">
-      <div class="card stat reveal"><div class="v num" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></div><div class="l">quality of constrained QAOA at depth 3 on 16 qubits. A random valid plan scores <b data-v="bench.M.random.0.quality.mean" data-f="n2"></b>.</div></div>
-      <div class="card stat reveal" style="--d:.08s"><div class="v num"><span data-v="bench.M.constrained.3.p_opt_gain.mean" data-f="n0"></span><small>&times;</small></div><div class="l">higher chance, on average over families, that one shot is the best plan than a random valid pick (median <b data-v="bench.M.constrained.3.p_opt_gain.median" data-f="n0"></b>&times;); 16 qubits, depth 3</div></div>
-      <div class="card stat reveal" style="--d:.16s"><div class="v num">100<small>%</small></div><div class="l">of constrained-QAOA shots use exactly k kits. Penalty QAOA: <b data-v="bench.M.penalty.3.valid_share.mean" data-f="pct0"></b>.</div></div>
-      <div class="card stat reveal" style="--d:.24s"><div class="v num"><span data-v="decomposition.rows.0.n" data-f="int"></span><small>people</small></div><div class="l">in linked families solved to the proven optimum with circuits of at most <b id="max-qubits"></b> qubits; the pieces are small, so this is a scaling route, not an advantage</div></div>
+      <div class="card stat reveal"><div class="v num" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></div><div class="l">quality at depth 3, 16 qubits. A random pick: <b data-v="bench.M.random.0.quality.mean" data-f="n2"></b></div></div>
+      <div class="card stat reveal" style="--d:.08s"><div class="v num"><span data-v="bench.M.constrained.3.p_opt_gain.mean" data-f="n0"></span><small>&times;</small></div><div class="l">more often the best plan than a random pick, 16 qubits</div></div>
+      <div class="card stat reveal" style="--d:.16s"><div class="v num">100<small>%</small></div><div class="l">of shots keep exactly k kits. Penalty QAOA: <b data-v="bench.M.penalty.3.valid_share.mean" data-f="pct0"></b></div></div>
+      <div class="card stat reveal" style="--d:.24s"><div class="v num"><span data-v="decomposition.rows.0.n" data-f="int"></span><small>people</small></div><div class="l">in linked families, solved exactly with circuits of at most <b id="max-qubits"></b> qubits</div></div>
     </div>
 
     <h3 class="mt2 reveal">Is the problem trivial? No.</h3>
     <div class="grid g2" style="margin-top:14px">
-      <div class="card chart-card reveal"><h3>10 relatives, 4 kits</h3><div class="sub">Value of each rule's plan divided by the best plan. One dot per seeded family; the bar is the mean.</div><div id="gate1-S"></div></div>
-      <div class="card chart-card reveal" style="--d:.1s"><h3>16 relatives, 5 kits</h3><div class="sub">The field officer's rule never found the best plan. Simulated annealing almost always did.</div><div id="gate1-M"></div></div>
+      <div class="card chart-card reveal"><h3>10 relatives, 4 kits</h3><div class="sub">Each dot is one family. 100% is the best plan.</div><div id="gate1-S"></div></div>
+      <div class="card chart-card reveal" style="--d:.1s"><h3>16 relatives, 5 kits</h3><div class="sub">Each dot is one family. 100% is the best plan.</div><div id="gate1-M"></div></div>
     </div>
 
     <p class="small reveal" id="tie-note" style="margin-top:14px"></p>
@@ -523,10 +523,10 @@
     </div>
 
     <div class="grid g2 mt">
-      <div class="card chart-card reveal"><h3>Where the shots land</h3><div class="sub">Share of valid shots by plan quality, live-plan instance. QAOA moves weight towards better plans.</div>
+      <div class="card chart-card reveal"><h3>Where the shots land</h3><div class="sub">Where the measured plans fall, worst to best.</div>
         <div class="chart-legend"><span><i class="bg-random"></i>Random valid plan</span><span><i class="bg-dicke"></i>Constrained QAOA, p = 1</span><span><i class="bg-constrained"></i>Constrained QAOA, p = 3</span></div>
         <div id="hist-demo"></div><div class="hist-x"><span>worst plan</span><span>plan quality</span><span>best plan</span></div></div>
-      <div class="card chart-card reveal" style="--d:.1s"><h3>Valid shots and circuit cost</h3><div class="sub">Share of shots with exactly k kits (noise-free), then two-qubit CZ gates after transpilation, depth 1.</div>
+      <div class="card chart-card reveal" style="--d:.1s"><h3>Valid shots and circuit cost</h3><div class="sub">Shots within the kit limit, then CZ gates per circuit.</div>
         <div class="bars" id="valid-bars"></div>
         <div class="bars" id="circ-bars" style="margin-top:20px"></div>
         <p class="src" style="margin-top:12px">Basis RZ, SX, X, CZ with all-to-all connectivity, optimisation level 3. The constrained circuit pays for its Dicke start state.</p></div>
@@ -542,11 +542,11 @@
     </div>
 
     <div class="grid g2 mt2">
-      <div class="card chart-card reveal"><h3>Couples against carriers</h3><div class="sub">Sweeping &lambda; trades at-risk couples found against single carriers found, an idea borrowed from multi-objective QAOA.<sup class="ref"><a href="#ref11">11</a></sup> Instance <span data-v="tradeoff.instance" data-f="raw"></span>, <span data-v="tradeoff.total_shots" data-f="int"></span> shots in total.</div>
+      <div class="card chart-card reveal"><h3>Couples against carriers</h3><div class="sub">Each point is a plan: couples found against carriers found.</div>
         <div class="chart-legend"><span><i class="bg-exact"></i>Exact trade-off front</span><span><i class="bg-constrained"></i>Best plans among QAOA shots</span><span><i class="bg-field"></i>Field rule</span><span><i class="bg-relevance"></i>Relevance rule</span></div>
         <div id="tradeoff"></div>
         <p class="src" id="tradeoff-note"></p></div>
-      <div class="card chart-card reveal" style="--d:.1s"><h3>Linked families: 48 relatives, 12 kits</h3><div class="sub">Value divided by the proven optimum of an integer programme, mean of <span data-v="decomposition.instances" data-f="int"></span> networks.</div>
+      <div class="card chart-card reveal" style="--d:.1s"><h3>Linked families: 48 relatives, 12 kits</h3><div class="sub">Share of the optimum proven by an integer programme.</div>
         <div class="bars" id="decomp-bars"></div>
         <p class="src" id="decomp-note" style="margin-top:12px"></p></div>
     </div>
@@ -642,16 +642,17 @@ pytest                            <span class="c"># 57 checks</span></pre>
   </div>
 </footer>
 
-<script src="web/data/results.js?v=20261112c"></script>
-<script src="web/fold.js?v=20261112c"></script>
-<script src="web/app.js?v=20261112c"></script>
-<script src="web/qaoa-sim.js?v=20261112c"></script>
-<script src="web/lab.js?v=20261112c"></script>
-<script src="web/scenes.js?v=20261112c"></script>
-<script src="web/router.js?v=20261112c"></script>
+<script src="web/data/results.js?v=20261112d"></script>
+<script src="web/fold.js?v=20261112d"></script>
+<script src="web/app.js?v=20261112d"></script>
+<script src="web/dash.js?v=20261112d"></script>
+<script src="web/qaoa-sim.js?v=20261112d"></script>
+<script src="web/lab.js?v=20261112d"></script>
+<script src="web/scenes.js?v=20261112d"></script>
+<script src="web/router.js?v=20261112d"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>
-<script src="web/motion.js?v=20261112c" defer></script>
+<script src="web/motion.js?v=20261112d" defer></script>
 </body>
 </html>
