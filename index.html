@@ -7,6 +7,7 @@
 <meta name="description" content="A quantum optimisation planning tool for beta-thalassaemia cascade screening in Pakistan: which relatives to test with k kits in one home visit.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c2140'/%3E%3Cpath d='M9 10h14M16 10v7M9 17h14M9 17v5M23 17v5' stroke='%2386b6ef' stroke-width='2' fill='none'/%3E%3Ccircle cx='9' cy='23' r='3' fill='%232a78d6'/%3E%3Ccircle cx='23' cy='23' r='3' fill='%232a78d6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="web/styles.css">
+<link rel="stylesheet" href="web/lab.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -24,6 +25,7 @@
       <a href="#formulation">Formulation</a>
       <a href="#demo">Live plan</a>
       <a href="#method">Quantum method</a>
+      <a href="#lab">Run it</a>
       <a href="#architecture">Architecture</a>
       <a href="#results">Results</a>
       <a href="#limits">Limitations</a>
@@ -46,6 +48,8 @@
       <div class="cta reveal" style="--d:.24s">
         <a class="btn btn-primary" href="#results">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>See the results</a>
+        <a class="btn btn-ghost" href="#lab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Run the circuit</a>
         <a class="btn btn-ghost" href="#demo">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12M12 4v6M6 10h12M6 10v6M18 10v6"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>Try the family tree</a>
         <a class="btn btn-ghost" href="https://github.com/AbdulAHAD968/Qiskit-IBM" rel="noopener">
@@ -330,17 +334,87 @@
       </div>
       <div class="card reveal" style="--d:.1s">
         <h3>How hard is the problem?</h3>
-        <p class="small">With equal weights it is the densest-k-subgraph problem, which is NP-hard, and the best known efficient algorithm only guarantees a factor of about n<sup>1/4</sup>.<sup class="ref"><a href="#ref12">12</a></sup> That is a worst-case statement about general graphs. Family graphs are sparse, and section 8 says plainly what that means for the instances here.</p>
+        <p class="small">With equal weights it is the densest-k-subgraph problem, which is NP-hard, and the best known efficient algorithm only guarantees a factor of about n<sup>1/4</sup>.<sup class="ref"><a href="#ref12">12</a></sup> That is a worst-case statement about general graphs. Family graphs are sparse, and section 9 says plainly what that means for the instances here.</p>
       </div>
     </div>
     <div class="callout mt reveal"><span>Our one-sentence answer to "why quantum"</span>We do not claim a speedup. We show a problem QAOA represents directly, a circuit that cannot break the kit limit, and an honest comparison against exact answers.</div>
   </div>
 </section>
 
+<!-- ============================== LAB ============================== -->
+<section id="lab" class="lab">
+  <div class="wrap">
+    <div class="eyebrow reveal"><b>6</b>Run the circuit</div>
+    <h2 class="reveal">Watch the circuit turn 210 equal guesses into a plan.</h2>
+    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser. Each bar is one valid way to spend the 4 kits, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
+
+    <div class="lab-shell reveal" id="lab-shell">
+      <div class="lab-toolbar" role="group" aria-label="Circuit controls">
+        <div class="seg" id="lab-depth" role="radiogroup" aria-label="Circuit depth">
+          <span class="seg-label">Depth p</span>
+          <button type="button" role="radio" data-p="1">1</button>
+          <button type="button" role="radio" data-p="2">2</button>
+          <button type="button" role="radio" data-p="3">3</button>
+        </div>
+        <button type="button" class="lab-btn primary" id="lab-play">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg><span>Play the circuit</span></button>
+        <button type="button" class="lab-btn" id="lab-opt">Tune the angles here</button>
+        <button type="button" class="lab-btn" id="lab-trained">Use Qiskit's angles</button>
+        <button type="button" class="lab-btn quiet" id="lab-reset">Back to the start state</button>
+      </div>
+
+      <div class="lab-main">
+        <div class="lab-panel lab-amp">
+          <div class="lab-stages" id="lab-stages" aria-label="Circuit steps"></div>
+          <div class="lab-canvas-wrap"><canvas id="lab-amp" aria-label="Probability of each of the 210 valid plans"></canvas></div>
+          <div class="lab-axis"><span>worst plan</span><span class="phase-key"><i></i>colour = phase of the amplitude</span><span>best plan</span></div>
+          <p class="lab-caption" id="lab-caption">The circuit starts in the Dicke state: every plan with exactly 4 kits, all equally likely.</p>
+        </div>
+
+        <aside class="lab-panel lab-read" aria-live="polite">
+          <div class="read-big"><span class="num" id="lab-popt">0.48%</span><small>chance that one shot is the best plan</small></div>
+          <div class="read-vs" id="lab-vs">same as a random valid pick</div>
+          <div class="read-meter"><i id="lab-meter"></i></div>
+          <dl class="read-kv">
+            <dt>Expected value of a shot</dt><dd class="num" id="lab-ratio"></dd>
+            <dt>Quality (0 worst, 1 best)</dt><dd class="num" id="lab-quality"></dd>
+            <dt>Shots used outside 4 kits</dt><dd class="num">0, by construction</dd>
+          </dl>
+          <p class="read-check" id="lab-check"></p>
+        </aside>
+      </div>
+
+      <div class="lab-lower">
+        <div class="lab-panel lab-land">
+          <h3>The landscape the optimiser climbs</h3>
+          <p class="lab-sub" id="lab-land-sub">Expected value for every pair of first-layer angles. Click or drag to move the angles; brighter is better.</p>
+          <div class="land-wrap">
+            <canvas id="lab-land" aria-label="Expected value as a function of gamma and beta"></canvas>
+            <span class="land-y">&beta;<sub>1</sub></span><span class="land-x">&gamma;<sub>1</sub></span>
+          </div>
+          <div class="sliders" id="lab-sliders"></div>
+        </div>
+
+        <div class="lab-panel lab-shots">
+          <h3>Measure it</h3>
+          <p class="lab-sub">A measurement returns one plan, a 10-bit string where 1 means "test this relative". The best of the measured plans goes to the field officer.</p>
+          <div class="shot-btns">
+            <button type="button" class="lab-btn primary" id="lab-shot1">Measure 1 shot</button>
+            <button type="button" class="lab-btn" id="lab-shot100">Measure 100 shots</button>
+          </div>
+          <div class="bits" id="lab-bits" aria-label="Last measured plan"></div>
+          <div class="shot-plan" id="lab-shot-plan">No shots yet.</div>
+          <div class="shot-tally" id="lab-tally"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============================== ARCHITECTURE ============================== -->
 <section id="architecture" class="tint">
   <div class="wrap">
-    <div class="eyebrow reveal"><b>6</b>Architecture</div>
+    <div class="eyebrow reveal"><b>7</b>Architecture</div>
     <h2 class="reveal">Classical code prepares and checks. The quantum circuit proposes the plans.</h2>
     <div class="card arch reveal" id="arch" style="margin-top:30px">
       <svg viewBox="0 0 1040 520" role="img" aria-label="System architecture in eight parts">
@@ -376,7 +450,7 @@
 <!-- ============================== RESULTS ============================== -->
 <section id="results">
   <div class="wrap">
-    <div class="eyebrow reveal"><b>7</b>Results</div>
+    <div class="eyebrow reveal"><b>8</b>Results</div>
     <h2 class="reveal">Measured against the exact answer, every time.</h2>
     <p class="lead reveal">All runs are noise-free statevector simulations unless stated, with fixed seeds. Quality is the expected value of a measured valid plan, scaled so that the worst valid plan is 0 and the best is 1; shots that break the kit limit are discarded first.</p>
 
@@ -445,7 +519,7 @@
 <!-- ============================== LIMITS ============================== -->
 <section id="limits" class="tint">
   <div class="wrap">
-    <div class="eyebrow reveal"><b>8</b>Limitations and what did not work</div>
+    <div class="eyebrow reveal"><b>9</b>Limitations and what did not work</div>
     <h2 class="reveal">What the numbers do not show.</h2>
     <div class="grid g3 mt2">
       <div class="card limit reveal"><h3>No quantum speedup</h3><p class="small">Brute force gives the exact answer for the 10- and 16-qubit instances in milliseconds, and simulated annealing found the best plan in <span class="n" data-v="bench.M.annealing.0.optimal_share" data-f="pct0"></span> of the 16-qubit families. At these sizes a classical solver wins. Tuning the angles for one 16-qubit family alone took about <span class="n" id="train-evals"></span> circuit evaluations, to choose among 4,368 plans. This is a method study on a new problem.</p></div>
@@ -469,7 +543,7 @@
 <!-- ============================== TEAM ============================== -->
 <section id="team">
   <div class="wrap">
-    <div class="eyebrow reveal"><b>9</b>Reproduce and credits</div>
+    <div class="eyebrow reveal"><b>10</b>Reproduce and credits</div>
     <h2 class="reveal">Run it yourself in four commands.</h2>
     <div class="grid g2 mt">
       <div class="reveal">
@@ -525,5 +599,7 @@ pytest                            <span class="c"># 57 checks</span></pre>
 
 <script src="web/data/results.js"></script>
 <script src="web/app.js"></script>
+<script src="web/qaoa-sim.js"></script>
+<script src="web/lab.js"></script>
 </body>
 </html>
