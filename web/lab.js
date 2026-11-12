@@ -6,18 +6,57 @@
 
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var $ = function (s) { return document.querySelector(s); };
-  var problem = {
-    n: D.n, k: D.k, lam: D.lam,
-    p: D.candidates.map(function (c) { return c.p; }),
-    r: D.candidates.map(function (c) { return c.r; }),
-    edges: D.edges,
-  };
-  var sim = new QAOASim.Sim(problem);     // the state on screen
-  var calc = new QAOASim.Sim(problem);    // scratch copy for the landscape and the optimiser
-  var N = sim.N, labels = D.candidates.map(function (c) { return c.label; });
-  var trained = {};
-  (D.qaoa || []).forEach(function (q) { if (q.method === "constrained") trained[q.p] = q; });
-  var randomPopt = sim.optimalCount() / N;
+  // The visit being planned: which of the family's testable relatives are available, and how many kits.
+  var V = { avail: D.candidates.map(function (c, q) { return q; }), k: D.k, custom: false };
+  var problem, sim, calc, N, labels, trained, randomPopt, ampMax, bestRank, pen, penTrained;
+
+  /** Build the optimisation instance for the current visit and tune its circuit. */
+  function loadInstance() {
+    var pos = new Map();
+    V.avail.forEach(function (q, i) { pos.set(q, i); });
+    problem = {
+      n: V.avail.length, k: V.k, lam: D.lam,
+      p: V.avail.map(function (q) { return D.candidates[q].p; }),
+      r: V.avail.map(function (q) { return D.candidates[q].r; }),
+      edges: D.edges.filter(function (e) { return pos.has(e.i) && pos.has(e.j); })
+        .map(function (e) { return { i: pos.get(e.i), j: pos.get(e.j), w: e.w, c: e.c }; }),
+    };
+    sim = new QAOASim.Sim(problem);     // the state on screen
+    calc = new QAOASim.Sim(problem);    // scratch copy for the landscape, the optimiser and the plan
+    N = sim.N;
+    labels = V.avail.map(function (q) { return D.candidates[q].label; });
+    V.custom = !(V.avail.length === D.n && V.k === D.k);
+    trained = {};
+    if (!V.custom) {
+      (D.qaoa || []).forEach(function (q) { if (q.method === "constrained") trained[q.p] = q; });
+    } else {
+      var L = QAOASim.tuneLadder(calc, 3);
+      [1, 2, 3].forEach(function (p) {
+        var m = calc.run(L[p].angles).metrics();
+        trained[p] = { angles: L[p].angles, p_opt: m.p_opt, ratio: m.ratio, quality: m.quality, evals: L[p].evals, browser: true };
+      });
+    }
+    pen = new QAOASim.PenaltySim(problem);
+    penTrained = {};
+    if (!V.custom) {
+      (D.qaoa || []).forEach(function (q) { if (q.method === "penalty") penTrained[q.p] = q; });
+    } else {
+      var LP = QAOASim.tuneLadder(pen, 3);
+      [1, 2, 3].forEach(function (p) { penTrained[p] = { angles: LP[p].angles, browser: true }; });
+    }
+    randomPopt = sim.optimalCount() / N;
+    ampMax = (function () {
+      var m = 1 / Math.sqrt(N);
+      [1, 2, 3].forEach(function (p) {
+        if (!trained[p]) return;
+        calc.run(trained[p].angles);
+        for (var s = 0; s < N; s++) m = Math.max(m, Math.hypot(calc.re[s], calc.im[s]));
+      });
+      return m * 1.08;
+    })();
+    bestRank = sim.order.map(function (s) { return sim.value[s] >= sim.best - 1e-12; });
+  }
+  loadInstance();
   var G_RANGE = [-1.5, 1.5], B_RANGE = [0, Math.PI];
 
   var S = {
@@ -34,7 +73,7 @@
   }
   function planNames(mask) {
     var out = [];
-    for (var i = 0; i < D.n; i++) if ((mask >> i) & 1) out.push(labels[i]);
+    for (var i = 0; i < sim.n; i++) if ((mask >> i) & 1) out.push(labels[i]);
     return out;
   }
   function ops(p) {
@@ -72,16 +111,6 @@
 
   // ---------------------------------------------------------- amplitude chart
   var ampCanvas = $("#lab-amp"), ampCtx = ampCanvas.getContext("2d");
-  var ampMax = (function () {
-    var m = 1 / Math.sqrt(N);
-    [1, 2, 3].forEach(function (p) {
-      if (!trained[p]) return;
-      sim.run(trained[p].angles);
-      for (var s = 0; s < N; s++) m = Math.max(m, Math.hypot(sim.re[s], sim.im[s]));
-    });
-    return m * 1.08;
-  })();
-  var bestRank = sim.order.map(function (s) { return sim.value[s] >= sim.best - 1e-12; });
 
   function sizeCanvas(c) {
     var dpr = Math.min(window.devicePixelRatio || 1, 2), w = c.clientWidth, h = c.clientHeight;
@@ -179,10 +208,10 @@
   var caption = $("#lab-caption");
   function captionText() {
     var o = ops(S.p)[S.op], m = sim.metrics();
-    if (o.type === "start") return "The circuit starts in the Dicke state: every plan with exactly " + D.k + " kits, all with the same amplitude. Measuring now is the same as a random valid pick.";
+    if (o.type === "start") return "The circuit starts in the Dicke state: every plan with exactly " + sim.k + " kits, all with the same amplitude. Measuring now is the same as a random valid pick.";
     if (o.type === "cost") return "Cost layer " + (o.l + 1) + ": one ZZ rotation per couple link and one Z rotation per relative. No bar changes height. Each plan's phase turns by an amount set by its value, so the colours fan out from the worst plans to the best.";
-    if (atEnd()) return "After " + S.p + (S.p === 1 ? " layer" : " layers") + ", one shot is the best plan " + pct(m.p_opt) + " of the time, against " + pct(randomPopt, 2) + " for a random valid pick. No shot ever uses more or fewer than " + D.k + " kits.";
-    return "Mixer, layer " + (o.l + 1) + ": XX+YY rotations swap a tested and an untested relative, so plans one swap apart interfere. The phase pattern from the cost layer turns into height: good plans grow, bad plans shrink, and the number of kits stays at " + D.k + ".";
+    if (atEnd()) return "After " + S.p + (S.p === 1 ? " layer" : " layers") + ", one shot is the best plan " + pct(m.p_opt) + " of the time, against " + pct(randomPopt, 2) + " for a random valid pick. No shot ever uses more or fewer than " + sim.k + " kits.";
+    return "Mixer, layer " + (o.l + 1) + ": XX+YY rotations swap a tested and an untested relative, so plans one swap apart interfere. The phase pattern from the cost layer turns into height: good plans grow, bad plans shrink, and the number of kits stays at " + sim.k + ".";
   }
 
   // --------------------------------------------------------------- readouts
@@ -195,9 +224,12 @@
     $("#lab-quality").textContent = m.quality.toFixed(3);
     var t = trained[S.p], check = $("#lab-check");
     if (!atEnd()) check.textContent = "Readouts follow the state at the highlighted step of the circuit.";
+    else if (isTrained() && t.browser) check.innerHTML = "This visit was tuned in your browser with the recipe of the Python code (a grid, then warm starts for each depth; Nelder-Mead in place of COBYLA), in " + t.evals + " circuit evaluations. For the full family the same recipe gives Qiskit's numbers exactly.";
     else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Aer's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
-    else if (S.source === "tuned") check.innerHTML = "Tuned in your browser by Nelder-Mead in " + S.evals + " circuit evaluations: " + pct(m.ratio, 0) + " of the best value per shot. Qiskit's COBYLA reached " + pct(t ? t.ratio : NaN, 0) + " at this depth.";
-    else check.textContent = "Your angles. Qiskit's trained angles give " + pct(t ? t.p_opt : NaN, 2) + " for depth " + S.p + ".";
+    else if (S.source === "tuned") check.innerHTML = "Tuned in your browser by Nelder-Mead in " + S.evals + " circuit evaluations: " + pct(m.ratio, 0) + " of the best value per shot. " + (t && t.browser ? "The full tuning recipe" : "Qiskit's COBYLA") + " reached " + pct(t ? t.ratio : NaN, 0) + " at this depth.";
+    else check.textContent = "Your angles. The " + (t && t.browser ? "tuned" : "Qiskit") + " angles give " + pct(t ? t.p_opt : NaN, 2) + " for depth " + S.p + ".";
+    $("#lab-kits-label").textContent = "Shots that break the " + sim.k + "-kit limit";
+    $("#lab-trained").textContent = V.custom ? "Use the tuned angles" : "Use Qiskit's angles";
   }
 
   // -------------------------------------------------------------- landscape
@@ -331,7 +363,7 @@
   var bitsEl = $("#lab-bits");
   function buildBits() {
     bitsEl.innerHTML = "";
-    for (var i = 0; i < D.n; i++) {
+    for (var i = 0; i < sim.n; i++) {
       var b = document.createElement("div"); b.className = "bit"; b.title = labels[i];
       b.innerHTML = "0<small>q" + i + "</small>"; bitsEl.appendChild(b);
     }
@@ -455,16 +487,225 @@
     S.angles = trained[p] ? trained[p].angles.slice() : S.angles;
     S.op = ops(p).length - 1; S.frac = 1;
     Array.prototype.forEach.call(depthBtns, function (b) { b.setAttribute("aria-checked", String(+b.dataset.p === p)); b.tabIndex = +b.dataset.p === p ? 0 : -1; });
-    buildStages(); buildSliders(); computeLandscape(); update();
+    buildStages(); buildSliders(); computeLandscape(); update(); renderCompare();
   }
   Array.prototype.forEach.call(depthBtns, function (b) {
     b.addEventListener("click", function () { S.interacted = true; setDepth(+b.dataset.p); });
   });
 
+  // ------------------------------------------------------ plan today's visit
+  var SVGNS = "http://www.w3.org/2000/svg", planSvg = $("#plan-svg"), people = D.people || [];
+  var byId = {};
+  people.forEach(function (p) { byId[p.id] = p; });
+  var qubitOf = {};                      // person id -> index in D.candidates
+  D.candidates.forEach(function (c, q) { qubitOf[c.id] = q; });
+  var VW = 640, VH = 352;
+  function px(p) { return 26 + p.x * (VW - 52); }
+  function py(p) { return 26 + p.y * 84; }
+  function el(tag, attrs, parent) {
+    var n = document.createElementNS(SVGNS, tag);
+    for (var a in attrs) n.setAttribute(a, attrs[a]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function shortLabel(label) {
+    return label.replace("Paternal ", "P. ").replace("Maternal ", "M. ").replace(/^Husband of .*/, "Husband").replace(/^Wife of .*/, "Wife");
+  }
+  var pairLinks = [];                    // couple links that count in the objective
+  function buildTree() {
+    planSvg.innerHTML = "";
+    var svg = el("svg", { viewBox: "0 0 " + VW + " " + VH, role: "img", "aria-label": "Family tree. Testable relatives can be switched on or off." }, planSvg);
+    var lines = el("g", { class: "t-lines" }, svg), pairs = el("g", {}, svg), nodes = el("g", {}, svg);
+    var seen = {};
+    people.forEach(function (c) {
+      if (c.father == null || c.mother == null) return;
+      var f = byId[c.father], m = byId[c.mother], key = c.father + "-" + c.mother;
+      var mx = (px(f) + px(m)) / 2, y0 = py(f), yb = y0 + 42;
+      if (!seen[key]) { seen[key] = 1; el("line", { x1: px(f), y1: y0, x2: px(m), y2: py(m), class: "t-mar" }, lines); }
+      el("path", { d: "M" + mx + " " + y0 + "V" + yb + "H" + px(c) + "V" + (py(c) - 12), class: "t-kin" }, lines);
+    });
+    pairLinks = [];
+    (D.couples || []).forEach(function (cp) {
+      if (!cp.in_problem) return;
+      var a = byId[cp.a], b = byId[cp.b], d;
+      if (cp.kind === "married") d = "M" + px(a) + " " + py(a) + "L" + px(b) + " " + py(b);
+      else {
+        var x1 = px(a), x2 = px(b), y = py(a) + 33, depth = 14 + Math.abs(x2 - x1) * 0.1;
+        d = "M" + x1 + " " + y + "Q" + (x1 + x2) / 2 + " " + (y + depth) + " " + x2 + " " + y;
+      }
+      var path = el("path", { d: d, class: "t-pair " + cp.kind }, pairs);
+      pairLinks.push({ a: qubitOf[cp.a], b: qubitOf[cp.b], node: path, w: cp.w * cp.strength });
+    });
+    people.forEach(function (p) {
+      var q = qubitOf[p.id], cand = q != null;
+      var g = el("g", { class: "t-node " + p.status + (p.sex === "F" ? " f" : " m"), transform: "translate(" + px(p) + " " + py(p) + ")" }, nodes);
+      if (p.sex === "F") el("circle", { r: 12, class: "shape" }, g);
+      else el("rect", { x: -12, y: -12, width: 24, height: 24, rx: 2, class: "shape" }, g);
+      if (p.status === "deceased") el("line", { x1: -15, y1: 15, x2: 15, y2: -15, class: "slash" }, g);
+      if (cand) {
+        el("text", { y: 4, class: "pv" }, g).textContent = p.p.toFixed(2).replace(/^0/, "");
+        var t = el("text", { y: 27, class: "pl" }, g); t.textContent = shortLabel(p.label);
+        g.setAttribute("tabindex", "0"); g.setAttribute("role", "button"); g.dataset.q = q;
+        var toggle = function () { toggleRelative(q); };
+        g.addEventListener("click", toggle);
+        g.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+      } else if (p.role === "father" || p.role === "mother" || p.role === "proband") {
+        el("text", { y: 27, class: "pl dim" }, g).textContent = p.role === "proband" ? "Index child" : p.label;
+      }
+      g.addEventListener("pointerenter", function (e) {
+        var note = cand ? (V.avail.indexOf(q) >= 0 ? "Can be tested today. Tap to mark as not available." : "Not available today. Tap to bring back.")
+          : p.status === "affected" ? "Affected child: already diagnosed." : p.status === "obligate" ? "Parent of the affected child: a carrier for certain, so no kit is needed."
+          : p.status === "deceased" ? "Deceased." : "Not part of this visit.";
+        showTip("<b>" + p.label + "</b>" + (p.p != null && p.status !== "affected" ? '<div class="row"><span>Carrier probability</span><span>' + p.p.toFixed(3) + "</span></div>" : "") + "<div>" + note + "</div>", e);
+      });
+      g.addEventListener("pointermove", function (e) { if (tipNode && tipNode.classList.contains("show")) showTip(tipNode.innerHTML, e); });
+      g.addEventListener("pointerleave", hideTip);
+    });
+  }
+
+  function toggleRelative(q) {
+    var i = V.avail.indexOf(q);
+    if (i >= 0) { if (V.avail.length <= 2) return; V.avail.splice(i, 1); }
+    else { V.avail.push(q); V.avail.sort(function (a, b) { return a - b; }); }
+    V.k = Math.max(1, Math.min(V.k, V.avail.length - 1));
+    reconfigure();
+  }
+  $("#kit-minus").addEventListener("click", function () { if (V.k > 1) { V.k--; reconfigure(); } });
+  $("#kit-plus").addEventListener("click", function () { if (V.k < Math.min(6, V.avail.length - 1)) { V.k++; reconfigure(); } });
+  $("#plan-restore").addEventListener("click", function () {
+    V.avail = D.candidates.map(function (c, q) { return q; }); V.k = D.k; reconfigure();
+  });
+
+  function reconfigure() {
+    stopAll(); S.interacted = true; hideTip();
+    loadInstance();
+    S.angles = trained[S.p].angles.slice(); S.source = V.custom ? "browser" : "qiskit";
+    S.path = []; S.op = ops(S.p).length - 1; S.frac = 1; S.tally = new Map(); S.shots = 0;
+    buildBits(); resetTally(); buildStages(); buildSliders(); computeLandscape(); update();
+    renderPlan(); renderCompare();
+  }
+
+  /** Map a mask of the current instance back to the family's candidate indices. */
+  function toFamily(mask) {
+    var out = [];
+    for (var i = 0; i < sim.n; i++) if ((mask >> i) & 1) out.push(V.avail[i]);
+    return out;
+  }
+  function couplesFound(mask) {
+    var v = 0;
+    for (var i = 0; i < sim.n; i++) for (var j = i + 1; j < sim.n; j++)
+      if (((mask >> i) & 1) && ((mask >> j) & 1)) v += sim.W[i][j];
+    return v;
+  }
+  function valueOf(mask) {
+    var v = couplesFound(mask);
+    for (var i = 0; i < sim.n; i++) if ((mask >> i) & 1) v += sim.h[i];
+    return v;
+  }
+  function fieldRule() {
+    var idx = V.avail.map(function (q, i) { return i; });
+    idx.sort(function (a, b) { return problem.p[b] - problem.p[a] || a - b; });
+    return idx.slice(0, sim.k).reduce(function (m, i) { return m | (1 << i); }, 0);
+  }
+  function exactPlan() {
+    var best = -Infinity, mask = 0;
+    for (var s = 0; s < N; s++) if (sim.value[s] > best + 1e-12) { best = sim.value[s]; mask = sim.masks[s]; }
+    return mask;
+  }
+  function qaoaPlan() {
+    var t = trained[3], shots = 4096;
+    calc.run(t.angles);
+    var draws = calc.sample(shots, mulberry(7)), bestS = draws[0];
+    draws.forEach(function (s) { if (calc.value[s] > calc.value[bestS]) bestS = s; });
+    return { mask: calc.masks[bestS], shots: shots, p_opt: calc.metrics().p_opt };
+  }
+
+  function renderPlan() {
+    var exact = exactPlan(), field = fieldRule(), q = qaoaPlan(), best = sim.best;
+    var picked = toFamily(q.mask), match = valueOf(q.mask) >= best - 1e-12;
+    $("#kit-count").textContent = sim.k;
+    $("#kit-minus").disabled = sim.k <= 1;
+    $("#kit-plus").disabled = sim.k >= Math.min(6, V.avail.length - 1);
+    // the tree
+    Array.prototype.forEach.call(planSvg.querySelectorAll(".t-node[data-q]"), function (g) {
+      var qq = +g.dataset.q, away = V.avail.indexOf(qq) < 0;
+      g.classList.toggle("away", away);
+      g.classList.toggle("tested", picked.indexOf(qq) >= 0);
+      g.setAttribute("aria-pressed", String(!away));
+      g.setAttribute("aria-label", D.candidates[qq].label + (away ? ", not available today" : picked.indexOf(qq) >= 0 ? ", tested in this plan" : ", available"));
+    });
+    pairLinks.forEach(function (l) {
+      var both = picked.indexOf(l.a) >= 0 && picked.indexOf(l.b) >= 0;
+      var gone = V.avail.indexOf(l.a) < 0 || V.avail.indexOf(l.b) < 0;
+      l.node.classList.toggle("both", both); l.node.classList.toggle("gone", gone);
+    });
+    // the cards
+    function names(mask) { return toFamily(mask).map(function (qq) { return D.candidates[qq].label; }).join(", "); }
+    function card(cls, title, mask, extra) {
+      var v = valueOf(mask), c = couplesFound(mask);
+      return '<div class="pcard ' + cls + '"><div class="pc-head"><b>' + title + '</b><span class="pc-pct num">' + pct(best > 0 ? v / best : 1, 0) + '</span></div>' +
+        '<div class="pc-names">' + names(mask) + '</div>' +
+        '<div class="pc-meta">' + c.toFixed(3) + " expected at-risk couples found" + (extra || "") + "</div></div>";
+    }
+    var combos = N.toLocaleString("en-US");
+    $("#plan-cards").innerHTML =
+      card("qaoa", "Constrained QAOA plan", q.mask,
+        '<br>Best of ' + q.shots.toLocaleString("en-US") + " shots at depth 3. One shot is the best plan " + pct(q.p_opt, 1) + " of the time; a random pick, " + pct(randomPopt, 2) + ".") +
+      '<div class="pc-verdict ' + (match ? "ok" : "miss") + '">' + (match ? "Matches the exact optimum." : "Below the exact optimum.") + "</div>" +
+      card("exact", "Exact optimum", exact, "<br>Brute force over all " + combos + " valid plans.") +
+      card("field", "Field officer's rule", field, "<br>The " + sim.k + " highest carrier probabilities.");
+  }
+
+  // ------------------------------------------- penalty against constrained
+  function renderCompare() {
+    if (!pen || !penTrained[S.p]) return;
+    var p = S.p, n = sim.n, k = sim.k;
+    var pm = pen.run(penTrained[p].angles).metrics();
+    var cm = calc.run(trained[p].angles).metrics();
+    var conW = new Float64Array(n + 1); conW[k] = 1;
+    function bars(id, byW) {
+      var host = $(id), max = 0, i;
+      for (i = 0; i <= n; i++) max = Math.max(max, byW[i]);
+      if (host.children.length !== n + 1) {
+        host.innerHTML = "";
+        for (i = 0; i <= n; i++) {
+          var col = document.createElement("div"); col.className = "cmp-bar" + (i === k ? " ok" : "");
+          col.innerHTML = '<span class="cv"></span><i></i><span class="ck">' + i + "</span>";
+          host.appendChild(col);
+        }
+      }
+      Array.prototype.forEach.call(host.children, function (col, j) {
+        col.classList.toggle("ok", j === k);
+        col.querySelector("i").style.height = ((byW[j] / Math.max(max, 1e-9)) * 100).toFixed(1) + "%";
+        col.querySelector(".cv").textContent = byW[j] >= 0.01 ? Math.round(byW[j] * 100) + "%" : "";
+        col.title = j + (j === 1 ? " kit: " : " kits: ") + pct(byW[j], 1) + " of shots";
+      });
+    }
+    bars("#cmp-pen", pm.byWeight); bars("#cmp-con", conW);
+    function kv(id, m, valid) {
+      $(id).innerHTML = "<dt>Shots that use exactly " + k + " kits</dt><dd>" + pct(valid, 1) + "</dd>" +
+        "<dt>One shot is the best plan</dt><dd>" + pct(m.p_opt, 2) + "</dd>" +
+        "<dt>Quality of the valid shots</dt><dd>" + m.quality.toFixed(2) + "</dd>";
+    }
+    kv("#cmp-pen-kv", pm, pm.valid_share); kv("#cmp-con-kv", cm, 1);
+    $("#cmp-pen-gates").textContent = pen.zzCount + " ZZ rotations per layer";
+    $("#cmp-con-gates").textContent = problem.edges.length + " ZZ + " + sim.pairs.length + " XY rotations per layer";
+    $("#cmp-sub").textContent = 'Standard QAOA cannot hold a rule like "exactly ' + k + ' kits". It starts from every one of the ' +
+      (1 << n).toLocaleString("en-US") + " bitstrings and has to learn the rule from a penalty term, which also needs a rotation on every pair of qubits. " +
+      "Both circuits are simulated exactly at depth " + p + ", with angles tuned for this visit. Bars show where the shots land, by the number of kits a measured plan uses.";
+    var t = penTrained[p];
+    $("#cmp-check").innerHTML = t.browser
+      ? "Both circuits were tuned in your browser with the same recipe. Shots that break the kit limit are wasted: a field officer cannot use them."
+      : "Check against Qiskit: for the penalty circuit at depth " + p + ", Aer gives " + pct(t.valid_share, 1) + " valid shots and " + pct(t.p_opt, 2) +
+        " for the best plan; this page gives <b>" + pct(pm.valid_share, 1) + "</b> and <b>" + pct(pm.p_opt, 2) + "</b>.";
+  }
+
   // ---------------------------------------------------------------- start
   buildBits();
+  buildTree();
   setDepth(3);
   S.op = 0; S.frac = 1; update();
+  renderPlan(); renderCompare();
   if (window.ResizeObserver) new ResizeObserver(function () { drawAmp(); drawLand(); }).observe($("#lab-shell"));
   else window.addEventListener("resize", function () { drawAmp(); drawLand(); });
 

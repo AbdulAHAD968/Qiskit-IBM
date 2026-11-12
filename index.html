@@ -349,6 +349,30 @@
     <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser. Each bar is one valid way to spend the 4 kits, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
 
     <div class="lab-shell reveal" id="lab-shell">
+      <div class="lab-panel lab-plan" id="lab-plan">
+        <div class="plan-tree">
+          <h3>Plan today's visit</h3>
+          <p class="lab-sub">Tap anyone who is not at home or declines the test, and set the number of kits. The circuit is tuned again for this visit and measured, right here.</p>
+          <div id="plan-svg"></div>
+          <div class="plan-legend">
+            <span><i class="lg tested"></i>tested in this plan</span>
+            <span><i class="lg open"></i>can be tested</span>
+            <span><i class="lg away"></i>not available today</span>
+            <span><i class="lg pair"></i>couple both tested</span>
+          </div>
+        </div>
+        <div class="plan-side">
+          <div class="kits">
+            <span>Kits for this visit</span>
+            <button type="button" class="lab-btn kit-step" id="kit-minus" aria-label="One kit fewer">&minus;</button>
+            <output class="num" id="kit-count">4</output>
+            <button type="button" class="lab-btn kit-step" id="kit-plus" aria-label="One kit more">+</button>
+          </div>
+          <div class="plan-cards" id="plan-cards" aria-live="polite"></div>
+          <button type="button" class="lab-btn quiet" id="plan-restore">Restore the full family and 4 kits</button>
+        </div>
+      </div>
+
       <div class="lab-toolbar" role="group" aria-label="Circuit controls">
         <div class="seg" id="lab-depth" role="radiogroup" aria-label="Circuit depth">
           <span class="seg-label">Depth p</span>
@@ -378,7 +402,7 @@
           <dl class="read-kv">
             <dt>Expected value of a shot</dt><dd class="num" id="lab-ratio"></dd>
             <dt>Quality (0 worst, 1 best)</dt><dd class="num" id="lab-quality"></dd>
-            <dt>Shots used outside 4 kits</dt><dd class="num">0, by construction</dd>
+            <dt id="lab-kits-label">Shots that break the kit limit</dt><dd class="num">0, by construction</dd>
           </dl>
           <p class="read-check" id="lab-check"></p>
         </aside>
@@ -397,7 +421,7 @@
 
         <div class="lab-panel lab-shots">
           <h3>Measure it</h3>
-          <p class="lab-sub">A measurement returns one plan, a 10-bit string where 1 means "test this relative". The best of the measured plans goes to the field officer.</p>
+          <p class="lab-sub">A measurement returns one plan, a string of bits where 1 means "test this relative". The best of the measured plans goes to the field officer.</p>
           <div class="shot-btns">
             <button type="button" class="lab-btn primary" id="lab-shot1">Measure 1 shot</button>
             <button type="button" class="lab-btn" id="lab-shot100">Measure 100 shots</button>
@@ -406,6 +430,24 @@
           <div class="shot-plan" id="lab-shot-plan">No shots yet.</div>
           <div class="shot-tally" id="lab-tally"></div>
         </div>
+      </div>
+
+      <div class="lab-panel lab-vs" id="lab-compare">
+        <h3>Why the kit limit is built into the circuit</h3>
+        <p class="lab-sub" id="cmp-sub">Standard QAOA cannot hold a rule like "exactly 4 kits". It starts from every bitstring and has to learn the rule from a penalty term. Both circuits below are simulated exactly at the depth chosen above, with the angles tuned for this visit. Bars show where the shots land, by the number of kits a measured plan uses.</p>
+        <div class="cmp-grid">
+          <div class="cmp-col">
+            <div class="cmp-head"><b>Standard QAOA with a penalty</b><span id="cmp-pen-gates"></span></div>
+            <div class="cmp-bars" id="cmp-pen"></div>
+            <dl class="cmp-kv" id="cmp-pen-kv"></dl>
+          </div>
+          <div class="cmp-col">
+            <div class="cmp-head"><b>Constrained QAOA, this project</b><span id="cmp-con-gates"></span></div>
+            <div class="cmp-bars" id="cmp-con"></div>
+            <dl class="cmp-kv" id="cmp-con-kv"></dl>
+          </div>
+        </div>
+        <p class="read-check" id="cmp-check"></p>
       </div>
     </div>
   </div>

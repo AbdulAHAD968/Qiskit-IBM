@@ -222,7 +222,146 @@
     yield { x: pts[last].slice(), value: -vals[last], iter: maxIter, done: true };
   }
 
-  var api = { Sim: Sim, ringPairs: ringPairs, nelderMead: nelderMead };
+  /**
+   * Standard QAOA with a penalty, simulated on all 2^n bitstrings, mirroring
+   * penalty_qaoa_circuit() and ScreeningProblem.penalty_qubo() in Python:
+   *   start   H on every qubit
+   *   cost    exp(-i gamma E(x)) for the RMS-scaled Ising form of
+   *           F(x) - A (sum x - k)^2, with A = 1.1 * max_i (h_i + sum_j W_ij)
+   *   mixer   RX(2 beta) on every qubit
+   */
+  function PenaltySim(problem) {
+    var n = problem.n, k = problem.k, i, j, s;
+    this.n = n; this.k = k;
+    var h = new Float64Array(n), W = [];
+    for (i = 0; i < n; i++) { h[i] = problem.lam * problem.r[i] * problem.p[i]; W.push(new Float64Array(n)); }
+    problem.edges.forEach(function (e) { var q = e.w * e.c; W[e.i][e.j] += q; W[e.j][e.i] += q; });
+    var A = 0;
+    for (i = 0; i < n; i++) { var row = h[i]; for (j = 0; j < n; j++) row += W[i][j]; A = Math.max(A, row); }
+    A *= 1.1;
+    this.penalty = A;
+    // penalised QUBO: Q_ij = W_ij - 2A (i<j), lin_i = h_i - A(1 - 2k)
+    var lin = new Float64Array(n), a = new Float64Array(n), b = [];
+    for (i = 0; i < n; i++) { lin[i] = h[i] - A * (1 - 2 * k); a[i] = -0.5 * lin[i]; }
+    for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) {
+      var q = W[i][j] - 2 * A;
+      if (q === 0) continue;
+      b.push([i, j, q / 4]); a[i] -= q / 4; a[j] -= q / 4;
+    }
+    var sq = 0, cnt = 0;
+    for (i = 0; i < n; i++) if (Math.abs(a[i]) > 1e-12) { sq += a[i] * a[i]; cnt++; }
+    b.forEach(function (e) { if (Math.abs(e[2]) > 1e-12) { sq += e[2] * e[2]; cnt++; } });
+    var scale = cnt ? Math.sqrt(sq / cnt) : 1;
+    this.zzCount = b.length;
+    var M = 1 << n;
+    this.M = M;
+    this.energy = new Float64Array(M); this.value = new Float64Array(M);   // value: penalised objective
+    this.plain = new Float64Array(M); this.weight = new Uint8Array(M);
+    var best = -Infinity, worst = Infinity;
+    for (s = 0; s < M; s++) {
+      var E = 0, v = 0, wt = 0;
+      for (i = 0; i < n; i++) {
+        var xi = (s >> i) & 1; wt += xi;
+        E += a[i] * (1 - 2 * xi);
+        if (xi) { v += h[i]; for (j = i + 1; j < n; j++) if ((s >> j) & 1) v += W[i][j]; }
+      }
+      for (var e = 0; e < b.length; e++) E += b[e][2] * (1 - 2 * ((s >> b[e][0]) & 1)) * (1 - 2 * ((s >> b[e][1]) & 1));
+      this.energy[s] = E / scale; this.plain[s] = v; this.weight[s] = wt;
+      this.value[s] = v - A * (wt - k) * (wt - k);
+      if (wt === k) { best = Math.max(best, v); worst = Math.min(worst, v); }
+    }
+    this.best = best; this.worst = worst;
+    this.re = new Float64Array(M); this.im = new Float64Array(M);
+  }
+  PenaltySim.prototype.run = function (angles) {
+    var p = angles.length / 2, M = this.M, n = this.n, re = this.re, im = this.im, amp = 1 / Math.sqrt(M), s, q;
+    re.fill(amp); im.fill(0);
+    for (var l = 0; l < p; l++) {
+      var g = angles[l], c = Math.cos(angles[p + l]), sn = Math.sin(angles[p + l]);
+      for (s = 0; s < M; s++) {
+        var ph = -g * this.energy[s], pc = Math.cos(ph), ps = Math.sin(ph), x = re[s], y = im[s];
+        re[s] = x * pc - y * ps; im[s] = x * ps + y * pc;
+      }
+      for (q = 0; q < n; q++) {
+        var bit = 1 << q;
+        for (s = 0; s < M; s++) {
+          if (s & bit) continue;
+          var t = s | bit, xr = re[s], xi = im[s], yr = re[t], yi = im[t];
+          // RX(2 beta) = [c, -i sn; -i sn, c]
+          re[s] = c * xr + sn * yi; im[s] = c * xi - sn * yr;
+          re[t] = c * yr + sn * xi; im[t] = c * yi - sn * xr;
+        }
+      }
+    }
+    return this;
+  };
+  PenaltySim.prototype.f = function (angles) {
+    this.run(angles);
+    var v = 0;
+    for (var s = 0; s < this.M; s++) v += (this.re[s] * this.re[s] + this.im[s] * this.im[s]) * this.value[s];
+    return v;
+  };
+  /** Probability mass by number of kits used, plus the usual metrics over valid shots. */
+  PenaltySim.prototype.metrics = function () {
+    var byWeight = new Float64Array(this.n + 1), valid = 0, mean = 0, popt = 0;
+    for (var s = 0; s < this.M; s++) {
+      var pr = this.re[s] * this.re[s] + this.im[s] * this.im[s];
+      byWeight[this.weight[s]] += pr;
+      if (this.weight[s] === this.k) {
+        valid += pr; mean += pr * this.plain[s];
+        if (this.plain[s] >= this.best - 1e-12) popt += pr;
+      }
+    }
+    mean = valid > 0 ? mean / valid : this.worst;
+    var span = this.best - this.worst;
+    return { byWeight: byWeight, valid_share: valid, p_opt: popt, quality: span > 0 ? (mean - this.worst) / span : 1, ratio: mean / this.best };
+  };
+
+  function runToEnd(gen) { var r, last; while (!(r = gen.next()).done) { last = r.value; if (last.done) break; } return last; }
+
+  /** INTERP warm start (Zhou et al. 2020), as interp_start() in qaoa.py. */
+  function interpStart(prev) {
+    var q = prev.length / 2;
+    function stretch(old) {
+      var ext = [0].concat(old, [0]), out = [];
+      for (var i = 1; i <= q + 1; i++) out.push(((i - 1) / q) * ext[i - 1] + ((q - i + 1) / q) * ext[i]);
+      return out;
+    }
+    return stretch(prev.slice(0, q)).concat(stretch(prev.slice(q)));
+  }
+  function appendZeroStart(prev) {
+    var q = prev.length / 2;
+    return prev.slice(0, q).concat([0], prev.slice(q), [0]);
+  }
+
+  /**
+   * The training recipe of qaoa.py, with Nelder-Mead in place of COBYLA:
+   * depth 1 starts from the two best points of a 16 x 10 grid, depth p + 1
+   * from the INTERP stretch and from an added identity layer of depth p.
+   * Returns {p: {angles, value, evals}}.
+   */
+  function tuneLadder(sim, maxDepth) {
+    var out = {}, evals = 0, f = function (th) { evals++; return sim.f(th); }, g, b, pts = [];
+    for (g = 0; g < 16; g++) for (b = 0; b < 10; b++) {
+      var th = [-2 + (4 * g) / 15, 0.15 + ((Math.PI - 0.3) * b) / 9];
+      pts.push({ x: th, v: f(th) });
+    }
+    pts.sort(function (u, v) { return v.v - u.v; });
+    var starts = [pts[0].x, pts[1].x], step = 0.15;
+    for (var p = 1; p <= maxDepth; p++) {
+      var best = null;
+      starts.forEach(function (x0) {
+        var r = runToEnd(nelderMead(f, x0, step, 150 * p));
+        if (!best || r.value > best.value) best = r;
+      });
+      out[p] = { angles: best.x, value: best.value, evals: evals };
+      starts = [interpStart(best.x), appendZeroStart(best.x)];
+      step = 0.1;
+    }
+    return out;
+  }
+
+  var api = { Sim: Sim, PenaltySim: PenaltySim, ringPairs: ringPairs, nelderMead: nelderMead, tuneLadder: tuneLadder };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.QAOASim = api;
 })(typeof window !== "undefined" ? window : this);
