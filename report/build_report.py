@@ -651,7 +651,7 @@ para(f"Figure 3 shows instance {DEMO['name']}, chosen by a fixed rule (the size-
      f"plan with probability {pct(dq['p_opt'], 1)}, against {pct(DEMO['random']['p_opt'], 2)} for a random valid plan.",
      align="justify")
 figure(FIG / "fig01_pedigree_plans.png", "Figure 3. One family, two plans. The field rule tests people whose partners "
-       "are not tested; the QAOA plan resolves the possible matches between siblings and cousins.", width=15.5)
+       "are not tested; the QAOA plan resolves the possible matches between siblings and cousins.", width=13.4)
 
 heading("5.4 Circuit cost", level=2)
 rows = []
