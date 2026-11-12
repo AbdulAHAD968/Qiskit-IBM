@@ -28,8 +28,9 @@ from .classical import (
 )
 from .decompose import couple_components, largest_component, pool_values, split_budget
 from .genetics import PedigreeModel, allele_frequency
-from .pedigree import Family, Person, layout
+from .pedigree import Family, Person
 from .problem import SIZES, ScreeningProblem, make_instance
+from .view import family_view
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
@@ -620,30 +621,9 @@ def exp_demo(index: int | None = None, **_) -> dict:
     prob = make_instance("S", index)
     table = feasible_table(prob)
     fam = prob.family
-    pos = layout(fam)
-    model = PedigreeModel(fam, CARRIER_RATE)
     cand = {pid: t for t, pid in enumerate(prob.person_ids)}
-    people = []
-    for p in fam.people:
-        if p.affected:
-            status = "affected"
-        elif p.role in ("father", "mother"):
-            status = "obligate"
-        elif not p.alive:
-            status = "deceased"
-        elif not p.available:
-            status = "unavailable"
-        else:
-            status = "candidate"
-        people.append({"id": p.id, "label": p.label, "role": p.role, "sex": p.sex, "gen": p.gen,
-                       "father": p.father, "mother": p.mother, "status": status, "stage": p.stage,
-                       "p": model.carrier_prob(p.id), "r": fam.relevance(p.id),
-                       "qubit": cand.get(p.id), "x": pos[p.id][0], "y": pos[p.id][1]})
-    couples = []
-    for c in fam.couples:
-        w = model.both_carriers(c.a, c.b)
-        couples.append({"a": c.a, "b": c.b, "kind": c.kind, "strength": c.strength, "w": w,
-                        "weight": w * c.strength, "in_problem": c.a in cand and c.b in cand})
+    view = family_view(prob)
+    people, couples = view["people"], view["couples"]
 
     def plan(mask: int) -> dict:
         x = prob.mask_to_x(mask)

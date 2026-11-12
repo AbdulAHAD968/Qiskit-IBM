@@ -11,3 +11,4 @@ __pycache__/
 ~$*.docx
 Thumbs.db
 .DS_Store
+results/figures/demo_*.png
