@@ -67,7 +67,7 @@
 
   // ---------------------------------------------------------------- helpers
   function pct(x, d) {
-    if (x == null || !isFinite(x)) return "–";
+    if (x == null || !isFinite(x)) return "-";
     d = d == null ? (x < 0.01 ? 2 : 1) : d;
     return (x * 100).toFixed(d) + "%";
   }
