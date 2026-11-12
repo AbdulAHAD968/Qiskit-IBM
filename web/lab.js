@@ -658,12 +658,17 @@
         '<div class="pc-meta">' + c.toFixed(3) + " expected at-risk couples found" + (extra || "") + "</div></div>";
     }
     var combos = N.toLocaleString("en-US");
+    function row(cls, title, mask) {
+      return '<tr class="' + cls + '"><td>' + title + '</td><td class="num">' + couplesFound(mask).toFixed(3) + '</td><td class="num">' +
+        pct(best > 0 ? valueOf(mask) / best : 1, 0) + "</td></tr>";
+    }
+    // One result card: who to test, then the three plans side by side in one small table.
     $("#plan-cards").innerHTML =
-      card("qaoa", "Constrained QAOA plan", q.mask,
-        '<br>Best of ' + q.shots.toLocaleString("en-US") + " shots at depth 3. One shot is the best plan " + pct(q.p_opt, 1) + " of the time; a random pick, " + pct(randomPopt, 2) + ".") +
-      '<div class="pc-verdict ' + (match ? "ok" : "miss") + '">' + (match ? "Matches the exact optimum." : "Below the exact optimum.") + "</div>" +
-      card("exact", "Exact optimum", exact, "<br>Brute force over all " + combos + " valid plans.") +
-      card("field", "Field officer's rule", field, "<br>The " + sim.k + " highest carrier probabilities.");
+      card("qaoa", "Test these " + sim.k + " relatives", q.mask,
+        ", from the best of " + q.shots.toLocaleString("en-US") + " circuit shots") +
+      '<div class="pc-verdict ' + (match ? "ok" : "miss") + '">' + (match ? "Matches the exact optimum of all " + combos + " plans." : "Below the exact optimum of all " + combos + " plans.") + "</div>" +
+      '<table class="pc-table"><tr><th>Plan</th><th class="num">At-risk couples found</th><th class="num">Of the best</th></tr>' +
+      row("q", "Quantum circuit (QAOA)", q.mask) + row("", "Exact optimum", exact) + row("f", "Field officer's rule", field) + "</table>";
   }
 
   // ------------------------------------------- penalty against constrained

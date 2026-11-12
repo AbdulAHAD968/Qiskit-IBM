@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="web/styles.css?v=20261112b">
-<link rel="stylesheet" href="web/lab.css?v=20261112b">
-<link rel="stylesheet" href="web/motion.css?v=20261112b">
-<link rel="stylesheet" href="web/theme.css?v=20261112b">
+<link rel="stylesheet" href="web/styles.css?v=20261112c">
+<link rel="stylesheet" href="web/lab.css?v=20261112c">
+<link rel="stylesheet" href="web/motion.css?v=20261112c">
+<link rel="stylesheet" href="web/theme.css?v=20261112c">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -342,9 +342,9 @@
 <!-- ============================== LAB ============================== -->
 <section id="lab" class="lab">
   <div class="wrap">
-    <div class="eyebrow reveal"><b>6</b>Run the circuit</div>
-    <h2 class="reveal">Watch the circuit turn <span id="lab-nplans">210</span> equal guesses into a plan.</h2>
-    <p class="lead reveal">Plan a visit, run the circuit and measure it, all in your browser, checked against Qiskit.</p>
+    <div class="eyebrow reveal"><b>6</b>Plan a visit</div>
+    <h2 class="reveal">Plan a visit, then watch the circuit do it.</h2>
+    <p class="lead reveal">Tap anyone who is not at home, choose the kits, and the circuit is tuned and measured for that visit in your browser.</p>
 
     <div class="lab-shell reveal" id="lab-shell">
       <div class="lab-panel lab-plan" id="lab-plan">
@@ -371,6 +371,7 @@
         </div>
       </div>
 
+      <h3 class="lab-row-title">How the circuit found that plan</h3>
       <div class="lab-toolbar" role="group" aria-label="Circuit controls">
         <div class="seg" id="lab-depth" role="radiogroup" aria-label="Circuit depth">
           <span class="seg-label">Depth p</span>
@@ -380,9 +381,9 @@
         </div>
         <button type="button" class="lab-btn primary" id="lab-play">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z" fill="currentColor"/></svg><span>Play the circuit</span></button>
-        <button type="button" class="lab-btn" id="lab-opt">Tune the angles here</button>
-        <button type="button" class="lab-btn" id="lab-trained">Use Qiskit's angles</button>
-        <button type="button" class="lab-btn quiet" id="lab-reset">Back to the start state</button>
+        
+        
+        
       </div>
 
       <div class="lab-main">
@@ -406,6 +407,7 @@
         </aside>
       </div>
 
+      <details class="more lab-more"><summary>Explore the circuit: tune the angles, measure shots, compare with standard QAOA</summary>
       <div class="lab-lower">
         <div class="lab-panel lab-land">
           <h3>The landscape the optimiser climbs</h3>
@@ -415,6 +417,7 @@
             <span class="land-y">&beta;<sub>1</sub></span><span class="land-x">&gamma;<sub>1</sub></span>
           </div>
           <div class="sliders" id="lab-sliders"></div>
+          <div class="land-btns"><button type="button" class="lab-btn" id="lab-opt">Tune the angles here</button><button type="button" class="lab-btn" id="lab-trained">Use Qiskit's angles</button><button type="button" class="lab-btn quiet" id="lab-reset">Back to the start state</button></div>
         </div>
 
         <div class="lab-panel lab-shots">
@@ -447,6 +450,7 @@
         </div>
         <p class="read-check" id="cmp-check"></p>
       </div>
+      </details>
     </div>
   </div>
 </section>
@@ -638,16 +642,16 @@ pytest                            <span class="c"># 57 checks</span></pre>
   </div>
 </footer>
 
-<script src="web/data/results.js?v=20261112b"></script>
-<script src="web/fold.js?v=20261112b"></script>
-<script src="web/app.js?v=20261112b"></script>
-<script src="web/qaoa-sim.js?v=20261112b"></script>
-<script src="web/lab.js?v=20261112b"></script>
-<script src="web/scenes.js?v=20261112b"></script>
-<script src="web/router.js?v=20261112b"></script>
+<script src="web/data/results.js?v=20261112c"></script>
+<script src="web/fold.js?v=20261112c"></script>
+<script src="web/app.js?v=20261112c"></script>
+<script src="web/qaoa-sim.js?v=20261112c"></script>
+<script src="web/lab.js?v=20261112c"></script>
+<script src="web/scenes.js?v=20261112c"></script>
+<script src="web/router.js?v=20261112c"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>
-<script src="web/motion.js?v=20261112b" defer></script>
+<script src="web/motion.js?v=20261112c" defer></script>
 </body>
 </html>

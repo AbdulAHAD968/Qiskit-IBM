@@ -218,3 +218,22 @@ h1, h2, h3, .stat .v, .big-compare .n, .plan-panel .big, .read-big span, .kits o
 #hero.scene .lower .note { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
 /* lab.css also styles .stage (the circuit step chips); a scene stage is a plain full-screen frame. */
 .scene > .stage { border-radius: 0; background: none; border: 0; padding: 0; cursor: auto; font: inherit; color: inherit; overflow: hidden; }
+
+/* Plan page: one flow */
+.lab-plan .plan-cards { gap: 10px; }
+.pcard.qaoa .pc-head b { font-family: var(--serif); font-weight: 500; font-size: 24px; letter-spacing: -0.01em; }
+.pcard.qaoa .pc-pct { font-size: 34px; color: #fff; }
+.pcard.qaoa .pc-names { font-size: 16px; font-weight: 500; margin-top: 6px; }
+.pc-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin-top: 4px; }
+.pc-table th { font: 500 11.5px/1.3 var(--font); letter-spacing: 0; text-transform: none; color: var(--lab-muted); border-bottom: 1px solid var(--lab-line); padding: 6px 8px 6px 0; text-align: left; }
+.pc-table td { color: var(--lab-ink-2); border-bottom: 1px solid var(--lab-line); padding: 8px 8px 8px 0; }
+.pc-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.pc-table tr.q td { color: var(--lab-ink); font-weight: 600; }
+.pc-table tr:last-child td { border-bottom: 0; }
+.lab-row-title { color: var(--lab-ink); font-size: 24px; margin: 22px 0 -4px; }
+.land-btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+details.lab-more { border-top-color: var(--lab-line); margin-top: 8px; }
+details.lab-more > summary { color: #e8a58c; font-size: 15px; }
+details.lab-more > summary::before { background: var(--lab-panel-2); color: var(--lab-ink); }
+details.lab-more[open] > summary { margin-bottom: 4px; }
+details.lab-more > .lab-lower, details.lab-more > .lab-vs { margin-top: 18px; }
