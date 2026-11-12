@@ -97,6 +97,13 @@ energy of each basis state equals the objective; the cost layer is the diagonal 
 exp(-i*gamma*F) up to a global phase and the scale factor; and a plain NumPy simulation of the whole
 ansatz, sharing no circuit code, reproduces the probabilities of the Qiskit circuit.
 
+**Is the live circuit on the website Qiskit?**
+No. A browser cannot run Qiskit, so `web/qaoa-sim.js` re-implements the constrained circuit in
+JavaScript inside the 210 valid plans of the demonstration family. `python -m kinship.validate_web_sim`
+runs that file under Node.js and compares it with the Qiskit circuit: at trained and random angles
+for depths 1 to 3 every plan probability agrees to within 1e-15. Every number in the report comes
+from the Qiskit code.
+
 **Is the problem hard?**
 With equal weights it is densest-k-subgraph, which is NP-hard, and the best known efficient
 algorithm guarantees only about n^(1/4). That is a worst-case statement. Our family graphs are

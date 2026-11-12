@@ -42,6 +42,7 @@
     for (var l = 0; l < p; l++) { list.push({ type: "cost", l: l }); list.push({ type: "mix", l: l }); }
     return list;
   }
+  // mulberry32 by Tommy Ettinger (2017, public domain): a small seeded generator, so the shots repeat.
   function mulberry(seed) {
     return function () {
       seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
@@ -195,7 +196,7 @@
     $("#lab-quality").textContent = m.quality.toFixed(3);
     var t = trained[S.p], check = $("#lab-check");
     if (!atEnd()) check.textContent = "Readouts follow the state at the highlighted step of the circuit.";
-    else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Aer's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
+    else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Qiskit's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
     else if (S.source === "tuned") check.innerHTML = "Tuned in your browser by Nelder-Mead in " + S.evals + " circuit evaluations: " + pct(m.ratio, 0) + " of the best value per shot. Qiskit's COBYLA reached " + pct(t ? t.ratio : NaN, 0) + " at this depth.";
     else check.textContent = "Your angles. Qiskit's trained angles give " + pct(t ? t.p_opt : NaN, 2) + " for depth " + S.p + ".";
   }

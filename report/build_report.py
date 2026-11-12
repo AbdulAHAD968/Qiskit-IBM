@@ -868,8 +868,9 @@ para(f"**Software.** Qiskit {META['qiskit']}, Qiskit Aer {META['qiskit_aer']}, N
      f"{META['python']}.", align="justify")
 para("**Methods.** The constrained QAOA design (Dicke start state, XY mixer) follows [5]; the Dicke-state circuit "
      "follows [6]; the parity-ordered ring mixer follows [9]; the INTERP warm start follows [10]; the trade-off sweep "
-     "borrows the idea of [11]. The circuits were written from the papers. No tutorial or third-party code was copied "
-     "into the repository.", align="justify")
+     "borrows the idea of [11]. The circuits were written from the papers and no tutorial code was copied into the "
+     "repository. The live circuit on the website is our own JavaScript re-implementation, checked against the Qiskit "
+     "circuit; its shot sampler uses the public-domain mulberry32 generator (T. Ettinger, 2017).", align="justify")
 para("**AI assistance.** An AI coding assistant was used to help write code and draft text. Every number in this "
      "report is produced by running the code in the repository.", align="justify")
 references = [

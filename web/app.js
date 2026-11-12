@@ -667,6 +667,6 @@
         if (a) a.classList.add("active");
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
-    $$("main section[id]").forEach(function (s) { nio.observe(s); });
+    $$("main section[id], #hero").forEach(function (s) { nio.observe(s); });      // the hero clears the highlight
   });
 })();
