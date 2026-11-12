@@ -88,6 +88,34 @@
   var field = (D.plans && D.plans.field && D.plans.field.chosen) || [];
   var gens = people.reduce(function (m, p) { return Math.max(m, p.y); }, 0) || 3;
 
+  // While the page is still, the circuit keeps measuring the family: one shot
+  // at a time, drawn from the real depth-3 distribution of the Qiskit circuit.
+  var SHOT = { sim: null, probs: null, cyc: -1, plan: [], ratio: 0, no: 0, best: false };
+  (function () {
+    var tq = null;
+    (D.qaoa || []).forEach(function (q) { if (q.method === "constrained" && q.p === 3) tq = q; });
+    if (!window.QAOASim || !tq) return;
+    var sm = new window.QAOASim.Sim({
+      n: D.n, k: D.k, lam: D.lam,
+      p: D.candidates.map(function (c) { return c.p; }),
+      r: D.candidates.map(function (c) { return c.r; }),
+      edges: D.edges,
+    });
+    sm.run(tq.angles);
+    SHOT.sim = sm; SHOT.probs = sm.probs();
+  })();
+  var shotSeed = 20261112;
+  function shotRnd() { shotSeed = (shotSeed * 16807) % 2147483647; return shotSeed / 2147483647; }
+  function nextShot() {
+    var sm = SHOT.sim, u = shotRnd(), acc = 0, k;
+    for (k = 0; k < sm.N - 1; k++) { acc += SHOT.probs[k]; if (acc >= u) break; }
+    var mask = sm.masks[k];
+    SHOT.plan = [];
+    for (var q = 0; q < D.n; q++) if ((mask >> q) & 1) SHOT.plan.push(D.candidates[q].id);
+    SHOT.ratio = sm.value[k] / sm.best; SHOT.best = sm.value[k] >= sm.best - 1e-12; SHOT.no++;
+  }
+  var PER = 2.6;   // seconds per shot
+
   var T0 = performance.now();
   scene("hero", {
     live: true,
@@ -113,6 +141,15 @@
       var intro = REDUCED ? 1 : ease(clamp((performance.now() - T0) / 2600));
       var pos = G.pos, s = G.s, draw = Math.max(intro, ease(seg(p, 0.0, 0.18))), shade = ease(seg(p, 0.33, 0.58));
       var showField = seg(p, 0.64, 0.7) * (1 - seg(p, 0.8, 0.84)), showPlan = seg(p, 0.82, 0.88);
+      // idle: superposition, then a measurement collapses it into one plan
+      var idle = SHOT.sim && !REDUCED ? (1 - seg(p, 0.14, 0.26)) * seg(intro, 0.85, 1) : 0, ph = 0;
+      if (idle > 0) {
+        var cyc = Math.floor(t / PER);
+        if (cyc !== SHOT.cyc) { SHOT.cyc = cyc; nextShot(); }
+        ph = (t % PER) / PER;
+      }
+      var collapse = idle * ease(seg(ph, 0.36, 0.48)) * (1 - ease(seg(ph, 0.9, 1)));
+      var superpos = idle * Math.max(1 - ease(seg(ph, 0.3, 0.44)), ease(seg(ph, 0.92, 1)));
       // lines of descent
       ctx.lineWidth = 1.3; ctx.strokeStyle = C.hair;
       var seen = {};
@@ -133,16 +170,17 @@
         ctx.stroke();
       });
       // possible matches, and the couples a plan tests in full
-      var plan = showPlan > 0 ? exact : showField > 0 ? field : [];
-      var planA = showPlan > 0 ? showPlan : showField;
+      var plan = showPlan > 0 ? exact : showField > 0 ? field : collapse > 0 ? SHOT.plan : [];
+      var planA = showPlan > 0 ? showPlan : showField > 0 ? showField : collapse;
+      var planCol = showField > 0 && showPlan <= 0 ? C.teal : C.coral;
       (D.couples || []).forEach(function (cp) {
         if (!cp.in_problem) return;
         var a = pos[cp.a], b = pos[cp.b];
         if (!a || !b) return;
         var both = plan.indexOf(cp.a) >= 0 && plan.indexOf(cp.b) >= 0;
         ctx.save();
-        ctx.globalAlpha = seg(p, 0.12, 0.2);
-        ctx.strokeStyle = both ? C.coral : "rgba(194,97,63,0.4)";
+        ctx.globalAlpha = Math.max(seg(p, 0.12, 0.2), both ? planA : 0);
+        ctx.strokeStyle = both ? planCol : "rgba(194,97,63,0.4)";
         ctx.lineWidth = both ? 1.5 + 2.5 * planA : 1.3;
         if (!both) ctx.setLineDash(cp.kind === "potential" ? [2, 5] : []);
         ctx.beginPath();
@@ -174,15 +212,30 @@
         }
         if (q.status === "affected") { path(); ctx.fillStyle = C.ink; ctx.fill(); }
         var tested = plan.indexOf(q.id) >= 0;
+        if (tested && planA > 0) {
+          ctx.globalAlpha = appear * planA * 0.85;
+          path(); ctx.fillStyle = planCol; ctx.fill();
+          ctx.globalAlpha = appear;
+        }
+        // superposition: every testable relative is tested and not tested at once
+        if (cand && superpos > 0.02) {
+          var hue = (t * 70 + q.qubit * 36) % 360, rr = r + 5 + 2.5 * Math.sin(t * 3 + q.qubit);
+          ctx.globalAlpha = appear * superpos * 0.75;
+          ctx.beginPath(); ctx.arc(P.x, P.y, rr, 0, Math.PI * 2);
+          ctx.strokeStyle = "hsl(" + hue.toFixed(0) + " 58% 52%)"; ctx.lineWidth = 2; ctx.stroke();
+          ctx.globalAlpha = appear * superpos * 0.3 * (0.5 + 0.5 * Math.sin(t * 4 + q.qubit * 1.7));
+          path(); ctx.fillStyle = C.coral; ctx.fill();
+          ctx.globalAlpha = appear;
+        }
         path();
         ctx.lineWidth = tested ? 2.6 : 1.5;
-        ctx.strokeStyle = tested ? (showPlan > 0 ? C.coral : C.teal) : gone ? C.mut : C.ink;
+        ctx.strokeStyle = tested ? planCol : gone ? C.mut : C.ink;
         if (gone) ctx.setLineDash([3, 3]);
         ctx.stroke(); ctx.setLineDash([]);
         if (tested) {
           ctx.globalAlpha = appear * planA;
           ctx.beginPath(); ctx.arc(P.x, P.y, r + 6, 0, Math.PI * 2);
-          ctx.strokeStyle = showPlan > 0 ? C.coral : C.teal; ctx.lineWidth = 1.5; ctx.stroke();
+          ctx.strokeStyle = planCol; ctx.lineWidth = 1.5; ctx.stroke();
           ctx.globalAlpha = appear;
         }
         if (cand && shade > 0.05 && G.R.w > 520) {
@@ -196,11 +249,23 @@
         ctx.restore();
       });
       // the verdict of the plan on screen
-      if (planA > 0.05) {
+      var ly = G.R.y + G.R.h + s + 66;
+      if (showPlan <= 0 && showField <= 0 && idle > 0) {
+        if (collapse > 0.05) {
+          var names = SHOT.plan.map(function (id) { return byId[id].label; }).join(", ");
+          ctx.globalAlpha = collapse;
+          txt(ctx, "Shot " + SHOT.no + " from the circuit: " + names + (SHOT.best ? ", the best plan" : ", " + Math.round(SHOT.ratio * 100) + "% of the best plan"),
+            W / 2, ly, SHOT.best ? C.coral : C.body, "500 15px Inter, sans-serif", "center");
+        } else if (superpos > 0.05) {
+          ctx.globalAlpha = superpos;
+          txt(ctx, "Ten relatives in superposition: every plan of four kits at once", W / 2, ly, C.mut, "500 15px Inter, sans-serif", "center");
+        }
+        ctx.globalAlpha = 1;
+      } else if (planA > 0.05) {
         var label = showPlan > 0 ? "Constrained QAOA: " + D.plans.exact.couples.toFixed(3) + " expected at-risk couples, the exact optimum"
           : "Field officer's rule: " + D.plans.field.couples.toFixed(3) + " expected at-risk couples";
         ctx.globalAlpha = planA;
-        txt(ctx, label, W / 2, G.R.y + G.R.h + s + 66, showPlan > 0 ? C.coral : C.teal, "500 15px Inter, sans-serif", "center");
+        txt(ctx, label, W / 2, ly, planCol, "500 15px Inter, sans-serif", "center");
         ctx.globalAlpha = 1;
       }
     },
@@ -231,6 +296,7 @@
       }
     };
     scene("flow", {
+      live: true,
       build: function (W, H) {
         var m = narrow();
         return { R: m ? { x: 20, y: H * 0.44, w: W - 40, h: H * 0.4 } : { x: W * 0.47, y: H * 0.2, w: W * 0.46, h: H * 0.56 } };
@@ -245,7 +311,7 @@
         for (var r = 0; r < N; r++) {
           var s = sim.order[r], re = sim.re[s], im = sim.im[s], a = Math.hypot(re, im), hh = (a / ampMax) * R.h;
           if (bestRank[r]) popt += re * re + im * im;
-          var hue = ((Math.atan2(im, re) * 180) / Math.PI + 380) % 360;
+          var hue = ((Math.atan2(im, re) * 180) / Math.PI + 380 + (REDUCED ? 0 : t * 24)) % 360;   // a global phase: no probability changes
           ctx.fillStyle = "hsl(" + hue.toFixed(0) + " 62% " + (bestRank[r] ? 70 : 62) + "%)";
           ctx.fillRect(R.x + r * bw + 0.3, base - hh, Math.max(bw - 0.6, 0.6), hh);
         }
