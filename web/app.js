@@ -280,8 +280,8 @@
       if (c.kind === "married") {
         node = el("line", { "class": "cp married", x1: ax, y1: ay, x2: bx, y2: by }, gCouples);
       } else {
-        var dip = 30 + Math.min(46, Math.abs(bx - ax) * 0.09);
-        node = el("path", { "class": "cp " + c.kind, d: "M" + ax + " " + (ay + R) + "Q" + (ax + bx) / 2 + " " + (Math.max(ay, by) + R + dip * 2) + " " + bx + " " + (by + R) }, gCouples);
+        var lift = 14 + Math.min(26, Math.abs(bx - ax) * 0.045);
+        node = el("path", { "class": "cp " + c.kind, d: "M" + ax + " " + (ay - R) + "Q" + (ax + bx) / 2 + " " + (Math.min(ay, by) - R - lift * 2) + " " + bx + " " + (by - R) }, gCouples);
       }
       node.setAttribute("pointer-events", "stroke");
       hover(node, function () {
