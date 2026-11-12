@@ -11,12 +11,15 @@ answer against the exact optimum.
 
 **Team:** Syed Muhammad Saad Bukhari, Abdul Ahad, Faizan
 
+**Live site: [qiskit.sevenlabs.site](https://qiskit.sevenlabs.site/)**, with the visit planner and the circuit
+running in your browser.
+
 | Deliverable | Where |
 |---|---|
 | Working, reproducible Qiskit code | this repository, `kinship/` and `tests/` |
 | Report (.docx) with results, exact comparison and limitations | [report/Kinship_QAOA_Report.docx](report/Kinship_QAOA_Report.docx) |
 | Architecture diagram | [report/architecture.png](report/architecture.png), also Figure 1 of the report |
-| Project website with the interactive walkthrough and a live simulation of the circuit | `index.html`: open it in a browser after cloning (GitHub shows only its source) |
+| Project website with the interactive walkthrough and a live simulation of the circuit | [qiskit.sevenlabs.site](https://qiskit.sevenlabs.site/), or `index.html` in a browser after cloning |
 | Problem statement, benchmark report, limitations, references | [DOCS/](DOCS) |
 | 3-minute video pitch and demo | link submitted with the entry form; script in [DOCS/VIDEO_SCRIPT.md](DOCS/VIDEO_SCRIPT.md) |
 

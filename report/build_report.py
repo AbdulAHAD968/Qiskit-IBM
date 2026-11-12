@@ -421,6 +421,8 @@ para("Whom to test in thalassaemia cascade screening when kits are limited: a qu
 p = para("**Team:** Syed Muhammad Saad Bukhari, Abdul Ahad, Faizan", size=10.5, after=2)
 p = para("**Repository:** ", size=10.5, after=2)
 link(p, REPO, REPO.replace("https://", ""), size=10.5)
+p = para("**Live site:** ", size=10.5, after=2)
+link(p, "https://qiskit.sevenlabs.site/", "qiskit.sevenlabs.site", size=10.5)
 para("**Date:** 12 November 2026.  **Software:** Qiskit %s, Qiskit Aer %s, Python %s. Simulator only."
      % (META["qiskit"], META["qiskit_aer"], META["python"]), size=10.5, after=10)
 
