@@ -13,7 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch, Rectangle  # noqa: E402
-from matplotlib.ticker import FuncFormatter, NullFormatter  # noqa: E402
+from matplotlib.ticker import FuncFormatter, LogLocator, NullFormatter  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
@@ -211,7 +211,7 @@ def fig_quality() -> Path:
             labels.append((mean[-1], NAMES[m], INK))
         for m, ls in (("random", "--"), ("field", ":")):
             v = base[m]["quality"]["mean"]
-            ax.axhline(v, color=COLORS[m], ls=ls, lw=1.5, zorder=2)
+            ax.plot([0.8, 3.0], [v, v], color=COLORS[m], ls=ls, lw=1.5, zorder=2)      # stops before the labels
             labels.append((v, NAMES[m] + (" (dashed)" if m == "random" else " (dotted)"), INK2))
         _direct_labels(ax, 3.1, labels, 0.06)
         ax.set_xticks([1, 2, 3])
@@ -235,10 +235,11 @@ def fig_popt() -> Path:
             ax.plot(p, 100 * mean, color=COLORS[m], marker="o", zorder=3)
             labels.append((100 * mean[-1], NAMES[m], INK))
         v = 100 * base["random"]["p_opt"]["mean"]
-        ax.axhline(v, color=COLORS["random"], ls="--", lw=1.5)
+        ax.plot([0.8, 3.0], [v, v], color=COLORS["random"], ls="--", lw=1.5)      # stops before the labels
         labels.append((v, NAMES["random"] + " (dashed)", INK2))
         _direct_labels(ax, 3.1, labels, 0.16, log=True)
         ax.set_yscale("log")
+        ax.yaxis.set_major_locator(LogLocator(base=10, subs=(1.0, 2.0, 5.0), numticks=12))
         ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
         ax.yaxis.set_minor_formatter(NullFormatter())
         ax.set_xticks([1, 2, 3])

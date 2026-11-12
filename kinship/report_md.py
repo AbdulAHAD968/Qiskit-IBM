@@ -37,6 +37,32 @@ def table(header, rows, align=None):
     return "\n".join(out)
 
 
+def depth_effect(bench: dict, size: str, method: str = "constrained") -> dict | None:
+    """How each family's numbers move from the second-deepest circuit to the deepest one."""
+    runs = {inst["name"]: {r["p"]: r for r in inst["qaoa"] if r["method"] == method}
+            for inst in bench["instances"] if inst["size"] == size}
+    depths = sorted({p for by_depth in runs.values() for p in by_depth})
+    names = [n for n, by_depth in runs.items() if len(depths) >= 2 and depths[-2] in by_depth and depths[-1] in by_depth]
+    if not names:
+        return None
+    a, b = depths[-2], depths[-1]
+
+    def median(values):
+        values = sorted(values)
+        mid = len(values) // 2
+        return values[mid] if len(values) % 2 else 0.5 * (values[mid - 1] + values[mid])
+
+    def mean(values):
+        return sum(values) / len(values)
+
+    before, after = [runs[n][a]["p_opt"] for n in names], [runs[n][b]["p_opt"] for n in names]
+    return {"from": a, "to": b, "families": len(names),
+            "quality_falls": sum(runs[n][b]["quality"] < runs[n][a]["quality"] - 1e-9 for n in names),
+            "p_opt_falls": sum(y < x - 1e-9 for x, y in zip(before, after)),
+            "p_opt_median_from": median(before), "p_opt_median_to": median(after),
+            "p_opt_mean_from": mean(before), "p_opt_mean_to": mean(after)}
+
+
 def build() -> str:
     meta, gen, g1, bench = load("meta"), load("genetics"), load("gate1"), load("benchmark")
     circ, noise, abl, tr, dec, demo = (load("circuits"), load("noise"), load("ablation"), load("tradeoff"),
@@ -141,7 +167,17 @@ def build() -> str:
                     ["l", "l", "r", "r", "r", "r", "r", "r", "r", "r"]), "",
               "\"Returns the best plan\": for the classical rules, the share of instances where the rule's plan is "
               "optimal; for QAOA, the share where the best of the measured plans is optimal. With thousands of shots and "
-              "only 210 or 4,368 valid plans the latter is a weak statement, so read the per-shot columns.", "",
+              "only 210 or 4,368 valid plans the latter is a weak statement, so read the per-shot columns.", ""]
+    for size in ("S", "M"):
+        e = depth_effect(bench, size)
+        if e:
+            parts.append(f"Depth, family by family, size {size} (constrained QAOA): from depth {e['from']} to depth "
+                         f"{e['to']} quality falls in {e['quality_falls']} of {e['families']} families, and the chance "
+                         f"that one shot is the best plan falls in {e['p_opt_falls']} of them (median "
+                         f"{small(e['p_opt_median_from'])} to {small(e['p_opt_median_to'])}, mean "
+                         f"{small(e['p_opt_mean_from'])} to {small(e['p_opt_mean_to'])}).")
+    parts += ["", "Each depth starts from the angles of the one below and the angles are tuned for expected value, so "
+              "quality does not drop with depth, while the chance of the single best plan can.", "",
               "![Quality against depth](../results/figures/fig03_quality_vs_depth.png)", "",
               "![Probability of the best plan](../results/figures/fig04_probability_of_best_plan.png)", "",
               "![Valid shots](../results/figures/fig05_valid_shots.png)", ""]

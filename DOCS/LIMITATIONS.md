@@ -27,7 +27,10 @@ cannot break the kit limit, and a comparison against exact answers.
    mitigation. On a line of qubits the circuits need considerably more two-qubit gates
    (see section 4 of the benchmark report).
 7. **Depth is limited to 3**, and angles are tuned per instance with COBYLA. We did not study
-   parameter transfer between families.
+   parameter transfer between families. More depth does not help every family: from depth 2 to
+   depth 3 the chance that one shot is the best plan falls in 9 of the 20 ten-qubit families and 2
+   of the 12 sixteen-qubit families (10-qubit median 4.6% to 4.2%, while the mean rises from 4.6%
+   to 5.9%). The angles are tuned for expected value, which did not fall with depth in any family.
 8. **Synthetic families.** Families are generated, not observed. The generator is calibrated loosely
    to one study from 2002: 36% carriers among testable relatives against 31% in that study.
    The share of couples who are both carriers does not match it well (2.3% excluding the index

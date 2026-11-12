@@ -101,6 +101,11 @@ Greedy and ties, size M: greedy also breaks ties by index. Breaking them the oth
 
 "Returns the best plan": for the classical rules, the share of instances where the rule's plan is optimal; for QAOA, the share where the best of the measured plans is optimal. With thousands of shots and only 210 or 4,368 valid plans the latter is a weak statement, so read the per-shot columns.
 
+Depth, family by family, size S (constrained QAOA): from depth 2 to depth 3 quality falls in 0 of 20 families, and the chance that one shot is the best plan falls in 9 of them (median 4.6% to 4.2%, mean 4.6% to 5.9%).
+Depth, family by family, size M (constrained QAOA): from depth 2 to depth 3 quality falls in 0 of 12 families, and the chance that one shot is the best plan falls in 2 of them (median 0.26% to 0.35%, mean 0.50% to 0.98%).
+
+Each depth starts from the angles of the one below and the angles are tuned for expected value, so quality does not drop with depth, while the chance of the single best plan can.
+
 ![Quality against depth](../results/figures/fig03_quality_vs_depth.png)
 
 ![Probability of the best plan](../results/figures/fig04_probability_of_best_plan.png)

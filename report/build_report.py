@@ -68,6 +68,26 @@ def pct_small(v):
     return f"{100 * v:.{3 if v < 0.001 else 2 if v < 0.01 else 1}f}%"
 
 
+def depth_effect(size, method="constrained"):
+    """How each family's numbers move from the second-deepest circuit to the deepest one."""
+    runs = {inst["name"]: {r["p"]: r for r in inst["qaoa"] if r["method"] == method}
+            for inst in R["benchmark"]["instances"] if inst["size"] == size}
+    depths = sorted({p for by_depth in runs.values() for p in by_depth})
+    a, b = depths[-2], depths[-1]
+    names = [n for n, by_depth in runs.items() if a in by_depth and b in by_depth]
+
+    def median(values):
+        values = sorted(values)
+        mid = len(values) // 2
+        return values[mid] if len(values) % 2 else 0.5 * (values[mid - 1] + values[mid])
+
+    before, after = [runs[n][a]["p_opt"] for n in names], [runs[n][b]["p_opt"] for n in names]
+    return {"from": a, "to": b, "families": len(names),
+            "quality_falls": sum(runs[n][b]["quality"] < runs[n][a]["quality"] - 1e-9 for n in names),
+            "p_opt_falls": sum(y < x - 1e-9 for x, y in zip(before, after)),
+            "p_opt_median_from": median(before), "p_opt_median_to": median(after)}
+
+
 # --------------------------------------------------------------------------
 # document helpers
 # --------------------------------------------------------------------------
@@ -664,14 +684,21 @@ table(["Size", "Method", "p", "Quality", "Best plan per shot", "Valid shots", "S
       caption=f"Table 7. Mean over {cS3['instances']} size-S and {cM3['instances']} size-M families, noise-free. "
               "Quality: 0 = worst valid plan, 1 = best, computed over valid shots. Best plan per shot: counted over "
               "all shots. Shots for 95%: shots needed to see the best plan with 95% probability (median).")
-para(f"Constrained QAOA improves with depth on both sizes (Figures 3 and 4). At depth 3 its quality is "
+DEPTH_S, DEPTH_M = depth_effect("S"), depth_effect("M")
+assert DEPTH_S["quality_falls"] == 0 and DEPTH_M["quality_falls"] == 0, "the depth sentence in section 5.2 needs rewording"
+para(f"On average constrained QAOA improves with depth on both sizes (Figures 3 and 4). At depth 3 its quality is "
      f"{cS3['quality']['mean']:.2f} on 10 qubits and {cM3['quality']['mean']:.2f} on 16 qubits, against "
      f"{rS['quality']['mean']:.2f} and {rM['quality']['mean']:.2f} for a random valid plan and "
      f"{fS['quality']['mean']:.2f} and {fM['quality']['mean']:.2f} for the field officer's rule. The chance that one "
      f"shot is the best plan rises to {pct_small(cS3['p_opt']['mean'])} and {pct_small(cM3['p_opt']['mean'])}. Family "
      f"by family that is on average {cS3['p_opt_gain']['mean']:.0f} and {cM3['p_opt_gain']['mean']:.0f} times the "
      f"chance of a random valid pick, with medians of {cS3['p_opt_gain']['median']:.0f} and "
-     f"{cM3['p_opt_gain']['median']:.0f} times, so a few families carry the mean. Every shot "
+     f"{cM3['p_opt_gain']['median']:.0f} times, so a few families carry the mean. Quality did not fall with "
+     f"depth in any family, but the chance of the best plan did: from depth {DEPTH_S['from']} to depth "
+     f"{DEPTH_S['to']} it falls in {DEPTH_S['p_opt_falls']} of the {DEPTH_S['families']} ten-qubit families and "
+     f"{DEPTH_M['p_opt_falls']} of the {DEPTH_M['families']} sixteen-qubit families (10-qubit median "
+     f"{pct_small(DEPTH_S['p_opt_median_from'])} to {pct_small(DEPTH_S['p_opt_median_to'])}), because the angles are "
+     f"tuned for expected value. Every shot "
      "uses exactly k kits. In every instance the best of the 4,096 measured plans was the exact optimum; at these "
      "sizes that alone is a weak statement (section 6), which is why the table reports per-shot numbers.",
      align="justify")
@@ -682,10 +709,10 @@ para(f"Penalty QAOA learns the constraint before it learns the objective. Its sh
      f"does not beat the stronger classical heuristics: greedy reaches {gS['quality']['mean']:.2f} and "
      f"{gM['quality']['mean']:.2f}, and simulated annealing finds the optimum in {pct(aS['optimal_share'])} and "
      f"{pct(aM['optimal_share'])} of these families.", align="justify")
-figure(FIG / "fig03_quality_vs_depth.png", "Figure 3. Quality against QAOA depth. Whiskers: one standard deviation "
-       "over families.", width=15.0)
-figure(FIG / "fig04_probability_of_best_plan.png", "Figure 4. Probability that a single shot is the best plan "
-       "(log scale).", width=15.0)
+figure(FIG / "fig03_quality_vs_depth.png", "Figure 3. Quality against QAOA depth, mean over families. Whiskers: one "
+       "standard deviation over families.", width=15.0)
+figure(FIG / "fig04_probability_of_best_plan.png", "Figure 4. Probability that a single shot is the best plan, mean "
+       "over families (log scale).", width=15.0)
 
 heading("5.3 A worked example", level=2)
 fld = DEMO["plans"]["field"]

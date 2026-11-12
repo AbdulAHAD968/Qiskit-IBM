@@ -18,6 +18,13 @@ A mean of per-family ratios at 16 qubits and depth 3. The median is 14 and the f
 5 to 116 times, so a few families carry the mean. At 10 qubits the mean is 12, the median 8 and the
 range 1 to 41 times.
 
+**Does a deeper circuit always help?**
+For expected value, yes in our runs: quality did not fall from one depth to the next in any family,
+because each depth starts from the angles of the one below. For the chance of the single best plan,
+no: from depth 2 to depth 3 it falls in 9 of the 20 ten-qubit families and 2 of the 12 sixteen-qubit
+families. The 10-qubit median goes from 4.6% to 4.2% while the mean rises from 4.6% to 5.9%. The
+angles are tuned for expected value, not for that chance.
+
 **What is new here?**
 The problem framing and the weights derived from genetics: an exact pedigree engine that turns a
 family tree into pair weights. The constrained QAOA method is borrowed from Cook, Eidenbenz and
