@@ -13,6 +13,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.patches import Circle, FancyArrowPatch, FancyBboxPatch, Rectangle  # noqa: E402
+from matplotlib.ticker import FuncFormatter, NullFormatter  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "results"
@@ -51,17 +52,28 @@ def _save(fig, name: str) -> Path:
 
 
 def short_label(label: str) -> str:
-    table = {"Paternal grandfather": "Pat. grandfather", "Paternal grandmother": "Pat. grandmother",
-             "Maternal grandfather": "Mat. grandfather", "Maternal grandmother": "Mat. grandmother",
-             "Great-grandfather": "Great-grandfather", "Great-grandmother": "Great-grandmother",
-             "Index child": "Index child"}
+    table = {"Paternal grandfather": "PGF", "Paternal grandmother": "PGM",
+             "Maternal grandfather": "MGF", "Maternal grandmother": "MGM",
+             "Great-grandfather": "GGF", "Great-grandmother": "GGM"}
     if label in table:
         return table[label]
     if label.startswith("Wife of"):
         return "Wife"
     if label.startswith("Husband of"):
         return "Husband"
-    return label.replace("Paternal", "Pat.").replace("Maternal", "Mat.")
+    return label.replace("Paternal", "P.").replace("Maternal", "M.")
+
+
+def _direct_labels(ax, x, items, min_gap, log=False):
+    """Write labels at the right of a chart, pushed apart so that they never overlap."""
+    pts = sorted(((np.log10(y) if log else y, text, color) for y, text, color in items), key=lambda t: t[0])
+    placed = []
+    for y, text, color in pts:
+        if placed and y - placed[-1][0] < min_gap:
+            y = placed[-1][0] + min_gap
+        placed.append((y, text, color))
+    for y, text, color in placed:
+        ax.text(x, 10 ** y if log else y, text, color=color, va="center", fontsize=8)
 
 
 # --------------------------------------------------------------------------
@@ -100,7 +112,9 @@ def draw_pedigree(ax, demo: dict, chosen: list[int], title: str, color: str, sub
                 ax.plot([x1, x2], [y1, y2], color=AXIS, lw=1.1, zorder=1)
             continue
         style = "--" if c["kind"] == "engaged" else ":"
-        arc = FancyArrowPatch((x1, y1 - r), (x2, y2 - r), connectionstyle="arc3,rad=0.35", arrowstyle="-",
+        if x1 > x2:
+            x1, y1, x2, y2 = x2, y2, x1, y1
+        arc = FancyArrowPatch((x1, y1 + r), (x2, y2 + r), connectionstyle="arc3,rad=-0.22", arrowstyle="-",
                               linestyle=style, lw=2.6 if both else 1.2, color=color if both else MUTED, zorder=2)
         ax.add_patch(arc)
     for p in people.values():
@@ -125,18 +139,18 @@ def draw_pedigree(ax, demo: dict, chosen: list[int], title: str, color: str, sub
                     color="white" if picked else INK2, zorder=5)
         ax.text(x, y - r - 0.12, short_label(p["label"]), ha="center", va="top", fontsize=5.6,
                 color=INK if picked else INK2, fontweight="bold" if picked else "normal", zorder=5)
-    ax.set_title(title)
+    ax.set_title(title, pad=17)
     if subtitle:
-        ax.text(0.0, 1.0, subtitle, transform=ax.transAxes, fontsize=8, color=INK2, va="bottom")
+        ax.text(0.0, 1.005, subtitle, transform=ax.transAxes, fontsize=8, color=INK2, va="bottom")
     ax.set_xlim(min(xs) * sx - 0.8, max(xs) * sx + 0.8)
-    ax.set_ylim(-3 * 1.9 - 1.0, 0.7 - (min(p["y"] for p in people.values())) * 1.9)
+    ax.set_ylim(-max(p["y"] for p in people.values()) * 1.9 - 1.15, 0.7 - (min(p["y"] for p in people.values())) * 1.9)
     ax.set_aspect("equal")
     ax.axis("off")
 
 
 def fig_pedigree() -> Path:
     demo = load("demo")
-    fig, axes = plt.subplots(2, 1, figsize=(9.5, 8.6))
+    fig, axes = plt.subplots(2, 1, figsize=(9.5, 8.2))
     fld = demo["plans"]["field"]
     qaoa = [q for q in demo["qaoa"] if q["method"] == "constrained"][-1]["best"]
     draw_pedigree(axes[0], demo, fld["chosen"], "Field officer's rule: test the highest carrier probabilities",
@@ -144,10 +158,12 @@ def fig_pedigree() -> Path:
     draw_pedigree(axes[1], demo, qaoa["chosen"], "Constrained QAOA plan (best measured plan, equal to the exact optimum)"
                   if qaoa["ratio"] > 1 - 1e-9 else "Constrained QAOA plan (best measured plan)",
                   BLUE, f"expected at-risk couples found {qaoa['couples']:.3f}   |   {100 * qaoa['ratio']:.0f}% of the best plan")
-    fig.text(0.01, 0.005, "Squares are men, circles are women. Black: affected index child. Grey: parents (obligate carriers). "
-             "Pale: absent or deceased. Numbers: carrier probability.\nSolid line: married. Dashed arc: engaged. "
-             "Dotted arc: possible future match. Coloured: tested in this plan.", fontsize=7, color=INK2, va="bottom")
-    fig.subplots_adjust(hspace=0.16)
+    legend = ["Squares are men, circles are women. Black: affected index child. Grey: parents (obligate carriers).",
+              "Pale: absent or deceased. Numbers: carrier probability. Coloured: tested in this plan.",
+              "Solid line: married. Dashed arc: engaged. Dotted arc: possible future match.",
+              "GGF, GGM: great-grandparents. PGF, PGM, MGF, MGM: paternal and maternal grandparents."]
+    fig.text(0.5, 0.0, chr(10).join(legend), fontsize=7, color=INK2, va="bottom", ha="center", linespacing=1.5)
+    fig.subplots_adjust(hspace=0.16, bottom=0.085)
     return _save(fig, "fig01_pedigree_plans")
 
 
@@ -175,8 +191,6 @@ def fig_gate1() -> Path:
         ax.grid(axis="y", visible=False)
         ax.invert_yaxis()
     axes[1].tick_params(labelleft=False)
-    fig.suptitle(f"How far simple rules fall from the best plan ({g['n_instances']} seeded families per size; "
-                 "black bar and number: mean)", x=0.01, ha="left", fontsize=9, color=INK2)
     return _save(fig, "fig02_field_rule_gap")
 
 
@@ -190,16 +204,18 @@ def fig_quality() -> Path:
     fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.5), sharey=True)
     for ax, size in zip(axes, ("S", "M")):
         base = {r["method"]: r for r in b["summary"] if r["size"] == size and r["kind"] == "classical"}
+        labels = []
         for m in ("constrained", "penalty"):
             p, mean, std = _summary(b, size, m, "quality")
             ax.errorbar(p, mean, yerr=std, color=COLORS[m], marker="o", capsize=3, elinewidth=1, zorder=3)
-            ax.text(p[-1] + 0.08, mean[-1], NAMES[m], color=INK, va="center", fontsize=8)
+            labels.append((mean[-1], NAMES[m], INK))
         for m, ls in (("random", "--"), ("field", ":")):
             v = base[m]["quality"]["mean"]
             ax.axhline(v, color=COLORS[m], ls=ls, lw=1.5, zorder=2)
-            ax.text(3.08, v, NAMES[m], color=INK2, va="center", fontsize=8)
+            labels.append((v, NAMES[m] + (" (dashed)" if m == "random" else " (dotted)"), INK2))
+        _direct_labels(ax, 3.1, labels, 0.06)
         ax.set_xticks([1, 2, 3])
-        ax.set_xlim(0.8, 4.35)
+        ax.set_xlim(0.8, 4.75)
         ax.set_ylim(0, 1)
         ax.set_xlabel("QAOA depth p")
         n = base["random"]["instances"]
@@ -213,16 +229,20 @@ def fig_popt() -> Path:
     fig, axes = plt.subplots(1, 2, figsize=(9.5, 3.5))
     for ax, size in zip(axes, ("S", "M")):
         base = {r["method"]: r for r in b["summary"] if r["size"] == size and r["kind"] == "classical"}
+        labels = []
         for m in ("constrained", "penalty"):
             p, mean, _ = _summary(b, size, m, "p_opt")
             ax.plot(p, 100 * mean, color=COLORS[m], marker="o", zorder=3)
-            ax.text(p[-1] + 0.08, 100 * mean[-1], NAMES[m], color=INK, va="center", fontsize=8)
+            labels.append((100 * mean[-1], NAMES[m], INK))
         v = 100 * base["random"]["p_opt"]["mean"]
         ax.axhline(v, color=COLORS["random"], ls="--", lw=1.5)
-        ax.text(3.08, v, NAMES["random"], color=INK2, va="center", fontsize=8)
+        labels.append((v, NAMES["random"] + " (dashed)", INK2))
+        _direct_labels(ax, 3.1, labels, 0.16, log=True)
         ax.set_yscale("log")
+        ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:g}"))
+        ax.yaxis.set_minor_formatter(NullFormatter())
         ax.set_xticks([1, 2, 3])
-        ax.set_xlim(0.8, 4.35)
+        ax.set_xlim(0.8, 4.75)
         ax.set_xlabel("QAOA depth p")
         ax.set_title(f"Size {size}: chance that one shot is the best plan")
     axes[0].set_ylabel("probability per shot (%, log scale)")
@@ -367,48 +387,61 @@ def fig_histogram() -> Path:
 
 
 def fig_architecture(path: Path | None = None) -> Path:
-    fig, ax = plt.subplots(figsize=(10, 5.4))
+    fig, ax = plt.subplots(figsize=(11, 6.1))
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 60)
     ax.axis("off")
 
-    def box(x, y, w, h, title, lines, face, edge=AXIS, bold=INK):
+    def box(x, y, w, h, title, lines, face, edge=AXIS, bold=INK, size=8.4):
         ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.25,rounding_size=1.2", facecolor=face,
                                     edgecolor=edge, linewidth=1.1, zorder=2))
-        ax.text(x + 1.4, y + h - 2.3, title, fontsize=8.6, fontweight="bold", color=bold, va="top", zorder=3)
-        ax.text(x + 1.4, y + h - 5.6, lines, fontsize=7.1, color=INK2, va="top", zorder=3, linespacing=1.45)
+        ax.text(x + 1.3, y + h - 2.2, title, fontsize=size, fontweight="bold", color=bold, va="top", zorder=3)
+        ax.text(x + 1.3, y + h - 5.4, lines, fontsize=6.9, color=INK2, va="top", zorder=3, linespacing=1.5)
 
-    def arrow(a, b, color=INK2, rad=0.0):
-        ax.add_patch(FancyArrowPatch(a, b, arrowstyle="-|>", mutation_scale=11, lw=1.2, color=color,
-                                     connectionstyle=f"arc3,rad={rad}", zorder=1))
+    def arrow(a, b, color=INK2, rad=0.0, style="-|>"):
+        ax.add_patch(FancyArrowPatch(a, b, arrowstyle=style, mutation_scale=11, lw=1.2, color=color,
+                                     connectionstyle=f"arc3,rad={rad}", zorder=4))
 
     classical, quantum, out = "#f4f3ef", "#e6f0fc", "#e9f7f1"
-    box(2, 41, 20, 15, "1  Family generator", "pedigree.py\nseeded synthetic families\ncousin and exchange marriages", classical)
-    box(27, 41, 20, 15, "2  Genetics engine", "genetics.py\nMendel's rules, exact inference\ncarrier p_i, couple w_ij", classical)
-    box(52, 41, 20, 15, "3  Problem builder", "problem.py\nobjective, exactly-k rule\nQUBO and Ising coefficients", classical)
-    box(77, 41, 21, 15, "4  Classical references", "classical.py\nbrute force, integer programme\nfield rule, greedy, annealing", classical)
-    box(27, 15, 45, 20, "5  Quantum module (Qiskit)", "", quantum, edge=BLUE, bold="#184f95")
-    box(29, 17, 12.5, 11.5, "Circuit", "circuits.py\nDicke state\nRZZ cost\nXY mixer", "white", edge="#9ec5f4")
-    box(43.2, 17, 12.5, 11.5, "Estimator", "qaoa.py\nexpected value\nCOBYLA tunes\nthe angles", "white", edge="#9ec5f4")
-    box(57.4, 17, 12.5, 11.5, "Sampler", "qaoa.py\nmeasured plans\nnoise model\n(noise.py)", "white", edge="#9ec5f4")
-    box(2, 15, 20, 20, "6  Decomposition", "decompose.py\nsplit along couple links\none circuit per component\nDP shares out the kits", classical)
-    box(77, 15, 21, 20, "7  Evaluation", "evaluate.py, plots.py\nquality, chance of best plan\nvalid shots, noise,\ntrade-off curve", classical)
-    box(27, 1, 45, 9, "8  Outputs", "screening plan on the family tree   |   results/*.json and figures   |   report and website", out, edge=AQUA)
-    arrow((22.6, 48.5), (26.6, 48.5))
-    arrow((47.6, 48.5), (51.6, 48.5))
-    arrow((72.6, 48.5), (76.6, 48.5))
-    arrow((62, 40.6), (55, 35.6), color=BLUE)
-    arrow((41.9, 23.5), (42.9, 23.5), color=BLUE)
-    arrow((56.1, 23.5), (57.1, 23.5), color=BLUE)
-    arrow((49.5, 17.0), (35.5, 17.0), color=BLUE, rad=-0.35)
-    arrow((22.6, 25), (26.6, 25))
-    arrow((72.6, 25), (76.6, 25))
-    arrow((87.5, 40.6), (87.5, 35.6))
-    arrow((49.5, 14.6), (49.5, 10.6))
-    arrow((87.5, 14.6), (72.6, 6.5), rad=-0.2)
-    ax.text(42.7, 14.2, "new angles", fontsize=6.6, color="#184f95", ha="center")
-    ax.text(2, 58.3, "Classical code prepares the weights, tunes the circuit and checks the answers. "
-            "The quantum circuit is the step that proposes screening plans.", fontsize=8, color=INK2)
+    box(1, 41, 21.5, 15.5, "1  Family generator",
+        "pedigree.py\nseeded synthetic families\ncousin, exchange marriages", classical)
+    box(26.5, 41, 21.5, 15.5, "2  Genetics engine",
+        "genetics.py\nMendel's rules, exact inference\ncarrier p, couple w", classical)
+    box(52, 41, 21.5, 15.5, "3  Problem builder",
+        "problem.py\nobjective, exactly-k rule\nQUBO and Ising form", classical)
+    box(77.5, 41, 21.5, 15.5, "4  Classical references",
+        "classical.py\nbrute force, integer programme,\nfield rule, greedy, annealing", classical)
+    box(26.5, 11.5, 47, 24.5, "5  Quantum module in Qiskit", "", quantum, edge=BLUE, bold="#184f95")
+    box(28.3, 17.5, 13.6, 12.5, "Circuit", "circuits.py\nDicke state\nRZZ cost, XY mixer", "white",
+        edge="#9ec5f4", size=7.8)
+    box(43.2, 17.5, 13.6, 12.5, "Estimator", "qaoa.py\nexpected value\nCOBYLA tunes angles", "white",
+        edge="#9ec5f4", size=7.8)
+    box(58.1, 17.5, 13.6, 12.5, "Sampler", "qaoa.py, noise.py\nmeasured plans\nnoise model", "white",
+        edge="#9ec5f4", size=7.8)
+    box(1, 11.5, 21.5, 24.5, "6  Decomposition",
+        "decompose.py\nsplit along couple links\none circuit per component\ndynamic programme\nshares out the kits",
+        classical)
+    box(77.5, 11.5, 21.5, 24.5, "7  Evaluation",
+        "evaluate.py, plots.py\nquality, chance of best plan\nvalid shots, noise sweep\ntrade-off curve\n"
+        "fixed seeds, saved results", classical)
+    box(26.5, 0.8, 47, 6.6, "8  Outputs", "", out, edge=AQUA)
+    ax.text(40.5, 4.1, "screening plan  |  results and figures  |  report and website",
+            fontsize=6.9, color=INK2, va="center", zorder=3)
+    arrow((23.1, 48.7), (26.1, 48.7))
+    arrow((48.6, 48.7), (51.6, 48.7))
+    arrow((74.1, 48.7), (77.1, 48.7))
+    arrow((62.7, 40.6), (62.7, 36.6), color=BLUE)
+    arrow((42.2, 24.5), (42.9, 24.5), color=BLUE)
+    arrow((57.1, 24.5), (57.8, 24.5), color=BLUE)
+    arrow((50, 17.1), (35.1, 17.1), color=BLUE, rad=-0.32)
+    ax.text(42.5, 12.7, "new angles", fontsize=6.4, color="#184f95", ha="center", zorder=5)
+    arrow((23.1, 23.5), (26.1, 23.5), style="<|-|>")
+    arrow((74.1, 23.5), (77.1, 23.5))
+    arrow((88.2, 40.6), (88.2, 36.6))
+    arrow((50, 11.1), (50, 8.0))
+    arrow((88.2, 11.1), (74.1, 4.1), rad=-0.25)
+    ax.text(1, 58.6, "Classical code prepares the weights, tunes the circuit and checks the answers. "
+            "The quantum circuit is the step that proposes screening plans.", fontsize=7.6, color=INK2)
     path = path or (ROOT / "report" / "architecture.png")
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path)
