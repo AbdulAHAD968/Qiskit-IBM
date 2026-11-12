@@ -34,6 +34,16 @@ Definitions. *Quality*: expected value of a measured valid plan, scaled so that 
 
 Calibration over 120 synthetic families: carrier share among testable relatives 35.5% (31% of tested relatives in Ahmed et al. 2002); both partners carriers among married couples other than the index parents 2.3%, and 26.2% when the index parents are counted (8% of all married couples in the much larger families of that study).
 
+Independent check (`python -m kinship.validate_genetics`): a Monte Carlo gene-dropping simulation with rejection sampling, which shares no code with the engine's inference, was compared with the exact values on 3 families.
+
+| Family | People | Accepted samples | Simulated families | Probabilities compared | Largest deviation (standard errors) |
+|---|---:|---:|---:|---:|---:|
+| S-16 | 22 | 40,032 | 64,500,000 | 26 | 1.74 |
+| S-01 | 15 | 30,323 | 70,500,000 | 16 | 1.58 |
+| M-01 | 35 | 30,852 | 25,500,000 | 43 | 2.89 |
+
+Over all 85 carrier and couple probabilities the largest deviation is 2.89 standard errors; 4.7% lie beyond two standard errors (about 5% expected by chance).
+
 ## 2. Is the problem trivial? Classical rules against the exact optimum
 
 50 seeded families per size.

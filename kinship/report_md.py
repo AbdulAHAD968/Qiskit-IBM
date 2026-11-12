@@ -74,6 +74,19 @@ def build() -> str:
               f"{pct(cal['couples_both_carriers_all_married'], 1)} when the index parents are counted (8% of all married "
               "couples in the much larger families of that study).", ""]
 
+    mc_path = RESULTS / "genetics_montecarlo.json"
+    if mc_path.exists():
+        mc = json.loads(mc_path.read_text(encoding="utf-8"))
+        parts += [f"Independent check (`python -m kinship.validate_genetics`): a Monte Carlo gene-dropping simulation "
+                  f"with rejection sampling, which shares no code with the engine's inference, was compared with the "
+                  f"exact values on {len(mc['cases'])} families.", "",
+                  table(["Family", "People", "Accepted samples", "Simulated families", "Probabilities compared",
+                         "Largest deviation (standard errors)"],
+                        [[c["instance"], c["people"], f"{c['accepted']:,}", f"{c['simulated']:,}", c["comparisons"],
+                          f"{c['max_abs_z']:.2f}"] for c in mc["cases"]], ["l", "r", "r", "r", "r", "r"]), "",
+                  f"Over all {mc['comparisons']} carrier and couple probabilities the largest deviation is "
+                  f"{mc['max_abs_z']:.2f} standard errors; {pct(mc['share_above_2'], 1)} lie beyond two standard errors "
+                  "(about 5% expected by chance).", ""]
     parts += ["## 2. Is the problem trivial? Classical rules against the exact optimum", "",
               f"{g1['n_instances']} seeded families per size.", ""]
     rows = []

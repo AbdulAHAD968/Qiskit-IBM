@@ -25,8 +25,9 @@ answer against the exact optimum.
 Thalassaemia major appears only when both parents are carriers. About 5% of people in Pakistan
 carry beta-thalassaemia, and in families that already have an affected child 31% of tested
 relatives were carriers, against none in control families (Ahmed et al., NEJM 2002). Screening
-teams therefore test the relatives of patients, but kits, laboratory capacity and field officers
-are limited: 48 field officers cover the 36 districts of Punjab.
+teams therefore test the relatives of patients, but field capacity is limited: 48 field officers
+cover the 36 districts of Punjab (Ahmed et al., EJHG 2022). We assume that the number of test kits
+for a visit is the binding limit.
 
 An at-risk couple can be confirmed only when **both** partners are tested, so the value of a visit sits on
 pairs of people:
@@ -94,6 +95,7 @@ or a new one with `python -m kinship.demo --seed 42 --n 9 --k 3`.
 pytest                               # 47 checks, a few seconds
 python -m kinship.evaluate all       # all experiments, about 8 minutes on 8 processes
 python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (overwrites results/)
+python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 2 minutes
 python -m kinship.plots              # results/figures/*.png and report/architecture.png
 python -m kinship.report_md          # DOCS/BENCHMARKS.md
 python -m kinship.export_web         # web/data/results.js for the website
@@ -115,7 +117,8 @@ python -m http.server 8000
 ## Results at a glance
 
 Noise-free simulation, mean over 20 families with 10 relatives and 12 families with 16 relatives.
-Quality is the expected value of a measured plan, scaled so the worst valid plan is 0 and the best is 1.
+Quality is the expected value of a measured valid plan, scaled so the worst valid plan is 0 and the
+best is 1; shots that break the kit limit are discarded first.
 
 | Method | Quality, 10 qubits | Quality, 16 qubits | Best plan per shot, 16 qubits | Valid shots, 16 qubits |
 |---|---:|---:|---:|---:|
@@ -174,12 +177,14 @@ kinship/
   report_md.py       DOCS/BENCHMARKS.md from the saved results
   export_web.py      website data from the saved results
   view.py            drawable view of a family
+  validate_genetics.py  independent Monte Carlo check of the genetics engine
   demo.py            one-command demo
 tests/               genetics values, objective and Ising mapping, circuit checks
 data/instances/      seeded S, M and L instances as JSON
 results/             raw outputs (*.json) and figures
 report/              the .docx report, its generator and the architecture diagram
-DOCS/                problem statement, benchmark report, limitations, references, video script
+DOCS/                problem statement, benchmark report, limitations, references, judge Q&A, video script
+pytest.ini           lets `pytest` find the package from the repository root
 index.html, web/     project website (static, no dependencies)
 ```
 
@@ -187,9 +192,9 @@ index.html, web/     project website (static, no dependencies)
 
 Simulator only, no real quantum processor. Synthetic families calibrated loosely to one study.
 One gene, a perfect test, one visit, and the kit budget assumed to be the binding limit. A classical
-solver wins at these sizes, and family graphs are
-sparse enough for an exact dynamic programme. Penalty QAOA barely beats random, a cheaper start
-state failed, and at 1% two-qubit error most shots are lost. Details and numbers:
+solver wins at these sizes, and family graphs are sparse enough for an exact dynamic programme.
+Penalty QAOA barely beats random, a cheaper start state failed, and at 1% two-qubit error most shots
+are lost. Details and numbers:
 [DOCS/LIMITATIONS.md](DOCS/LIMITATIONS.md).
 
 ## Credits

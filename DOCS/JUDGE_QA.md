@@ -34,7 +34,8 @@ By Mendel's rules on the family tree, given the affected child and a 5% populati
 The tree is a Bayesian network; marginals come from exact variable elimination, which also handles
 loops from cousin marriages. The engine reproduces textbook values (parents 1, unaffected sibling
 2/3, grandparent (1+q)/2 = 0.513, uncle 2/(4-q) = 0.503) and matches full enumeration of 3^10
-genotype assignments.
+genotype assignments. An independent Monte Carlo gene-dropping simulation
+(`python -m kinship.validate_genetics`) agrees with it within sampling error.
 
 **Is the data real?**
 No. Families are synthetic and seeded. Carriers among testable relatives average 36% against 31%

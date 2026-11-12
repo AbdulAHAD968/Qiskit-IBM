@@ -432,6 +432,11 @@
       ["1", "2", "3"].forEach(function (p) { evals += D.bench.M.constrained[p].evaluations.mean; });
       set("#train-evals", String(Math.round(evals / 10) * 10));
     }
+    if (D.genetics_mc) {
+      set("#mc-note", "Independent check: a Monte Carlo gene-dropping simulation, which shares no code with the engine, agrees with it on " +
+        D.genetics_mc.comparisons + " carrier and couple probabilities in " + D.genetics_mc.families +
+        " families. The largest deviation is " + D.genetics_mc.max_abs_z.toFixed(1) + " standard errors.");
+    }
     if (D.gate1 && D.gate1.summary.S.field.tie_break) {
       var ts = D.gate1.summary.S.field.tie_break, tm = D.gate1.summary.M.field.tie_break;
       set("#tie-note", "Robustness check. The field officer's rule breaks ties in carrier probability arbitrarily, and a tie at the cut-off occurs in " +

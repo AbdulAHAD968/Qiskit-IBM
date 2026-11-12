@@ -39,6 +39,8 @@ def load(name):
 
 R = {name: load(name) for name in
      ("meta", "genetics", "gate1", "benchmark", "circuits", "noise", "ablation", "tradeoff", "decomposition", "demo")}
+_mc_path = RESULTS / "genetics_montecarlo.json"
+MC = json.loads(_mc_path.read_text(encoding="utf-8")) if _mc_path.exists() else None
 if R["meta"].get("quick"):
     raise SystemExit("results/ holds a reduced --quick run. Run `python -m kinship.evaluate all` before building the report.")
 
@@ -205,6 +207,9 @@ def table(header, rows, widths, align=None, size=9, caption=None):
     t.rows[0]._tr.get_or_add_trPr().append(repeat)
     for row in rows:
         fill(t.add_row().cells, row)
+    for row in t.rows[:2]:                       # never leave a header row alone at the foot of a page
+        for cell in row.cells:
+            cell.paragraphs[0].paragraph_format.keep_with_next = True
     spacer = doc.add_paragraph()
     spacer.paragraph_format.space_after = Pt(4)
     return t
@@ -468,6 +473,12 @@ para("**Where the weights come from.** A pedigree engine (`genetics.py`) treats 
      "created by cousin marriages. Table 2 compares the engine with textbook values. The test suite also checks it "
      "against full enumeration of all 3^{10} genotype assignments on a family with a cousin marriage.",
      align="justify")
+if MC:
+    para(f"As a second, independent check, a Monte Carlo simulation that drops alleles down the tree and keeps only "
+         f"the simulated families that match the evidence (`validate_genetics.py`) was compared with the engine on "
+         f"{len(MC['cases'])} families. Over {MC['comparisons']} carrier and couple probabilities the largest deviation "
+         f"is {MC['max_abs_z']:.1f} standard errors, and {pct(MC['share_above_2'])} of them lie beyond two standard "
+         "errors, where about 5% is expected by chance.", align="justify")
 rows = []
 for c in GEN["checks"]:
     textbook = c["textbook"] + (f" (exact: {c['formula']})" if c.get("formula") else "")
@@ -568,6 +579,7 @@ table(["Module", "Role"], [
     ["`kinship/quantum/noise.py`", "Transpilation to RZ, SX, X, CZ and the Aer noise model"],
     ["`kinship/decompose.py`", "Split along the couple graph; dynamic programme over kit budgets"],
     ["`kinship/evaluate.py`, `plots.py`", "Experiment runner with fixed seeds; every figure from saved results"],
+    ["`kinship/validate_genetics.py`", "Independent Monte Carlo check of the genetics engine"],
     ["`kinship/demo.py`", "One-command demonstration on one family"],
     ["`tests/`", "47 checks: genetics values, objective, Ising mapping, circuits"],
 ], widths=[5.4, 11.0], caption="Table 5. Modules of the repository.")
