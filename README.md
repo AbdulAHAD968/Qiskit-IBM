@@ -88,6 +88,18 @@ or a new one with `python -m kinship.demo --seed 42 --n 9 --k 3`.
 
 ![One family, two plans](results/figures/fig01_pedigree_plans.png)
 
+### With Docker
+
+The image pins Python 3.11 and the versions in `requirements.txt`. By default it serves the project
+website on port 8000; the same image runs the demo and the tests.
+
+```bash
+docker build -t kinship-qaoa .
+docker run --rm -p 8000:8000 kinship-qaoa            # website at http://localhost:8000
+docker run --rm kinship-qaoa python -m kinship.demo   # one-command demo
+docker run --rm kinship-qaoa pytest                   # 47 checks
+```
+
 ## Reproduce every number
 
 ```bash
