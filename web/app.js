@@ -213,9 +213,11 @@
       c.setAttribute("pointer-events", "all");
       hover(c, function () { return "<b>Among the QAOA shots</b>" + describe(p); });
     });
-    [["field", t.field], ["relevance", t.relevance]].forEach(function (pair) {
+    var samePoint = Math.abs(t.field.carriers - t.relevance.carriers) < 1e-9 && Math.abs(t.field.couples - t.relevance.couples) < 1e-9;
+    [["field", t.field], ["relevance", t.relevance]].forEach(function (pair, order) {
       var p = pair[1], cx = X(p.carriers), cy = Y(p.couples);
-      var d = el("rect", { "class": "mk fill-" + pair[0], x: cx - 6, y: cy - 6, width: 12, height: 12, transform: "rotate(45 " + cx + " " + cy + ")" }, svg);
+      var half = samePoint ? (order === 0 ? 9 : 4.5) : 6;      // when both rules coincide, keep both markers visible
+      var d = el("rect", { "class": "mk fill-" + pair[0], x: cx - half, y: cy - half, width: 2 * half, height: 2 * half, transform: "rotate(45 " + cx + " " + cy + ")" }, svg);
       hover(d, function () { return "<b>" + NAMES[pair[0]] + "</b>" + describe(p); });
     });
     host.appendChild(svg);

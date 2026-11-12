@@ -260,14 +260,14 @@ def fig_valid() -> Path:
         for rect, v in zip(bars, mean):
             ax.text(rect.get_x() + rect.get_width() / 2, 100 * v + 1.5, f"{100 * v:.0f}%", ha="center", fontsize=8, color=INK)
     ax.axhline(100, color=BLUE, lw=2)
-    ax.text(2.62, 100, "Constrained QAOA: 100%", color=INK, va="center", fontsize=8)
+    ax.text(2.55, 102.5, "Constrained QAOA: 100% at every depth", color=INK, ha="right", va="bottom", fontsize=8)
     ax.set_xticks(xs, ["p = 1", "p = 2", "p = 3"])
-    ax.set_xlim(-0.6, 3.75)
-    ax.set_ylim(0, 112)
+    ax.set_xlim(-0.6, 2.6)
+    ax.set_ylim(0, 118)
     ax.set_ylabel("shots that use exactly k kits (%)")
     ax.set_title("Share of valid shots, noise-free")
     ax.grid(axis="x", visible=False)
-    ax.legend(loc="lower left")
+    ax.legend(loc="upper left", bbox_to_anchor=(0.0, 0.84))
     return _save(fig, "fig05_valid_shots")
 
 
@@ -308,10 +308,13 @@ def fig_tradeoff() -> Path:
             label=f"Exact trade-off front ({t['front_points']['exact']} plans)")
     ax.scatter([c["carriers"] for c in t["qaoa_front"]], [c["couples"] for c in t["qaoa_front"]], s=70, facecolors="none",
                edgecolors=BLUE, linewidths=2, zorder=4, label="Best plans among QAOA shots")
-    ax.scatter([t["field"]["carriers"]], [t["field"]["couples"]], s=60, marker="D", color=AQUA, zorder=5, edgecolors="white",
-               label=NAMES["field"])
-    ax.scatter([t["relevance"]["carriers"]], [t["relevance"]["couples"]], s=60, marker="D", color=YELLOW, zorder=5,
-               edgecolors="white", label=NAMES["relevance"])
+    same = (abs(t["field"]["carriers"] - t["relevance"]["carriers"]) < 1e-9
+            and abs(t["field"]["couples"] - t["relevance"]["couples"]) < 1e-9)
+    # When both rules land on the same point the field marker is drawn larger, so both stay visible.
+    ax.scatter([t["field"]["carriers"]], [t["field"]["couples"]], s=150 if same else 60, marker="D", color=AQUA, zorder=5,
+               edgecolors="white", label=NAMES["field"])
+    ax.scatter([t["relevance"]["carriers"]], [t["relevance"]["couples"]], s=45 if same else 60, marker="D", color=YELLOW,
+               zorder=6, edgecolors="white", label=NAMES["relevance"])
     ax.set_xlabel("relevance-weighted carriers found (expected)")
     ax.set_ylabel("at-risk couples found (expected)")
     ax.set_title(f"Couples against carriers, instance {t['instance']} ({t['n']} qubits, {t['k']} kits)")

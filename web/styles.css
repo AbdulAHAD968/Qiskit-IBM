@@ -434,3 +434,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 30px; justify-content: 
   .hero-figure .hn.pick, .hero-figure .hc, .scroll-cue i { animation: none; }
   .hero-figure .hc { stroke-dashoffset: 0; }
 }
+#bench-table td { white-space: nowrap; padding: 10px 9px; }
+#bench-table th { padding: 10px 9px; }
+#bench-table { font-size: 13.5px; }
+@media (max-width: 680px) {
+  .bar-row { grid-template-columns: 1fr 52px; row-gap: 3px; }
+  .bar-row .name { grid-column: 1 / -1; }
+}

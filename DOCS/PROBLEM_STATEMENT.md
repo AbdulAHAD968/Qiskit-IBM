@@ -15,20 +15,22 @@ large as possible.
   397 in control families, and 8% of married couples in those families were both carriers [1].
 - Relatives marry each other: 49.6% of ever-married women in the 2017-18 Demographic and
   Health Survey were married to a first cousin [3]. At-risk couples therefore cluster inside families.
-- Capacity is limited. The Punjab Thalassaemia Prevention Project covers 36 districts with 48 field
-  officers and reports low uptake of cascade testing [2]. A 2026 bill passed by the National Assembly
-  and the Senate would make screening and counselling of patients' blood relatives a duty in the
-  Islamabad Capital Territory [4].
+- Field capacity is limited. The Punjab Thalassaemia Prevention Project covers 36 districts with 48
+  field officers and reports low uptake of cascade testing [2]. A 2026 bill passed by the National
+  Assembly and the Senate would make screening and counselling of patients' blood relatives a duty
+  in the Islamabad Capital Territory [4].
+- Assumption: the number of test kits available for a visit is the binding limit. A programme would
+  have to confirm this; laboratory slots, officer time or the willingness of relatives may bind
+  instead.
 
 **Users.** Field officers planning one visit; programme managers spreading kits across families.
 
 ## Why it is an optimisation problem
 
-An at-risk couple can be confirmed only when both partners are tested. One test can rule a couple out,
-but it can never confirm one.
-The value of a plan therefore sits on pairs of people, and the pair probabilities cannot be built
-from single-person probabilities: each grandparent of an affected child is a carrier with
-probability 0.51, but both together only with probability 0.026.
+An at-risk couple can be confirmed only when both partners are tested. One test can rule a couple
+out, but it can never confirm one. The value of a plan therefore sits on pairs of people, and the
+pair probabilities cannot be built from single-person probabilities: each grandparent of an
+affected child is a carrier with probability 0.51, but both together only with probability 0.026.
 
 ## Formulation
 
@@ -71,7 +73,8 @@ All families are synthetic and seeded. No patient data is used.
 
 QAOA in Qiskit. One qubit per relative, a ZZ rotation per couple link, and a start state and mixer
 (Dicke state, XY ring mixer) that can only produce plans with exactly k kits. A penalty QAOA is the
-baseline. Brute force, an integer programme, the field officer's rule, a greedy heuristic and
-simulated annealing are the classical references.
+baseline. Brute force, an integer programme, a greedy heuristic, simulated annealing and the "field
+officer's rule" (test the k highest carrier probabilities; our stand-in for an unaided choice, not a
+documented protocol) are the classical references.
 
 References are listed in [REFERENCES.md](REFERENCES.md).

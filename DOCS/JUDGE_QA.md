@@ -9,8 +9,14 @@ close it gets to exact answers.
 
 **Did quantum beat classical?**
 No. Brute force finds the best plan instantly, and simulated annealing found it in 100% of the
-10-qubit and 92% of the 16-qubit families. Constrained QAOA beats the field officer's rule and
-random picks: quality 0.50 against 0.27 and 0.24 on 16 qubits at depth 3.
+10-qubit and 92% of the 16-qubit families. A simple greedy heuristic reaches quality 0.78 on 16
+qubits. Constrained QAOA beats the field officer's rule and random picks, not those: quality 0.50
+against 0.27 and 0.24 on 16 qubits at depth 3.
+
+**"32 times more often than random": is that a mean or a median?**
+A mean of per-family ratios at 16 qubits and depth 3. The median is 14 and the families range from
+5 to 116 times, so a few families carry the mean. At 10 qubits the mean is 12, the median 8 and the
+range 1 to 41 times.
 
 **What is new here?**
 The problem framing and the weights derived from genetics: an exact pedigree engine that turns a
@@ -79,9 +85,10 @@ are tuned on expectation values from the Estimator primitive. Remove the circuit
 samples valid plans uniformly: quality 0.24 instead of 0.50 on 16 qubits.
 
 **How do you know the mapping is correct?**
-Three tests: the Ising form equals the objective for every one of the 2^n inputs; the Estimator
+Four tests: the Ising form equals the objective for every one of the 2^n inputs; the Estimator
 energy of each basis state equals the objective; the cost layer is the diagonal matrix
-exp(-i*gamma*F) up to a global phase.
+exp(-i*gamma*F) up to a global phase and the scale factor; and a plain NumPy simulation of the whole
+ansatz, sharing no circuit code, reproduces the probabilities of the Qiskit circuit.
 
 **Is the problem hard?**
 With equal weights it is densest-k-subgraph, which is NP-hard, and the best known efficient
@@ -95,4 +102,6 @@ scores, and is meant to support a counsellor's plan for one visit.
 
 **How reproducible is it?**
 Pinned requirements, fixed seeds, saved JSON results, 57 tests, and scripts that regenerate every
-figure, the website data and the report. The full matrix takes about 8 minutes on 8 processes.
+figure, the website data and the report. The full matrix takes about 8 minutes on 8 processes. A
+second full run in a fresh clone reproduced every value; see [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
+That check was on one machine, so it says nothing about other platforms.

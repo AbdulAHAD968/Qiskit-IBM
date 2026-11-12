@@ -59,8 +59,8 @@ def build() -> str:
              "Definitions. *Quality*: expected value of a measured valid plan, scaled so that the worst valid plan is 0 "
              "and the best is 1; shots that break the kit limit are discarded first. *Best plan per shot*: probability "
              "that a single shot is an optimal plan, counted over all shots. *Valid shots*: "
-             "share of shots that use exactly k kits. *Shots for 95%*: shots needed to see an optimal plan with 95 "
-             "percent probability (median over instances).", ""]
+             "share of shots that use exactly k kits. *Shots for 95%*: shots needed to see an optimal plan with "
+             "95% probability (median over instances).", ""]
 
     parts += ["## 1. Pedigree engine against textbook values", "",
               table(["Relative of the affected child", "Textbook", "Exact formula", "Engine"],
@@ -233,6 +233,8 @@ def build() -> str:
               f"Chance that one QAOA shot is the best plan: {pct(q3['p_opt'], 1)}; random valid plan: "
               f"{pct(demo['random']['p_opt'], 2)}.", "",
               "![Worked example](../results/figures/fig01_pedigree_plans.png)", "",
+              "Share of valid shots by plan quality for the same family: QAOA moves weight towards better plans.", "",
+              "![Where the shots land](../results/figures/fig10_shot_distribution.png)", "",
               "## Reproduce", "", "```bash", "pip install -r requirements.txt",
               "python -m kinship.evaluate all      # results/*.json", "python -m kinship.plots             # results/figures/*.png",
               "python -m kinship.report_md         # this file", "python -m kinship.export_web        # website data",
