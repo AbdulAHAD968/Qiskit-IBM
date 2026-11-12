@@ -344,8 +344,8 @@
 <section id="lab" class="lab">
   <div class="wrap">
     <div class="eyebrow reveal"><b>6</b>Run the circuit</div>
-    <h2 class="reveal">Watch the circuit turn 210 equal guesses into a plan.</h2>
-    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser by a JavaScript re-implementation that is checked against the Qiskit circuit. Each bar is one valid way to spend the 4 kits, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
+    <h2 class="reveal">Watch the circuit turn <span id="lab-nplans">210</span> equal guesses into a plan.</h2>
+    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser by a JavaScript re-implementation that is checked against the Qiskit circuit. Each bar is one valid plan, a way to test exactly <span id="lab-nkits">4</span> of the relatives, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
 
     <div class="lab-shell reveal" id="lab-shell">
       <div class="lab-panel lab-plan" id="lab-plan">

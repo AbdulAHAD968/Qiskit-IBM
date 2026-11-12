@@ -225,7 +225,7 @@
     $("#lab-quality").textContent = m.quality.toFixed(3);
     var t = trained[S.p], check = $("#lab-check");
     if (!atEnd()) check.textContent = "Readouts follow the state at the highlighted step of the circuit.";
-    else if (isTrained() && t.browser) check.innerHTML = "This visit was tuned in your browser with the recipe of the Python code (a grid, then warm starts for each depth; Nelder-Mead in place of COBYLA), in " + t.evals + " circuit evaluations. For the full family the same recipe gives Qiskit's numbers exactly.";
+    else if (isTrained() && t.browser) check.innerHTML = "This visit was tuned in your browser with the recipe of the Python code (a grid, then warm starts for each depth; Nelder-Mead in place of COBYLA), in " + t.evals + " circuit evaluations. For the full family the same recipe reaches the result Qiskit found: the chance of the best plan agrees within 0.01 percentage points.";
     else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Qiskit's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
     else if (S.source === "tuned") check.innerHTML = "Tuned in your browser by Nelder-Mead in " + S.evals + " circuit evaluations: " + pct(m.ratio, 0) + " of the best value per shot. " + (t && t.browser ? "The full tuning recipe" : "Qiskit's COBYLA") + " reached " + pct(t ? t.ratio : NaN, 0) + " at this depth.";
     else check.textContent = "Your angles. The " + (t && t.browser ? "tuned" : "Qiskit") + " angles give " + pct(t ? t.p_opt : NaN, 2) + " for depth " + S.p + ".";
@@ -304,7 +304,7 @@
       var txy = toLand(t.angles[0], t.angles[p], w, h);
       ctx.strokeStyle = "#f2b33d"; ctx.lineWidth = 2; ctx.beginPath();
       ctx.moveTo(txy[0], txy[1] - 7); ctx.lineTo(txy[0] + 7, txy[1]); ctx.lineTo(txy[0], txy[1] + 7); ctx.lineTo(txy[0] - 7, txy[1]); ctx.closePath(); ctx.stroke();
-      ctx.fillStyle = "#f2b33d"; ctx.textAlign = "left"; ctx.fillText("Qiskit", txy[0] + 10, txy[1] + 4);
+      ctx.fillStyle = "#f2b33d"; ctx.textAlign = "left"; ctx.fillText(t.browser ? "tuned" : "Qiskit", txy[0] + 10, txy[1] + 4);
     }
     var xy = toLand(S.angles[0], S.angles[p], w, h);
     ctx.fillStyle = "#fff"; ctx.strokeStyle = "#06111f"; ctx.lineWidth = 2.5;
@@ -577,9 +577,18 @@
     V.avail = D.candidates.map(function (c, q) { return q; }); V.k = D.k; reconfigure();
   });
 
+  /** Numbers in the heading and labels that depend on the visit. */
+  function paintVisitText() {
+    var plans = $("#lab-nplans"), kits = $("#lab-nkits");
+    if (plans) plans.textContent = N.toLocaleString("en-US");
+    if (kits) kits.textContent = sim.k;
+    ampCanvas.setAttribute("aria-label", "Amplitude of each of the " + N.toLocaleString("en-US") + " valid plans");
+  }
+
   function reconfigure() {
     stopAll(); S.interacted = true; hideTip();
     loadInstance();
+    paintVisitText();
     S.angles = trained[S.p].angles.slice(); S.source = V.custom ? "browser" : "qiskit";
     S.path = []; S.op = ops(S.p).length - 1; S.frac = 1; S.tally = new Map(); S.shots = 0;
     buildBits(); resetTally(); buildStages(); buildSliders(); computeLandscape(); update();
@@ -605,7 +614,7 @@
   }
   function fieldRule() {
     var idx = V.avail.map(function (q, i) { return i; });
-    idx.sort(function (a, b) { return problem.p[b] - problem.p[a] || a - b; });
+    idx.sort(function (a, b) { var d = problem.p[b] - problem.p[a]; return (Math.abs(d) > 1e-9 ? d : 0) || a - b; });
     return idx.slice(0, sim.k).reduce(function (m, i) { return m | (1 << i); }, 0);
   }
   function exactPlan() {
@@ -704,6 +713,7 @@
   // ---------------------------------------------------------------- start
   buildBits();
   buildTree();
+  paintVisitText();
   setDepth(3);
   S.op = 0; S.frac = 1; update();
   renderPlan(); renderCompare();

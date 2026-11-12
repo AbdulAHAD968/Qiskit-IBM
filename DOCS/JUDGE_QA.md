@@ -98,11 +98,14 @@ exp(-i*gamma*F) up to a global phase and the scale factor; and a plain NumPy sim
 ansatz, sharing no circuit code, reproduces the probabilities of the Qiskit circuit.
 
 **Is the live circuit on the website Qiskit?**
-No. A browser cannot run Qiskit, so `web/qaoa-sim.js` re-implements the constrained circuit in
-JavaScript inside the 210 valid plans of the demonstration family. `python -m kinship.validate_web_sim`
-runs that file under Node.js and compares it with the Qiskit circuit: at trained and random angles
-for depths 1 to 3 every plan probability agrees to within 1e-15. Every number in the report comes
-from the Qiskit code.
+No. A browser cannot run Qiskit, so `web/qaoa-sim.js` re-implements both circuits in JavaScript:
+the constrained one inside the 210 valid plans of the demonstration family, the penalty one on all
+1,024 bitstrings. `python -m kinship.validate_web_sim` runs that file under Node.js and compares it
+with the Qiskit circuits: at trained and random angles for depths 1 to 3 every outcome probability
+agrees to within 1e-15. When a visitor marks relatives as absent or changes the kits, the page tunes
+the angles itself with the recipe of the Python code (Nelder-Mead in place of COBYLA); on the full
+family that recipe reaches Qiskit's result within 0.01 percentage points. Every number in the
+report comes from the Qiskit code.
 
 **Is the problem hard?**
 With equal weights it is densest-k-subgraph, which is NP-hard, and the best known efficient

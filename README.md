@@ -123,7 +123,7 @@ pytest                               # 57 checks, a few seconds
 python -m kinship.evaluate all       # all experiments, about 8 minutes on 8 processes
 python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (overwrites results/)
 python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 1 minute
-python -m kinship.validate_web_sim   # the website's in-browser simulator against the Qiskit circuit (needs Node.js)
+python -m kinship.validate_web_sim   # the website's in-browser simulator against the Qiskit circuits (needs Node.js)
 python -m kinship.compare_runs DIR   # compare results/ with the results folder DIR of another run
 python -m kinship.plots              # results/figures/*.png and report/architecture.png
 python -m kinship.report_md          # DOCS/BENCHMARKS.md
@@ -211,7 +211,7 @@ kinship/
   view.py            drawable view of a family
   validate_genetics.py  independent Monte Carlo check of the genetics engine
   compare_runs.py    compares the result files of two runs, ignoring timing fields
-  validate_web_sim.py   checks the website's in-browser simulator against the Qiskit circuit
+  validate_web_sim.py   checks the website's in-browser simulator against the Qiskit circuits
   demo.py            one-command demo
 tests/               genetics values, objective and Ising mapping, circuits, decomposition
 data/instances/      seeded S, M and L instances as JSON
@@ -220,7 +220,7 @@ report/              the .docx report, its generator and the architecture diagra
 DOCS/                problem statement, benchmark report, limitations, references, judge Q&A, video script
 pytest.ini           lets `pytest` find the package from the repository root
 Dockerfile           container image: serves the website, runs the demo and the tests
-index.html, web/     project website (static, no dependencies); web/qaoa-sim.js runs the circuit in the browser
+index.html, web/     project website (static, no dependencies); web/qaoa-sim.js runs both circuits in the browser
 ```
 
 ## Limitations in short

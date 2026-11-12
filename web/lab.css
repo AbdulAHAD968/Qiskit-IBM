@@ -227,4 +227,11 @@ td a { overflow-wrap: anywhere; }
 .cmp-kv dd { margin: 0; font-weight: 700; text-align: right; color: var(--lab-ink); font-variant-numeric: tabular-nums; }
 #lab-compare .read-check { margin-top: 14px; }
 @media (max-width: 760px) { .cmp-grid { grid-template-columns: 1fr; } }
+/* On phones the tree keeps a size that can be read and tapped, and scrolls sideways inside its panel. */
+@media (max-width: 560px) {
+  .lab-plan { grid-template-columns: minmax(0, 1fr); }
+  .plan-tree { min-width: 0; }
+  #plan-svg { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 6px; }
+  #plan-svg svg { width: 520px; max-width: none; }
+}
 @media (prefers-reduced-motion: reduce) { .cmp-bar i { transition: none; } }
