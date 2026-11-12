@@ -8,6 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c2140'/%3E%3Cpath d='M9 10h14M16 10v7M9 17h14M9 17v5M23 17v5' stroke='%2386b6ef' stroke-width='2' fill='none'/%3E%3Ccircle cx='9' cy='23' r='3' fill='%232a78d6'/%3E%3Ccircle cx='23' cy='23' r='3' fill='%232a78d6'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="web/styles.css">
 <link rel="stylesheet" href="web/lab.css">
+<link rel="stylesheet" href="web/motion.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -46,12 +47,10 @@
       <h1 class="reveal" style="--d:.08s">One home visit.<br>Four test kits.<br><span>Which relatives do we test?</span></h1>
       <p class="lede reveal" style="--d:.16s">A planning tool for beta-thalassaemia cascade screening in Pakistan. It picks the relatives whose tests are expected to reveal the most at-risk couples, using a QAOA circuit in Qiskit that cannot break the kit limit, and it checks every answer against the exact optimum.</p>
       <div class="cta reveal" style="--d:.24s">
-        <a class="btn btn-primary" href="#results">
+        <a class="btn btn-primary" href="#lab">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Plan a visit live</a>
+        <a class="btn btn-ghost" href="#results">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>See the results</a>
-        <a class="btn btn-ghost" href="#lab">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Run the circuit</a>
-        <a class="btn btn-ghost" href="#demo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h12M12 4v6M6 10h12M6 10v6M18 10v6"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></svg>Try the family tree</a>
         <a class="btn btn-ghost" href="https://github.com/AbdulAHAD968/Qiskit-IBM" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>Code on GitHub</a>
       </div>
@@ -643,5 +642,9 @@ pytest                            <span class="c"># 57 checks</span></pre>
 <script src="web/app.js"></script>
 <script src="web/qaoa-sim.js"></script>
 <script src="web/lab.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
+<script src="web/motion.js" defer></script>
 </body>
 </html>

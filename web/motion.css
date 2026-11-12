@@ -1,0 +1,35 @@
+/* Styles that only apply when web/motion.js is running (html.has-motion). */
+html.has-motion { scroll-behavior: auto; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+
+/* The hero stays put while the first panel slides over it. */
+.has-motion .hero { position: sticky; top: 0; z-index: 0; }
+.has-motion main > section { position: relative; z-index: 1; }
+.has-motion main > section:not(.tint):not(.lab) { background: var(--bg); }
+.has-motion .over-hero {
+  border-radius: 30px 30px 0 0; margin-top: -30px;
+  box-shadow: 0 -24px 60px rgba(6, 17, 31, 0.35);
+}
+.has-motion .hero .wrap { transform-origin: 50% 30%; will-change: transform, opacity; }
+
+/* Formula terms get an ink line that is drawn as you read. */
+.ink-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat; background-position: 0 100%; background-size: 0% 3px;
+  padding-bottom: 4px;
+}
+
+/* The false 26% is struck through by scroll. */
+.strike-live { position: relative; display: inline-block; }
+.strike-bar {
+  position: absolute; left: -4%; right: -4%; top: 52%; height: 4px; border-radius: 2px;
+  background: var(--c-penalty); transform-origin: 0 50%; transform: scaleX(0);
+}
+
+/* Circuit playhead. */
+#circuit .playhead { stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; opacity: 0.85; filter: drop-shadow(0 0 6px var(--accent)); }
+
+/* The lab rises like a sheet. */
+.has-motion #lab-shell { transform-origin: 50% 0; will-change: transform; }
