@@ -271,7 +271,31 @@ def build() -> str:
               "![Worked example](../results/figures/fig01_pedigree_plans.png)", "",
               "Share of valid shots by plan quality for the same family: QAOA moves weight towards better plans.", "",
               "![Where the shots land](../results/figures/fig10_shot_distribution.png)", "",
-              "## Reproduce", "", "```bash", "pip install -r requirements.txt",
+              ]
+    from .export_web import other_platform_summary
+
+    other = other_platform_summary()
+    if other and "M" in other and "S" in other:
+        mine = {size: next(r for r in bench["summary"] if r["size"] == size and r["method"] == "constrained"
+                           and r["p"] == other["depth"]) for size in ("S", "M")}
+        rows = []
+        for size, qubits in (("S", 10), ("M", 16)):
+            m, o = mine[size], other[size]
+            rows += [[f"Quality, {qubits} qubits", f"{m['quality']['mean']:.3f}", f"{o['quality']:.3f}"],
+                     [f"Best plan per shot, {qubits} qubits", small(m["p_opt"]["mean"]), small(o["p_opt"])],
+                     [f"Gain over random, mean, {qubits} qubits", f"{m['p_opt_gain']['mean']:.1f}", f"{o['gain_mean']:.1f}"],
+                     [f"Gain over random, median, {qubits} qubits", f"{m['p_opt_gain']['median']:.1f}",
+                      f"{o['gain_median']:.1f}"]]
+        parts += ["## Another platform", "",
+                  f"The same code was run once in the Docker image (Linux). Classical results, gate counts and QAOA "
+                  f"depths below {other['depth']} are identical; {other['runs_differ']} of {other['runs']} constrained "
+                  f"runs, at depth " + ", ".join(str(d) for d in other["depths_differ"]) + ", end at different angles "
+                  "because the optimiser often stops at its iteration limit. Constrained QAOA at depth "
+                  f"{other['depth']}:", "",
+                  table(["Number", "Committed run (Windows)", "Docker run (Linux)"], rows, ["l", "r", "r"]), "",
+                  "Full account: [REPRODUCIBILITY.md](REPRODUCIBILITY.md). The container's files are in "
+                  "`results/linux_container/`.", ""]
+    parts += ["## Reproduce", "", "```bash", "pip install -r requirements.txt",
               "python -m kinship.evaluate all      # results/*.json", "python -m kinship.plots             # results/figures/*.png",
               "python -m kinship.report_md         # this file", "python -m kinship.export_web        # website data",
               "python report/build_report.py       # the .docx report", "```", ""]

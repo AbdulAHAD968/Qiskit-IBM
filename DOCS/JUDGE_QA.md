@@ -16,7 +16,9 @@ against 0.27 and 0.24 on 16 qubits at depth 3.
 **"32 times more often than random": is that a mean or a median?**
 A mean of per-family ratios at 16 qubits and depth 3. The median is 14 and the families range from
 5 to 116 times, so a few families carry the mean. At 10 qubits the mean is 12, the median 8 and the
-range 1 to 41 times.
+range 1 to 41 times. The mean also depends on the platform: the same code in a Linux container gave
+24 instead of 32 at 16 qubits, with the same median of 14, because many depth-3 runs stop at the
+optimiser's iteration limit.
 
 **Does a deeper circuit always help?**
 For expected value, yes in our runs: quality did not fall from one depth to the next in any family,
@@ -120,5 +122,7 @@ scores, and is meant to support a counsellor's plan for one visit.
 **How reproducible is it?**
 Pinned requirements, fixed seeds, saved JSON results, 57 tests, and scripts that regenerate every
 figure, the website data and the report. The full matrix takes about 8 minutes on 8 processes. A
-second full run in a fresh clone reproduced every value; see [REPRODUCIBILITY.md](REPRODUCIBILITY.md).
-That check was on one machine, so it says nothing about other platforms.
+second full run in a fresh clone on the same machine reproduced every value. A run in the Docker
+image (Linux) reproduced the classical results, the gate counts and QAOA depths 1 and 2, but 13 of
+96 depth-3 runs ended at different angles, which moves some averages. The numbers that move are
+listed in [REPRODUCIBILITY.md](REPRODUCIBILITY.md).

@@ -44,7 +44,8 @@ probability, `r_i` = relevance. Full statement: [DOCS/PROBLEM_STATEMENT.md](DOCS
 ## Quick start
 
 Python 3.11 or later is needed (the pinned packages do not support older versions). Everything was
-tested with Python 3.11.0 on Windows.
+developed and run with Python 3.11.0 on Windows. The Docker image (Linux, Python 3.11.18) passes the
+same tests and prints the same demo.
 
 Windows:
 
@@ -116,6 +117,10 @@ docker run --rm kinship-qaoa python -m kinship.demo   # one-command demo
 docker run --rm kinship-qaoa pytest                   # 57 checks
 ```
 
+We built and ran the image once: the 57 tests pass and the demo prints the same plan. A full
+experiment run inside it gives the same conclusions but not identical depth-3 numbers; see
+[DOCS/REPRODUCIBILITY.md](DOCS/REPRODUCIBILITY.md).
+
 ## Reproduce every number
 
 ```bash
@@ -133,8 +138,12 @@ python report/build_report.py        # report/Kinship_QAOA_Report.docx
 
 Seeds are fixed and versions are pinned in `requirements.txt` (Qiskit 2.6.2, Qiskit Aer 0.18.2).
 The committed `results/*.json` files are what `python -m kinship.evaluate all` produces. A second
-full run in a fresh clone reproduced every value in them, timing fields aside; the check is recorded
-in [DOCS/REPRODUCIBILITY.md](DOCS/REPRODUCIBILITY.md). The `--quick` run is only a smoke test:
+full run in a fresh clone on the same machine reproduced every value in them, timing fields aside.
+A run in the Docker image (Linux) reproduced the classical results, the gate counts and QAOA depths
+1 and 2, but 13 of 96 depth-3 runs ended at different angles, because the optimiser often stops at
+its iteration limit there. That moves some averages: the mean gain at 16 qubits is 32 here and 24
+there, with a median of 14 in both. Both checks, and the container's result files, are described in
+[DOCS/REPRODUCIBILITY.md](DOCS/REPRODUCIBILITY.md). The `--quick` run is only a smoke test:
 it overwrites `results/` with a reduced matrix, so run the full matrix again before regenerating the
 figures, the website data or the report.
 
@@ -163,7 +172,8 @@ best is 1; shots that break the kit limit are discarded first.
   50 seeded families, also when every tie in carrier probability is broken in its favour.
 - Family by family, constrained QAOA makes one shot the best plan on average 12 times (10 qubits)
   and 32 times (16 qubits) more often than a random valid pick; the medians are 8 and 14 times. It
-  never breaks the kit limit.
+  never breaks the kit limit. The means rest on a few families and on the platform: a Linux
+  container gave 12 and 24, with medians of 8.5 and 14.
 - Networks of 48 relatives and 12 kits are solved to the proven optimum with circuits of at most
   9 qubits, by splitting along the couple graph. The pieces are small enough for sampling to find
   each optimum easily, so this shows a scaling route, not an advantage.
@@ -215,12 +225,13 @@ kinship/
   demo.py            one-command demo
 tests/               genetics values, objective and Ising mapping, circuits, decomposition
 data/instances/      seeded S, M and L instances as JSON
-results/             raw outputs (*.json) and figures
+results/             raw outputs (*.json) and figures; linux_container/ holds the run made in the Docker image
 report/              the .docx report, its generator and the architecture diagram
 DOCS/                problem statement, benchmark report, limitations, references, judge Q&A, video script
 pytest.ini           lets `pytest` find the package from the repository root
 Dockerfile           container image: serves the website, runs the demo and the tests
-index.html, web/     project website (static, no dependencies); web/qaoa-sim.js runs both circuits in the browser
+index.html, web/     project website (static files); web/qaoa-sim.js runs both circuits in the browser,
+                     web/motion.js adds optional scroll effects (GSAP and Lenis from a CDN)
 ```
 
 ## Limitations in short
@@ -247,8 +258,10 @@ All code in this repository was written for this project; the circuits were writ
 papers and no tutorial code was copied. The live circuit on the website is our own JavaScript
 re-implementation, checked against the Qiskit circuit; its angle tuner implements the Nelder-Mead
 simplex method and its shot sampler uses the public-domain mulberry32 generator (Tommy Ettinger,
-2017). An AI coding assistant was used to help write code and draft text; every number is produced
-by running the code in this repository.
+2017). The website's scroll effects use two libraries loaded from the jsDelivr CDN, GSAP 3.12.5 with
+ScrollTrigger (GreenSock, standard licence) and Lenis 1.1.13 (darkroom.engineering, MIT licence);
+the page works without them. An AI coding assistant was used to help write code and draft text;
+every number is produced by running the code in this repository.
 Full reference list: [DOCS/REFERENCES.md](DOCS/REFERENCES.md).
 
 ## Licence

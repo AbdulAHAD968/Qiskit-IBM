@@ -42,12 +42,31 @@ R = {name: load(name) for name in
      ("meta", "genetics", "gate1", "benchmark", "circuits", "noise", "ablation", "tradeoff", "decomposition", "demo")}
 _mc_path = RESULTS / "genetics_montecarlo.json"
 MC = json.loads(_mc_path.read_text(encoding="utf-8")) if _mc_path.exists() else None
+_other_path = RESULTS / "linux_container" / "benchmark.json"
+OTHER = json.loads(_other_path.read_text(encoding="utf-8")) if _other_path.exists() else None
 if R["meta"].get("quick"):
     raise SystemExit("results/ holds a reduced --quick run. Run `python -m kinship.evaluate all` before building the report.")
 
 
 def bench(size, method, p=None):
     return next(r for r in R["benchmark"]["summary"] if r["size"] == size and r["method"] == method and r["p"] == p)
+
+
+def other_platform():
+    """How the run kept in results/linux_container differs from the committed one (None if absent)."""
+    if OTHER is None:
+        return None
+
+    def runs(b):
+        return {(inst["name"], r["method"], r["p"]): r for inst in b["instances"] for r in inst["qaoa"]}
+
+    a, b = runs(R["benchmark"]), runs(OTHER)
+    keys = [key for key in a if key[1] == "constrained" and key in b]
+    differ = [key for key in keys if abs(a[key]["expectation"] - b[key]["expectation"]) > 1e-6 * abs(a[key]["expectation"])]
+    depth = max(R["benchmark"]["config"]["depths"])
+    row = {size: next(r for r in OTHER["summary"] if r["size"] == size and r["method"] == "constrained" and r["p"] == depth)
+           for size in ("S", "M")}
+    return {"runs": len(keys), "differ": len(differ), "depths": sorted({key[2] for key in differ}), "row": row}
 
 
 def circ(size, method, p, line=False):
@@ -624,7 +643,8 @@ code(["pip install -r requirements.txt",
 para(f"**Reproducibility.** Versions are pinned, seeds are fixed, raw results are saved as JSON, and the figures, the "
      f"website data and this report are generated from those files by scripts. The full experiment matrix took "
      f"{total_seconds / 60:.0f} minutes on {META['workers']} processes of a laptop, and a second full run in a fresh "
-     "clone of the repository reproduced every value in the result files. **Interpretable output.** The demo "
+     "clone on the same machine reproduced every value in the result files. A run in a Linux container did not "
+     "reproduce every depth-3 number (section 6). **Interpretable output.** The demo "
      "prints the plan in plain language, names the relatives to test, reports the expected number of at-risk couples "
      "found and its percentage of the best plan, and draws the family tree with the chosen relatives highlighted "
      "(section 5.3).", align="justify")
@@ -685,6 +705,7 @@ table(["Size", "Method", "p", "Quality", "Best plan per shot", "Valid shots", "S
               "Quality: 0 = worst valid plan, 1 = best, computed over valid shots. Best plan per shot: counted over "
               "all shots. Shots for 95%: shots needed to see the best plan with 95% probability (median).")
 DEPTH_S, DEPTH_M = depth_effect("S"), depth_effect("M")
+PLAT = other_platform()
 assert DEPTH_S["quality_falls"] == 0 and DEPTH_M["quality_falls"] == 0, "the depth sentence in section 5.2 needs rewording"
 para(f"On average constrained QAOA improves with depth on both sizes (Figures 3 and 4). At depth 3 its quality is "
      f"{cS3['quality']['mean']:.2f} on 10 qubits and {cM3['quality']['mean']:.2f} on 16 qubits, against "
@@ -693,7 +714,10 @@ para(f"On average constrained QAOA improves with depth on both sizes (Figures 3 
      f"shot is the best plan rises to {pct_small(cS3['p_opt']['mean'])} and {pct_small(cM3['p_opt']['mean'])}. Family "
      f"by family that is on average {cS3['p_opt_gain']['mean']:.0f} and {cM3['p_opt_gain']['mean']:.0f} times the "
      f"chance of a random valid pick, with medians of {cS3['p_opt_gain']['median']:.0f} and "
-     f"{cM3['p_opt_gain']['median']:.0f} times, so a few families carry the mean. Quality did not fall with "
+     f"{cM3['p_opt_gain']['median']:.0f} times, so a few families carry the mean"
+     + (f" (it also moves with the platform: {PLAT['row']['M']['p_opt_gain']['mean']:.0f} at 16 qubits in a Linux "
+        f"container, median {PLAT['row']['M']['p_opt_gain']['median']:.0f})" if PLAT else "")
+     + ". Quality did not fall with "
      f"depth in any family, but the chance of the best plan did: from depth {DEPTH_S['from']} to depth "
      f"{DEPTH_S['to']} it falls in {DEPTH_S['p_opt_falls']} of the {DEPTH_S['families']} ten-qubit families and "
      f"{DEPTH_M['p_opt_falls']} of the {DEPTH_M['families']} sixteen-qubit families (10-qubit median "
@@ -834,6 +858,15 @@ bullets([
     f"**Simulator only, generic noise.** No real quantum processor was used. The noise model is a uniform depolarising "
     f"model with all-to-all connectivity; on a line of qubits the depth-1 circuit grows from "
     f"{circ('S', 'constrained', 1)['two_qubit']} to {circ('S', 'constrained', 1, line=True)['two_qubit']} CZ gates.",
+    *([f"**Depth-3 numbers depend on the platform.** Many depth-3 runs stop at the optimiser's limit of "
+        f"{R['benchmark']['config']['maxiter']} iterations per start, before the angles have converged. The same code in a "
+        f"Linux container ended at different angles in {PLAT['differ']} of the {PLAT['runs']} constrained runs, all at depth "
+        f"{', '.join(str(d) for d in PLAT['depths'])}: the mean gain at 16 qubits is "
+        f"{PLAT['row']['M']['p_opt_gain']['mean']:.0f} there against {cM3['p_opt_gain']['mean']:.0f} here (median "
+        f"{PLAT['row']['M']['p_opt_gain']['median']:.0f} in both) and the chance of the best plan "
+        f"{pct_small(PLAT['row']['M']['p_opt']['mean'])} against {pct_small(cM3['p_opt']['mean'])}. The shallower depths, "
+        "the classical results and the gate counts are identical. The numbers in this report are those of the committed "
+        "run (DOCS/REPRODUCIBILITY.md)."] if PLAT else []),
     "**Sampling flatters small instances.** With 4,096 shots and only 210 or 4,368 valid plans, even uniform sampling "
     "usually contains the best plan. We therefore report the chance per shot and the expected quality, not the best of "
     "all shots.",
@@ -870,7 +903,8 @@ para("**Methods.** The constrained QAOA design (Dicke start state, XY mixer) fol
      "follows [6]; the parity-ordered ring mixer follows [9]; the INTERP warm start follows [10]; the trade-off sweep "
      "borrows the idea of [11]. The circuits were written from the papers and no tutorial code was copied into the "
      "repository. The live circuit on the website is our own JavaScript re-implementation, checked against the Qiskit "
-     "circuit; its shot sampler uses the public-domain mulberry32 generator (T. Ettinger, 2017).", align="justify")
+     "circuit; its shot sampler uses the public-domain mulberry32 generator (T. Ettinger, 2017), and its scroll "
+     "effects use the GSAP and Lenis libraries, loaded from a CDN.", align="justify")
 para("**AI assistance.** An AI coding assistant was used to help write code and draft text. Every number in this "
      "report is produced by running the code in the repository.", align="justify")
 references = [

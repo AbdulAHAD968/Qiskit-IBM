@@ -56,6 +56,13 @@ cannot break the kit limit, and a comparison against exact answers.
     relatives tie. Ties are broken by index. Breaking them the other way changes greedy's result in
     17 and 13 of the 50 families per size, by up to 54% of the best value, and its mean from 85% to
     89% (10 relatives) and from 84% to 79% (16 relatives).
+16. **Depth-3 numbers depend on the platform.** Many depth-3 runs stop at the optimiser's limit of
+    150 iterations per start, before the angles have converged. The same code in a Linux container
+    ended at different angles in 13 of the 96 constrained runs, all at depth 3. The mean gain at 16
+    qubits is 32 in the committed run and 24 there (median 14 in both); the chance of the best plan
+    per shot is 0.98% against 0.68%. Depths 1 and 2, every classical result and every gate count are
+    identical. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md). A larger iteration budget would be the
+    fix; we did not rerun with one.
 
 ## What did not work
 

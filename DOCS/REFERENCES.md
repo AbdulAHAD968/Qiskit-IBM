@@ -65,6 +65,8 @@
 | Matplotlib | 3.11.2 | figures |
 | python-docx | 1.2.0 | report generation |
 | pytest | 9.2.0 | tests |
+| GSAP with ScrollTrigger | 3.12.5 | scroll effects on the website; loaded from the jsDelivr CDN, GreenSock standard licence |
+| Lenis | 1.1.13 | smooth scrolling on the website; loaded from the jsDelivr CDN, MIT licence (darkroom.engineering) |
 
 ## Code credits
 
@@ -76,7 +78,8 @@ constrained circuit, checked against Qiskit by `python -m kinship.validate_web_s
 pieces are used on that page: the Nelder-Mead simplex method (Nelder JA, Mead R. A simplex method
 for function minimization. Comput J. 1965;7(4):308-313), implemented here, and the mulberry32
 pseudo-random generator (Tommy Ettinger, 2017, dedicated to the public domain), which draws the
-shots.
+shots. The scroll effects in `web/motion.js` call the GSAP and Lenis libraries listed above. Those
+libraries are not copied into the repository, and the page works without them.
 
 AI assistance: an AI coding assistant was used to help write code and draft text. Every number in
 the report and on the website is produced by running the code in this repository.

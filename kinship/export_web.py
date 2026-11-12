@@ -30,6 +30,32 @@ def _round(obj, digits: int = 5):
     return obj
 
 
+def other_platform_summary() -> dict | None:
+    """How the run kept in results/linux_container differs from the committed one (None if absent)."""
+    other_path = RESULTS / "linux_container" / "benchmark.json"
+    mine = _load("benchmark")
+    if mine is None or not other_path.exists():
+        return None
+    other = json.loads(other_path.read_text(encoding="utf-8"))
+
+    def runs(bench):
+        return {(inst["name"], r["method"], r["p"]): r for inst in bench["instances"] for r in inst["qaoa"]}
+
+    a, b = runs(mine), runs(other)
+    keys = [key for key in a if key[1] == "constrained" and key in b]
+    differ = [key for key in keys if abs(a[key]["expectation"] - b[key]["expectation"]) > 1e-6 * abs(a[key]["expectation"])]
+    depth = max(mine["config"]["depths"])
+    out = {"name": "Linux container", "runs": len(keys), "runs_differ": len(differ),
+           "depths_differ": sorted({key[2] for key in differ}), "depth": depth}
+    for size in ("S", "M"):
+        row = next((r for r in other["summary"] if r["size"] == size and r["method"] == "constrained" and r["p"] == depth), None)
+        if row:
+            out[size] = {"quality": row["quality"]["mean"], "p_opt": row["p_opt"]["mean"],
+                         "gain_mean": row["p_opt_gain"]["mean"], "gain_median": row["p_opt_gain"]["median"],
+                         "gain_max": row["p_opt_gain"]["max"]}
+    return out
+
+
 def build() -> dict:
     data: dict = {"meta": _load("meta") or {}}
     genetics = _load("genetics")
@@ -81,6 +107,9 @@ def build() -> dict:
     decomposition = _load("decomposition")
     if decomposition:
         data["decomposition"] = {k: v for k, v in decomposition.items() if k != "cells"}
+    other = other_platform_summary()
+    if other:
+        data["other_platform"] = other
     data = _round(data)
     demo = _load("demo")
     if demo:

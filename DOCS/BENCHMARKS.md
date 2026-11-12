@@ -228,6 +228,23 @@ Share of valid shots by plan quality for the same family: QAOA moves weight towa
 
 ![Where the shots land](../results/figures/fig10_shot_distribution.png)
 
+## Another platform
+
+The same code was run once in the Docker image (Linux). Classical results, gate counts and QAOA depths below 3 are identical; 13 of 96 constrained runs, at depth 3, end at different angles because the optimiser often stops at its iteration limit. Constrained QAOA at depth 3:
+
+| Number | Committed run (Windows) | Docker run (Linux) |
+|---|---:|---:|
+| Quality, 10 qubits | 0.624 | 0.629 |
+| Best plan per shot, 10 qubits | 5.9% | 5.8% |
+| Gain over random, mean, 10 qubits | 12.1 | 11.9 |
+| Gain over random, median, 10 qubits | 8.2 | 8.5 |
+| Quality, 16 qubits | 0.504 | 0.501 |
+| Best plan per shot, 16 qubits | 0.98% | 0.68% |
+| Gain over random, mean, 16 qubits | 32.4 | 24.5 |
+| Gain over random, median, 16 qubits | 14.4 | 14.4 |
+
+Full account: [REPRODUCIBILITY.md](REPRODUCIBILITY.md). The container's files are in `results/linux_container/`.
+
 ## Reproduce
 
 ```bash
