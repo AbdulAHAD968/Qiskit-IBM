@@ -279,3 +279,20 @@ details.more.note > summary::before { width: 16px; height: 16px; font-size: 12px
   .feed-names { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .feed-row.enter { animation: none; } }
+
+/* Limits and team */
+#limits .grid { align-items: stretch; }
+#limits .card.clamp { display: flex; flex-direction: column; padding: 24px 26px; }
+#limits .card.clamp h3 { font-size: 23px; margin-bottom: 10px; }
+#limits .card.clamp p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin: 0; }
+#limits .card.clamp.open p { display: block; -webkit-line-clamp: unset; overflow: visible; }
+#limits .more-btn { margin-top: auto; padding-top: 12px; align-self: flex-start; background: none; border: 0; cursor: pointer; font: 500 13px/1 var(--font); color: var(--accent); }
+#limits .more-btn:hover { text-decoration: underline; }
+#limits .grid > .card.limit:first-child { grid-column: 1 / -1; border-left-width: 4px; }
+#limits .grid > .card.limit:first-child h3 { font-size: clamp(28px, 3vw, 40px); }
+#limits .grid > .card.limit:first-child p { -webkit-line-clamp: 2; font-size: 16.5px; max-width: 70em; }
+#ethics .card.clamp, #ethics .card { border-left: 0; }
+#team .member { background: var(--surface); padding: 20px 22px; }
+#team .avatar { width: 52px; height: 52px; font-size: 22px; background: var(--bg); }
+#team pre { margin-top: 6px; }
+#team pre { font-size: 12.5px; white-space: pre-wrap; overflow-x: visible; }

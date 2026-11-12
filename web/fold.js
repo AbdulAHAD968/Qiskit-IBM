@@ -27,15 +27,21 @@
   if (table) fold([table.closest(".card")], "Show the full results table");
   fold([q("#team .refs")], "Show the references");
 
-  // Each limitation shows its title; the explanation opens on demand.
+  // Each limitation shows its title and the start of its explanation; the rest opens on demand.
   $$("#limits .card").forEach(function (card) {
-    var h = card.querySelector("h3");
-    if (!h) return;
-    var d = document.createElement("details"), s = document.createElement("summary");
-    d.className = "card limit-fold " + card.className.replace(/\breveal\b/, "");
-    s.innerHTML = h.innerHTML;
-    d.appendChild(s);
-    Array.prototype.slice.call(card.childNodes).forEach(function (n) { if (n !== h) d.appendChild(n); });
-    card.parentNode.replaceChild(d, card);
+    var p = card.querySelector("p");
+    if (!card.querySelector("h3") || !p) return;
+    card.classList.add("clamp");
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "more-btn";
+    b.textContent = "Read more";
+    b.setAttribute("aria-expanded", "false");
+    b.addEventListener("click", function () {
+      var open = card.classList.toggle("open");
+      b.textContent = open ? "Show less" : "Read more";
+      b.setAttribute("aria-expanded", String(open));
+    });
+    card.appendChild(b);
   });
 })();
