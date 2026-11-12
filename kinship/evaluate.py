@@ -1,6 +1,6 @@
 """Experiment runner. Every number in the report and on the website comes from here.
 
-    python -m kinship.evaluate all            full matrix (about 10 minutes on 12 cores)
+    python -m kinship.evaluate all            full matrix (about 8 minutes on 8 processes)
     python -m kinship.evaluate all --quick    reduced matrix for a fast check (about 2 minutes)
     python -m kinship.evaluate benchmark      one experiment only
 
@@ -142,9 +142,9 @@ def exp_genetics(n_cal: int = 60, workers: int = 8, **_) -> dict:
          "computed": m_u.carrier_prob(3), "formula": "2 / (4 - q)"},
         {"relation": "First cousin", "textbook": "about 1/4", "expected": None,
          "computed": m_t.carrier_prob(7)},
-        {"relation": "Married-in spouse", "textbook": "population rate", "expected": None,
+        {"relation": "Married-in spouse", "textbook": "about the population rate, 0.05", "expected": None,
          "computed": m_t.carrier_prob(6)},
-        {"relation": "Member of a family with no affected child", "textbook": "population rate",
+        {"relation": "Member of a family with no affected child", "textbook": "about the population rate, 0.05",
          "expected": None, "computed": m_c.carrier_prob(2)},
         {"relation": "Both grandparents carriers (joint)", "textbook": "not a product", "expected": q,
          "computed": m_g.both_carriers(0, 1), "formula": "q",
@@ -205,6 +205,7 @@ def _gate1_task(args):
             "couple_share_of_optimum": prob.couples_found(best_x) / table.best,
             "field_tie": bool(tie), "field_best_tie_ratio": tie_best / table.best,
             "field_worst_tie_ratio": tie_worst / table.best,
+            "greedy_other_tie_ratio": prob.value(greedy(prob, last_on_tie=True)) / table.best,
             **{f"{k}_ratio": v["ratio"] for k, v in cl.items()},
             **{f"{k}_optimal": v.get("optimal") for k, v in cl.items() if "optimal" in v}}
 
@@ -230,6 +231,13 @@ def exp_gate1(n_instances: int = 50, workers: int = 8, **_) -> dict:
             "best_ratio": _stats([r["field_best_tie_ratio"] for r in sub]),
             "worst_ratio": _stats([r["field_worst_tie_ratio"] for r in sub]),
             "best_miss_rate": float(np.mean([r["field_best_tie_ratio"] < 1 - 1e-9 for r in sub])),
+        }
+        # Greedy breaks ties by index as well. Record what the opposite convention would give.
+        change = [abs(r["greedy_ratio"] - r["greedy_other_tie_ratio"]) for r in sub]
+        summ["greedy"]["tie_break"] = {
+            "other_ratio": _stats([r["greedy_other_tie_ratio"] for r in sub]),
+            "families_changed": int(sum(c > 1e-9 for c in change)),
+            "largest_change": float(max(change)),
         }
         out["summary"][size] = summ
     save("gate1", out)

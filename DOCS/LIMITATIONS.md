@@ -12,12 +12,12 @@ cannot break the kit limit, and a comparison against exact answers.
 1. **A classical solver wins at these sizes.** Brute force gives the exact answer for the 10- and
    16-qubit instances in milliseconds. Simulated annealing found the best plan in 100% of the
    10-qubit and 92% of the 16-qubit benchmark families.
-2. **Family graphs are sparse.** The couple graph splits into small connected components: 3.7 people
-   on average for 10 relatives (at most 8) and 5.2 for 16 relatives (at most 9). An exact dynamic
-   programme over those components solves the problem, so worst-case hardness results for
+2. **Family graphs are sparse.** The couple graph splits into small connected components: the largest
+   one has 3.7 people on average for 10 relatives (at most 8) and 5.2 for 16 relatives (at most 9).
+   An exact dynamic programme over those components solves the problem, so worst-case hardness results for
    densest-k-subgraph do not apply to these instances. A denser match graph would be harder.
 3. **Expected quality is modest.** At depth 3 constrained QAOA reaches quality 0.62 on 10 qubits and
-   0.50 on 16 qubits. A classical greedy heuristic reaches 0.86 and 0.74. QAOA beats the field
+   0.50 on 16 qubits. A classical greedy heuristic reaches 0.86 and 0.78. QAOA beats the field
    officer's rule (0.42 and 0.27) and random valid plans (0.31 and 0.24), not the stronger heuristics.
 4. **Sampling flatters small instances.** With 4,096 shots and only 210 or 4,368 valid plans, even
    uniform sampling usually contains the best plan. We report the chance per shot and the expected
@@ -36,7 +36,9 @@ cannot break the kit limit, and a comparison against exact answers.
 10. **Assumed weights.** The relevance weights, the 0.5 first-cousin marriage rate shared among
     eligible cousins, and lambda = 0.05 are our assumptions. They were not reviewed by a practitioner.
 11. **One visit only.** The model chooses everyone before any result is known. Real programmes may
-    test one partner first and the other only if the first is a carrier.
+    test one partner first and the other only if the first is a carrier. The objective counts
+    confirmed at-risk couples only; the reassurance from one negative test, which rules a couple
+    out, is not valued.
 12. **The trade-off result is one instance.** It is an illustration, not a general claim.
 13. **The hybrid loop is expensive.** Tuning the angles for one 16-qubit family took about 670
     expectation evaluations, each of which would itself need thousands of shots on a real device,
@@ -47,16 +49,20 @@ cannot break the kit limit, and a comparison against exact answers.
     protocol. Its poor result does not depend on tie-breaking: with every tie in carrier
     probability broken in its favour it reaches 48% and 38% of the best value and still misses the
     best plan in 98% and 100% of families.
+15. **Greedy depends on tie-breaking.** Its first pick sees no couple yet, so genetically identical
+    relatives tie. Ties are broken by index. Breaking them the other way changes greedy's result in
+    17 and 13 of the 50 families per size, by up to 54% of the best value, and its mean from 85% to
+    89% (10 relatives) and from 84% to 79% (16 relatives).
 
 ## What did not work
 
 | Attempt | Result |
 |---|---|
 | Penalty QAOA (standard mixer, penalty term) | Quality of valid shots 0.34 and 0.26 at depth 3, against 0.31 and 0.24 for a random valid plan. 14% and 39% of shots break the kit limit at depth 3; 49% and 62% at depth 1. |
-| Starting constrained QAOA from the field officer's plan instead of the Dicke state | Needs only k X gates, but at depth 3 the chance of the best plan was 0.10% against 5.2% for the Dicke start. The ring mixer cannot spread one basis state far in three layers. |
-| Splitting linked families family by family | Cut the couple links that cross families and lost about a third of the value on the first network we tried. Replaced by the exact split along connected components of the couple graph. |
+| Starting constrained QAOA from the field officer's plan instead of the Dicke state | Needs only k X gates, but at depth 3 the chance of the best plan was 0.096% against 5.2% for the Dicke start. The ring mixer cannot spread one basis state far in three layers. |
+| Splitting linked families family by family (development note, not in the saved results) | Cut the couple links that cross families and lost about a third of the value on the first network we tried. Replaced by the exact split along connected components of the couple graph. |
 | Constrained QAOA under noise | The Dicke start state alone needs 144 CZ gates on 10 qubits. At 1% two-qubit error only 37% of shots still use exactly k kits, and the chance of the best plan falls to the random level (0.57% against 0.56%). |
-| Trade-off curve on the first instance we tried | The exact front had only three plans and QAOA sampling was no better than random sampling. We then fixed a selection rule (largest exact front) and report that instance, stating the rule. |
+| Trade-off curve on the first instance we tried, M-00 (development note, not in the saved results) | The exact front had only three plans and QAOA sampling was no better than random sampling. We then fixed a selection rule (largest exact front) and report that instance, stating the rule. |
 
 ## Ethics
 

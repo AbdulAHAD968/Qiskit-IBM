@@ -394,7 +394,7 @@
     var table = $("#bench-table"), rows = D.bench_rows;
     if (!table || !rows) return;
     table.innerHTML = "<tr><th>Size</th><th>Method</th><th class='r'>Depth</th><th class='r'>Quality</th><th class='r'>Value / optimum</th>" +
-      "<th class='r'>Best plan per shot</th><th class='r'>Valid shots</th><th class='r'>Shots for 95%</th><th class='r'>Finds the best plan</th></tr>";
+      "<th class='r'>Best plan per shot</th><th class='r'>Valid shots</th><th class='r'>Shots for 95%</th><th class='r'>Returns the best plan</th></tr>";
     var order = ["random", "field", "relevance", "greedy", "annealing", "constrained", "penalty"];
     ["S", "M"].forEach(function (size) {
       order.forEach(function (method) {
@@ -442,7 +442,11 @@
       set("#tie-note", "Robustness check. The field officer's rule breaks ties in carrier probability arbitrarily, and a tie at the cut-off occurs in " +
         ts.families_with_tie + " and " + tm.families_with_tie + " of the " + D.gate1.n_instances + " families. Even with every tie broken in its favour it reaches only " +
         F.pct0(ts.best_ratio.mean) + " and " + F.pct0(tm.best_ratio.mean) + " of the best value and misses the best plan in " +
-        F.pct0(ts.best_miss_rate) + " and " + F.pct0(tm.best_miss_rate) + " of the families.");
+        F.pct0(ts.best_miss_rate) + " and " + F.pct0(tm.best_miss_rate) + " of the families." +
+        (D.gate1.summary.S.greedy.tie_break ? " Greedy is more fragile: breaking its ties the other way changes its result in " +
+          D.gate1.summary.S.greedy.tie_break.families_changed + " and " + D.gate1.summary.M.greedy.tie_break.families_changed +
+          " families, by up to " + F.pct0(Math.max(D.gate1.summary.S.greedy.tie_break.largest_change, D.gate1.summary.M.greedy.tie_break.largest_change)) +
+          " of the best value." : ""));
     }
     if (D.ablation) {
       var pick = function (init) { return D.ablation.summary.filter(function (r) { return r.initial === init && r.p === 3; })[0]; };

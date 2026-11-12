@@ -195,7 +195,8 @@ def counts_metrics(counts: dict[int, int], problem: ScreeningProblem, table: Fea
                     "best_ratio": None, "p_opt": 0.0, "top": []})
         return out
     mean_valid = sum(lookup[m] * c for m, c in valid.items()) / n_valid
-    best_mask = max(valid, key=lambda m: lookup[m])
+    best_value = max(lookup[m] for m in valid)
+    best_mask = min(m for m in valid if lookup[m] >= best_value - 1e-12)      # deterministic among equal plans
     opt_hits = sum(c for m, c in valid.items() if lookup[m] >= table.best - 1e-12)
     top = sorted(valid.items(), key=lambda kv: -kv[1])[:8]
     out.update({

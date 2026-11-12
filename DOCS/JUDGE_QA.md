@@ -15,7 +15,7 @@ random picks: quality 0.50 against 0.27 and 0.24 on 16 qubits at depth 3.
 **What is new here?**
 The problem framing and the weights derived from genetics: an exact pedigree engine that turns a
 family tree into pair weights. The constrained QAOA method is borrowed from Cook, Eidenbenz and
-Baertschi and credited. We found no earlier quantum work on cascade screening; two searches cannot
+Bärtschi and credited. We found no earlier quantum work on cascade screening; two searches cannot
 prove there is none.
 
 **Why not simply test the closest relatives?**
@@ -24,6 +24,11 @@ best plan in 98% of 10-relative families and 100% of 16-relative families, and r
 of the best value. Breaking every tie in carrier probability in the rule's favour does not rescue
 it: 48% and 38%, with the same miss rates. The rule is our stand-in for an unaided choice, not a
 documented programme protocol.
+
+**Why does a single negative test earn nothing in your objective?**
+The objective counts confirmed at-risk couples, and confirming one needs both tests. A single
+negative test does rule a couple out, which has real value, but valuing it belongs to the
+step-by-step model where one result updates the next choice. We list that as a limitation.
 
 **Why not test one partner first and the other only if positive?**
 That is sensible when results return quickly. Our model covers the single-visit case. Step-by-step
@@ -47,7 +52,7 @@ swaps a one with a zero. A test confirms no probability leaves the valid plans. 
 some shots break this, so we discard them and report how many survive.
 
 **How is the Dicke state built?**
-From gates, with the deterministic scheme of Baertschi and Eidenbenz: order k*n gates and no helper
+From gates, with the deterministic scheme of Bärtschi and Eidenbenz: order k*n gates and no helper
 qubits. Qiskit 2.6 has no built-in version. It costs 144 CZ gates for 10 qubits and 4 kits, and 330
 for 16 qubits and 5 kits, after transpilation.
 
@@ -89,5 +94,5 @@ It can be. The tool uses synthetic data, treats consent as an input, publishes n
 scores, and is meant to support a counsellor's plan for one visit.
 
 **How reproducible is it?**
-Pinned requirements, fixed seeds, saved JSON results, 47 tests, and scripts that regenerate every
+Pinned requirements, fixed seeds, saved JSON results, 57 tests, and scripts that regenerate every
 figure, the website data and the report. The full matrix takes about 8 minutes on 8 processes.

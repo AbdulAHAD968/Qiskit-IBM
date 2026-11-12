@@ -98,3 +98,16 @@ def test_tie_break_range_brackets_the_field_rule():
         value = prob.value(field_rule(prob))
         assert worst - 1e-12 <= value <= best + 1e-12
         assert best <= feasible_table(prob).best + 1e-12
+
+
+def test_ties_are_broken_by_index_not_by_rounding_noise():
+    """Two identical relatives may differ in the last floating-point bit; that must not decide a plan."""
+    from kinship.problem import ScreeningProblem
+
+    two_thirds = 2.0 / 3.0
+    p = np.array([0.2, two_thirds, np.nextafter(two_thirds, 1.0), 0.1])     # index 2 is one ulp larger
+    prob = ScreeningProblem(name="toy", n=4, k=1, lam=1.0, p=p, r=np.ones(4), edges=[], w=np.array([]),
+                            c=np.array([]), kinds=[], labels=list("abcd"), person_ids=[0, 1, 2, 3])
+    assert field_rule(prob).tolist() == [0, 1, 0, 0]
+    assert relevance_rule(prob).tolist() == [0, 1, 0, 0]
+    assert greedy(prob).tolist() == [0, 1, 0, 0]

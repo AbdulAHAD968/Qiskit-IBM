@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-12T13:34:54+00:00",
+ "generated": "2026-11-12T14:53:18+00:00",
  "package": "1.0.0",
  "quick": false,
  "workers": 8,
@@ -32,12 +32,12 @@
  "seconds": {
   "genetics": 1.6,
   "gate1": 3.5,
-  "benchmark": 352.0,
-  "circuits": 3.3,
-  "ablation": 25.0,
-  "noise": 53.8,
-  "tradeoff": 39.8,
-  "decomposition": 17.3,
+  "benchmark": 330.9,
+  "circuits": 3.1,
+  "ablation": 23.3,
+  "noise": 51.3,
+  "tradeoff": 37.4,
+  "decomposition": 17.0,
   "demo": 1.5
  },
  "hardware": "simulator only (Qiskit Aer); no real quantum processor was used"

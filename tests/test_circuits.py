@@ -120,3 +120,63 @@ def test_training_beats_random_and_warm_start_never_loses(small):
     run2 = d2.train(warm=np.array(run1.angles), maxiter=60)
     assert run2.expectation >= run1.expectation - 1e-8
     assert len(interp_start(np.array(run1.angles))) == 4
+
+
+def test_constrained_circuit_matches_an_independent_simulation(small):
+    """Simulate the ansatz with plain NumPy, sharing no circuit code, and compare the probabilities.
+
+    This catches a wrong parameter order, a missing factor of two in an angle,
+    a sign error in the cost layer and a wrong order of the mixer gates.
+    """
+    n, k = small.n, small.k
+    gamma, beta = 0.7, 0.45
+    qubo = small.qubo()
+    a, b, const = qubo.ising()
+    coefs = np.array([*a, *b.values()])
+    coefs = coefs[np.abs(coefs) > 1e-12]
+    scale = np.sqrt(np.mean(coefs ** 2))
+    idx = np.arange(1 << n)
+    weight = np.array([bin(i).count("1") for i in idx])
+    state = (weight == k).astype(complex) / np.sqrt(comb(n, k))                     # Dicke state
+    state = state * np.exp(-1j * gamma * (qubo.all_values() - const) / scale)        # cost layer
+    pairs = [(i, i + 1) for i in range(0, n - 1, 2)] + [(i, i + 1) for i in range(1, n - 1, 2)] + [(n - 1, 0)]
+    for qa, qb in pairs:                                                             # XY ring mixer, gate by gate
+        differ = ((idx >> qa) & 1) != ((idx >> qb) & 1)
+        partner = idx ^ ((1 << qa) | (1 << qb))
+        new = state.copy()
+        new[differ] = np.cos(beta) * state[differ] - 1j * np.sin(beta) * state[partner[differ]]
+        state = new
+    engine = QAOA(small, "constrained", reps=1)
+    assert engine.probabilities(np.array([gamma, beta])) == pytest.approx(np.abs(state) ** 2, abs=1e-9)
+
+
+def test_sampled_plans_follow_the_exact_distribution(small):
+    engine = QAOA(small, "constrained", reps=1)
+    theta = np.array([0.6, 0.9])
+    shots = 20000
+    probs = engine.probabilities(theta)
+    empirical = np.zeros_like(probs)
+    for mask, count in engine.sample(theta, shots=shots, seed=3).items():
+        empirical[mask] = count / shots
+    distance = 0.5 * np.abs(empirical - probs).sum()
+    assert distance < 0.05
+    # reading the bits in the wrong order would not match
+    flipped = np.array([int(format(i, f"0{small.n}b")[::-1], 2) for i in range(1 << small.n)])
+    assert 0.5 * np.abs(empirical[flipped] - probs).sum() > 3 * distance
+
+
+def test_interp_start_matches_the_published_rule():
+    assert interp_start(np.array([0.4, 0.9])) == pytest.approx([0.4, 0.4, 0.9, 0.9])
+    assert interp_start(np.array([0.2, 0.6, 1.0, 0.5])) == pytest.approx([0.2, 0.4, 0.6, 1.0, 0.75, 0.5])
+
+
+def test_noise_free_hardware_circuit_keeps_the_kit_limit_and_noise_breaks_it(small):
+    from kinship.quantum.noise import make_noise_model, noisy_counts
+
+    engine = QAOA(small, "constrained", reps=1)
+    logical = engine.bound_logical(np.array([0.6, 0.9]))
+    assert make_noise_model(0.0) is None
+    clean = noisy_counts(logical, 0.0, shots=500, seed=1)
+    assert all(bin(mask).count("1") == small.k for mask in clean)
+    noisy = noisy_counts(logical, 0.02, shots=2000, seed=1)
+    assert any(bin(mask).count("1") != small.k for mask in noisy)
