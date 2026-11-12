@@ -42,7 +42,7 @@ probability, `r_i` = relevance. Full statement: [DOCS/PROBLEM_STATEMENT.md](DOCS
 
 ## Quick start
 
-Python 3.10 to 3.13.
+Python 3.11 or later (3.11.0 was used; the pinned packages need at least 3.11).
 
 ```bash
 git clone https://github.com/AbdulAHAD968/Qiskit-IBM.git

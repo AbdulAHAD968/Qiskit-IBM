@@ -1,5 +1,5 @@
 # Pinned versions used to produce every number in results/ and in the report.
-# Python 3.11 was used; Python 3.10 to 3.13 should work with these pins.
+# Python 3.11.0 was used. These pins need Python 3.11 or later.
 qiskit==2.6.2
 qiskit-aer==0.18.2
 numpy==2.4.6

@@ -563,7 +563,7 @@ table(["Module", "Role"], [
     ["`kinship/demo.py`", "One-command demonstration on one family"],
     ["`tests/`", "46 checks: genetics values, objective, Ising mapping, circuits"],
 ], widths=[5.4, 11.0], caption="Table 5. Modules of the repository.")
-para("**How to run.** With Python 3.10 or later:", after=3)
+para("**How to run.** With Python 3.11 or later:", after=3)
 code(["pip install -r requirements.txt",
       "python -m kinship.demo            # one family, one plan, about 20 seconds",
       "python -m kinship.evaluate all    # every number in this report",
