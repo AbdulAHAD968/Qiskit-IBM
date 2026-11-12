@@ -38,13 +38,14 @@
     scenes.push(Object.assign({ el: el, cv: cv, ctx: cv ? cv.getContext("2d") : null, top: 0, h: 0, p: 0, tp: 0, W: 0, H: 0,
       dirty: true, steps: $$(".beat", el), cache: null }, def));
   }
-  function measure() {
+  function measure(reset) {
     var y = window.scrollY, d = Math.min(window.devicePixelRatio || 1, 2);
     scenes.forEach(function (s) {
       var r = s.el.getBoundingClientRect();
       s.top = r.top + y; s.h = r.height;
       if (s.cv) {
         var st = s.cv.parentElement, W = st.clientWidth, H = st.clientHeight;
+        if (reset) s.cache = null;
         if (W !== s.W || H !== s.H) {
           s.W = W; s.H = H; s.cv.width = W * d; s.cv.height = H * d;
           s.ctx.setTransform(d, 0, 0, d, 0, 0); s.cache = null; s.dirty = true;
@@ -92,7 +93,17 @@
     live: true,
     build: function (W, H) {
       var m = narrow();
-      var R = m ? { x: 22, y: H * 0.4, w: W - 44, h: H * 0.27 } : { x: W * 0.14, y: H * 0.385, w: W * 0.72, h: H * 0.29 };
+      // Fit the tree between the title and the captions as they are laid out on this screen.
+      var stage = $("#hero .stage"), ttl = $("#hero .ttl"), low = $("#hero .lower");
+      var top = H * 0.385, bottom = H * 0.675;
+      if (stage && ttl && low) {
+        var sr = stage.getBoundingClientRect();
+        top = ttl.getBoundingClientRect().bottom - sr.top + (m ? 34 : 46);
+        bottom = low.getBoundingClientRect().top - sr.top - (m ? 70 : 96);   // room for the match curves and the verdict
+      }
+      var h = Math.max(90, bottom - top);
+      var w = m ? W - 44 : Math.min(W * 0.72, Math.max(560, h * 4.2));
+      var R = { x: (W - w) / 2, y: top, w: w, h: h };
       var pos = {};
       people.forEach(function (p) { pos[p.id] = { x: R.x + p.x * R.w, y: R.y + (p.y / gens) * R.h }; });
       return { R: R, pos: pos, s: Math.max(7, Math.min(15, R.w / 62)) };
@@ -282,9 +293,9 @@
 
   // ----------------------------------------------------------------- start
   var rz;
-  window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { measure(); force = true; }, 120); });
-  window.addEventListener("load", function () { measure(); force = true; });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(); force = true; });
+  window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { measure(true); force = true; }, 120); });
+  window.addEventListener("load", function () { measure(true); force = true; });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { measure(true); force = true; });
   measure();
   requestAnimationFrame(frame);
   // Layout above a scene can change after charts render; re-measure now and then.

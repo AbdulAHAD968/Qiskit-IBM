@@ -1,0 +1,146 @@
+- generic [active] [ref=f7e1]:
+  - status
+  - banner [ref=f7e2]:
+    - generic [ref=f7e3]:
+      - link "Kinship Screening with QAOA" [ref=f7e4] [cursor=pointer]:
+        - /url: "#/"
+        - text: Kinship QAOA
+      - navigation "Sections" [ref=f7e11]:
+        - link "Overview" [ref=f7e12] [cursor=pointer]:
+          - /url: "#/"
+        - link "Plan a visit" [ref=f7e13] [cursor=pointer]:
+          - /url: "#/plan"
+        - link "Results" [ref=f7e14] [cursor=pointer]:
+          - /url: "#/results"
+        - link "How it works" [ref=f7e15] [cursor=pointer]:
+          - /url: "#/method"
+        - link "Limits and team" [ref=f7e16] [cursor=pointer]:
+          - /url: "#/about"
+  - main [ref=f7e17]:
+    - region "Kinship screening with QAOA" [ref=f7e18]:
+      - generic [ref=f7e19] [cursor=pointer]:
+        - generic:
+          - heading "Kinship" [level=1]
+          - paragraph: Planning thalassaemia cascade screening in Pakistan with a quantum circuit that cannot break the kit limit
+        - generic [ref=f7e21]:
+          - generic [ref=f7e22]:
+            - paragraph [ref=f7e23]: One child is diagnosed. Four kits for the family. Who gets tested?
+            - generic [ref=f7e24]:
+              - link "Plan a visit live" [ref=f7e25]:
+                - /url: "#/plan"
+              - link "See the results" [ref=f7e26]:
+                - /url: "#/results"
+              - link "Code on GitHub" [ref=f7e27]:
+                - /url: https://github.com/AbdulAHAD968/Qiskit-IBM
+            - paragraph [ref=f7e28]: A synthetic family, S-16. No patient data is used anywhere.
+          - generic:
+            - paragraph: Every relative has a carrier probability, computed exactly from the family tree.
+          - generic:
+            - paragraph: The obvious rule tests the most likely carriers. It confirms no couple at all.
+          - generic:
+            - paragraph: The circuit tests couples instead. Its measured plan is the exact optimum.
+    - generic [ref=f7e30]:
+      - generic [ref=f7e31]: The problem in Pakistan
+      - heading "Thalassaemia runs in families. Test kits and field visits do not stretch that far." [level=2] [ref=f7e32]
+      - paragraph [ref=f7e33]: A child gets thalassaemia major only when both parents are carriers, so screening starts from the relatives of a patient.
+      - generic [ref=f7e34]:
+        - generic [ref=f7e35]:
+          - generic [ref=f7e36]: 0%
+          - generic [ref=f7e37]:
+            - text: of people in Pakistan carry beta-thalassaemia
+            - superscript [ref=f7e38]:
+              - link "1" [ref=f7e39] [cursor=pointer]:
+                - /url: "#ref1"
+        - generic [ref=f7e40]:
+          - generic [ref=f7e41]: "0"
+          - generic [ref=f7e42]:
+            - text: children born with thalassaemia major each year, an estimate
+            - superscript [ref=f7e43]:
+              - link "1" [ref=f7e44] [cursor=pointer]:
+                - /url: "#ref1"
+        - generic [ref=f7e45]:
+          - generic [ref=f7e46]: 0%
+          - generic [ref=f7e47]:
+            - text: of tested relatives in families with an affected child were carriers, against 0 of 397 in control families
+            - superscript [ref=f7e48]:
+              - link "1" [ref=f7e49] [cursor=pointer]:
+                - /url: "#ref1"
+        - generic [ref=f7e50]:
+          - generic [ref=f7e51]: 0%
+          - generic [ref=f7e52]:
+            - text: of ever-married women are married to a first cousin
+            - superscript [ref=f7e53]:
+              - link "3" [ref=f7e54] [cursor=pointer]:
+                - /url: "#ref3"
+      - group [ref=f7e55]:
+        - generic "+ Show the sources and who it serves" [ref=f7e56] [cursor=pointer]
+    - generic [ref=f7e58]:
+      - generic [ref=f7e59]: Why it is an optimisation problem
+      - heading "The value sits on couples, not on individuals." [level=2] [ref=f7e60]
+      - paragraph [ref=f7e61]: A couple's risk is known only when both partners are tested, so the value of a plan sits on pairs.
+      - generic [ref=f7e62]:
+        - generic [ref=f7e63]:
+          - img [aria-hidden] [ref=f7e64]:
+            - generic [ref=f7e68]: tested
+            - generic [ref=f7e69]: not tested
+          - generic [ref=f7e70]: One kit used. No at-risk couple can be confirmed.
+        - generic [ref=f7e71]:
+          - img [aria-hidden] [ref=f7e72]:
+            - generic [ref=f7e77]: tested
+            - generic [ref=f7e78]: tested
+          - generic [ref=f7e79]: Two kits used. At-risk couple found with probability w.
+      - generic [ref=f7e80]:
+        - generic [ref=f7e81]:
+          - heading "Pair risk is not a product of single risks" [level=3] [ref=f7e82]
+          - paragraph [ref=f7e83]: The father of an affected child is a carrier, so almost surely exactly one of his own parents is. Each grandparent alone is a carrier with probability 51%, yet both together only with probability 2.6%.
+          - generic [ref=f7e84]:
+            - generic [ref=f7e85]:
+              - generic [ref=f7e86]: 2.6%
+              - generic [ref=f7e87]: exact joint probability from the pedigree engine
+            - generic [ref=f7e88]:
+              - generic [ref=f7e89]: 26%
+              - generic [ref=f7e90]: what multiplying the two single probabilities would give
+        - generic [ref=f7e91]:
+          - heading "The simple rule misses the best plan" [level=3] [ref=f7e92]
+          - paragraph [ref=f7e93]: On 50 seeded families with 10 relatives and 4 kits, "test the highest carrier probabilities" missed the best plan in 98% of them.
+          - generic [ref=f7e94]:
+            - generic [ref=f7e95]:
+              - generic [ref=f7e96]: 45%
+              - generic [ref=f7e97]: of the best plan's value, on average, with 10 relatives
+            - generic [ref=f7e98]:
+              - generic [ref=f7e99]: 35%
+              - generic [ref=f7e100]: with 16 relatives and 5 kits
+    - text: + +
+    - region "The circuit, step by step" [ref=f7e101]:
+      - generic [ref=f7e102] [cursor=pointer]:
+        - generic [ref=f7e104]:
+          - generic [ref=f7e105]:
+            - generic [ref=f7e106]: The circuit, as you scroll
+            - heading "210 plans, all equally likely" [level=2] [ref=f7e107]
+            - paragraph [ref=f7e108]: "Ten qubits, one per relative, start in the Dicke state: every way to spend exactly four kits, with the same amplitude. Each bar is one plan, from the worst on the left to the best on the right."
+          - generic:
+            - generic: Cost layer
+            - heading "The phase turns, the heights stay" [level=2]
+            - paragraph: One ZZ rotation per couple link and one Z rotation per relative. No plan becomes more likely yet. Each one's phase turns by an amount set by its value, so the colours fan out from worst to best.
+          - generic:
+            - generic: Mixer
+            - heading "Phase becomes probability" [level=2]
+            - paragraph: XX+YY rotations swap a tested and an untested relative, so plans one swap apart interfere. Good plans grow and bad ones shrink, and the number of kits never changes.
+          - generic:
+            - generic: Layers two and three
+            - heading "Each layer sharpens the plan" [level=2]
+            - paragraph: The same two steps repeat with their own angles, tuned by COBYLA on the Qiskit Estimator. Watch the chance of the best plan rise from 0.48% at the start.
+          - generic:
+            - generic: Measurement
+            - heading "One shot in twelve is the best plan" [level=2]
+            - paragraph: After three layers a single shot is the best plan 8.31% of the time, 17 times a random pick, and every shot uses exactly four kits. The best of the measured plans goes to the field officer.
+        - paragraph [ref=f7e109]: Exact simulation of the depth-3 Qiskit circuit in your browser, with the trained angles. It matches Qiskit to 1e-16.
+    - generic [ref=f7e111]:
+      - generic [ref=f7e112]: Next
+      - link "Plan a visit" [ref=f7e113] [cursor=pointer]:
+        - /url: "#/plan"
+    - text: + + + + + + + + + + + + + + +
+  - contentinfo [ref=f7e114]:
+    - generic [ref=f7e115]:
+      - generic [ref=f7e116]: Kinship Screening with QAOA · Qiskit Fall Fest 2026 Hackathon · Healthcare domain
+      - generic [ref=f7e117]: Synthetic data only. Simulator only. No speedup is claimed.
