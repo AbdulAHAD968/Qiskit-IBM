@@ -26,10 +26,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="web/styles.css?v=20261112f">
-<link rel="stylesheet" href="web/lab.css?v=20261112f">
-<link rel="stylesheet" href="web/motion.css?v=20261112f">
-<link rel="stylesheet" href="web/theme.css?v=20261112f">
+<link rel="stylesheet" href="web/styles.css?v=20261112h">
+<link rel="stylesheet" href="web/lab.css?v=20261112h">
+<link rel="stylesheet" href="web/motion.css?v=20261112h">
+<link rel="stylesheet" href="web/theme.css?v=20261112h">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -384,8 +384,11 @@
     <div class="lab-shell reveal" id="lab-shell">
       <div class="lab-panel lab-plan" id="lab-plan">
         <div class="plan-tree">
-          <h3>Plan today's visit</h3>
-          <p class="lab-sub">Tap anyone who is not at home or declines the test, and set the number of kits. The circuit is tuned again for this visit and measured, right here.</p>
+          <ol class="plan-steps">
+            <li><b>1</b><span>Tap anyone who is not at home or declines</span></li>
+            <li><b>2</b><span>Choose how many kits you have</span></li>
+            <li><b>3</b><span>Read the plan: who to test, and why</span></li>
+          </ol>
           <div id="plan-svg"></div>
           <div class="plan-legend">
             <span><i class="lg tested"></i>tested in this plan</span>
@@ -401,6 +404,7 @@
             <output class="num" id="kit-count">4</output>
             <button type="button" class="lab-btn kit-step" id="kit-plus" aria-label="One kit more">+</button>
           </div>
+          <div class="plan-status" id="plan-status"><span>The plan below is the best of 4,096 shots from the circuit.</span><i></i></div>
           <div class="plan-cards" id="plan-cards" aria-live="polite"></div>
           <button type="button" class="lab-btn quiet" id="plan-restore">Restore the full family and 4 kits</button>
         </div>
@@ -678,18 +682,18 @@ pytest                            <span class="c"># 57 checks</span></pre>
   </div>
 </footer>
 
-<script src="web/data/results.js?v=20261112f"></script>
-<script src="web/fold.js?v=20261112f"></script>
-<script src="web/app.js?v=20261112f"></script>
-<script src="web/dash.js?v=20261112f"></script>
-<script src="web/qaoa-sim.js?v=20261112f"></script>
-<script src="web/lab.js?v=20261112f"></script>
-<script src="web/scenes.js?v=20261112f"></script>
-<script src="web/feed.js?v=20261112f"></script>
-<script src="web/router.js?v=20261112f"></script>
+<script src="web/data/results.js?v=20261112h"></script>
+<script src="web/fold.js?v=20261112h"></script>
+<script src="web/app.js?v=20261112h"></script>
+<script src="web/dash.js?v=20261112h"></script>
+<script src="web/qaoa-sim.js?v=20261112h"></script>
+<script src="web/lab.js?v=20261112h"></script>
+<script src="web/scenes.js?v=20261112h"></script>
+<script src="web/feed.js?v=20261112h"></script>
+<script src="web/router.js?v=20261112h"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>
-<script src="web/motion.js?v=20261112f" defer></script>
+<script src="web/motion.js?v=20261112h" defer></script>
 </body>
 </html>

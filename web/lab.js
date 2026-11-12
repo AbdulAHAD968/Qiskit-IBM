@@ -585,8 +585,28 @@
     ampCanvas.setAttribute("aria-label", "Amplitude of each of the " + N.toLocaleString("en-US") + " valid plans");
   }
 
+  var statusEl = $("#plan-status");
+  function setStatus(text, k) {
+    if (!statusEl) return;
+    statusEl.querySelector("span").textContent = text;
+    statusEl.querySelector("i").style.width = k + "%";
+    statusEl.classList.toggle("busy", k < 100);
+  }
+  // Show what happens on every change: the circuit is tuned again, then measured.
   function reconfigure() {
     stopAll(); S.interacted = true; hideTip();
+    setStatus("Tuning the circuit for this visit\u2026", 35);
+    $("#plan-cards").classList.add("dim");
+    setTimeout(function () {
+      replan();
+      setStatus("Measuring 4,096 shots\u2026", 80);
+      setTimeout(function () {
+        setStatus("Done. The plan below is the best of 4,096 shots from the circuit.", 100);
+        $("#plan-cards").classList.remove("dim");
+      }, reduce ? 0 : 280);
+    }, reduce ? 0 : 60);
+  }
+  function replan() {
     loadInstance();
     paintVisitText();
     S.angles = trained[S.p].angles.slice(); S.source = V.custom ? "browser" : "qiskit";
@@ -640,14 +660,18 @@
     Array.prototype.forEach.call(planSvg.querySelectorAll(".t-node[data-q]"), function (g) {
       var qq = +g.dataset.q, away = V.avail.indexOf(qq) < 0;
       g.classList.toggle("away", away);
-      g.classList.toggle("tested", picked.indexOf(qq) >= 0);
+      var isT = picked.indexOf(qq) >= 0, wasT = g.classList.contains("tested");
+      g.classList.toggle("tested", isT);
+      if (isT && !wasT && !reduce) { g.classList.remove("pop"); void g.getBoundingClientRect(); g.classList.add("pop"); }
       g.setAttribute("aria-pressed", String(!away));
       g.setAttribute("aria-label", D.candidates[qq].label + (away ? ", not available today" : picked.indexOf(qq) >= 0 ? ", tested in this plan" : ", available"));
     });
     pairLinks.forEach(function (l) {
       var both = picked.indexOf(l.a) >= 0 && picked.indexOf(l.b) >= 0;
       var gone = V.avail.indexOf(l.a) < 0 || V.avail.indexOf(l.b) < 0;
+      var was = l.node.classList.contains("both");
       l.node.classList.toggle("both", both); l.node.classList.toggle("gone", gone);
+      if (both && !was && !reduce) { l.node.classList.remove("draw"); void l.node.getBoundingClientRect(); l.node.classList.add("draw"); }
     });
     // the cards
     function names(mask) { return toFamily(mask).map(function (qq) { return D.candidates[qq].label; }).join(", "); }
@@ -658,6 +682,17 @@
         '<div class="pc-meta">' + c.toFixed(3) + " expected at-risk couples found" + (extra || "") + "</div></div>";
     }
     var combos = N.toLocaleString("en-US");
+    /** The reason for a plan, in plain words: which couples it tests in full. */
+    function reason(mask) {
+      var fam = toFamily(mask);
+      var cs = pairLinks.filter(function (l) { return fam.indexOf(l.a) >= 0 && fam.indexOf(l.b) >= 0; });
+      if (!cs.length) return "No couple has both partners tested, so no at-risk couple can be confirmed.";
+      var pm = cs.filter(function (l) { return l.node.classList.contains("potential"); }).length, mc = cs.length - pm, parts = [];
+      if (mc) parts.push(mc + (mc === 1 ? " couple" : " couples"));
+      if (pm) parts.push(pm + (pm === 1 ? " possible match" : " possible matches"));
+      return "Why: it tests both partners of " + parts.join(" and ") + ": " +
+        cs.map(function (l) { return D.candidates[l.a].label + " and " + D.candidates[l.b].label; }).join("; ") + ".";
+    }
     function row(cls, title, mask) {
       return '<tr class="' + cls + '"><td>' + title + '</td><td class="num">' + couplesFound(mask).toFixed(3) + '</td><td class="num">' +
         pct(best > 0 ? valueOf(mask) / best : 1, 0) + "</td></tr>";
@@ -666,9 +701,11 @@
     $("#plan-cards").innerHTML =
       card("qaoa", "Test these " + sim.k + " relatives", q.mask,
         ", from the best of " + q.shots.toLocaleString("en-US") + " circuit shots") +
+      '<div class="pc-why">' + reason(q.mask) + "</div>" +
       '<div class="pc-verdict ' + (match ? "ok" : "miss") + '">' + (match ? "Matches the exact optimum of all " + combos + " plans." : "Below the exact optimum of all " + combos + " plans.") + "</div>" +
       '<table class="pc-table"><tr><th>Plan</th><th class="num">At-risk couples found</th><th class="num">Of the best</th></tr>' +
-      row("q", "Quantum circuit (QAOA)", q.mask) + row("", "Exact optimum", exact) + row("f", "Field officer's rule", field) + "</table>";
+      row("q", "Quantum circuit (QAOA)", q.mask) + row("", "Exact optimum", exact) + row("f", "Field officer's rule", field) + "</table>" +
+      '<p class="pc-field">Field officer\'s rule (test the most likely carriers): ' + reason(field).replace(/^Why: /, "") + "</p>";
   }
 
   // ------------------------------------------- penalty against constrained
