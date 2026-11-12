@@ -6,9 +6,13 @@
 <title>Kinship Screening with QAOA</title>
 <meta name="description" content="A quantum optimisation planning tool for beta-thalassaemia cascade screening in Pakistan: which relatives to test with k kits in one home visit.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230c2140'/%3E%3Cpath d='M9 10h14M16 10v7M9 17h14M9 17v5M23 17v5' stroke='%2386b6ef' stroke-width='2' fill='none'/%3E%3Ccircle cx='9' cy='23' r='3' fill='%232a78d6'/%3E%3Ccircle cx='23' cy='23' r='3' fill='%232a78d6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="web/styles.css">
 <link rel="stylesheet" href="web/lab.css">
 <link rel="stylesheet" href="web/motion.css">
+<link rel="stylesheet" href="web/theme.css">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -26,6 +30,7 @@
       <a href="#formulation">Formulation</a>
       <a href="#demo">Live plan</a>
       <a href="#method">Quantum method</a>
+      <a href="#flow">The circuit</a>
       <a href="#lab">Run it</a>
       <a href="#architecture">Architecture</a>
       <a href="#results">Results</a>
@@ -40,51 +45,31 @@
 
 <main id="top">
 <!-- ============================== HERO ============================== -->
-<div class="hero" id="hero">
-  <div class="wrap">
-    <div>
-      <div class="kicker reveal"><i></i>Qiskit Fall Fest 2026 &middot; Healthcare</div>
-      <h1 class="reveal" style="--d:.08s">One home visit.<br>Four test kits.<br><span>Which relatives do we test?</span></h1>
-      <p class="lede reveal" style="--d:.16s">A planning tool for beta-thalassaemia cascade screening in Pakistan. It picks the relatives whose tests are expected to reveal the most at-risk couples, using a QAOA circuit in Qiskit that cannot break the kit limit, and it checks every answer against the exact optimum.</p>
-      <div class="cta reveal" style="--d:.24s">
-        <a class="btn btn-primary" href="#lab">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg>Plan a visit live</a>
-        <a class="btn btn-ghost" href="#results">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>See the results</a>
-        <a class="btn btn-ghost" href="https://github.com/AbdulAHAD968/Qiskit-IBM" rel="noopener">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg>Code on GitHub</a>
-      </div>
+<section class="scene" id="hero" style="height:320vh" aria-label="Kinship screening with QAOA">
+  <div class="stage">
+    <canvas aria-hidden="true"></canvas>
+    <div class="ttl"><h1>Kinship</h1><p class="sub">Planning thalassaemia cascade screening in Pakistan with a quantum circuit that cannot break the kit limit</p></div>
+    <div class="lower beats">
+      <div class="beat on" data-at="0,.32"><p><b>One child is diagnosed. Four kits for the family.</b> Who gets tested?</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#/plan">Plan a visit live</a>
+          <a class="btn btn-ghost" href="#/results">See the results</a>
+          <a class="btn btn-ghost" href="https://github.com/AbdulAHAD968/Qiskit-IBM" rel="noopener">Code on GitHub</a>
+        </div></div>
+      <div class="beat" data-at=".32,.62"><p><b>Every relative has a carrier probability,</b> computed exactly from the family tree.</p></div>
+      <div class="beat" data-at=".62,.82"><p><b>The obvious rule tests the most likely carriers.</b> It confirms no couple at all.</p></div>
+      <div class="beat" data-at=".82,1.01"><p><b>The circuit tests couples instead.</b> Its measured plan is the exact optimum.</p></div>
     </div>
-    <div class="hero-figure reveal zoom" style="--d:.3s" aria-hidden="true">
-      <svg viewBox="0 0 520 430">
-        <path class="hl" d="M190 60h140M260 60v50M110 110h300M110 110v40M410 110v40M70 150h80M110 150v60M370 150h80M410 150v60M40 210h140M40 210v40M110 210v40M180 210v40M340 210h140M340 210v40M410 210v40M480 210v40"/>
-        <path class="hl" d="M150 150h220M260 150v160M200 310h120M200 310v40M260 310v40M320 310v40"/>
-        <path class="hc" d="M180 262q40 44 80 100" style="animation-delay:.2s"/>
-        <path class="hc" d="M340 262q-8 50 -20 88" style="animation-delay:.9s"/>
-        <rect class="hn" x="174" y="44" width="32" height="32" rx="3"/><circle class="hn" cx="330" cy="60" r="16"/>
-        <rect class="hn" x="54" y="134" width="32" height="32" rx="3"/><circle class="hn" cx="150" cy="150" r="16"/>
-        <rect class="hn" x="354" y="134" width="32" height="32" rx="3"/><circle class="hn" cx="450" cy="150" r="16"/>
-        <circle class="hn" cx="40" cy="262" r="16"/><rect class="hn" x="94" y="246" width="32" height="32" rx="3"/>
-        <rect class="hn pick" x="164" y="246" width="32" height="32" rx="3" style="animation-delay:0s"/>
-        <circle class="hn pick" cx="340" cy="262" r="16" style="animation-delay:.7s"/>
-        <rect class="hn" x="394" y="246" width="32" height="32" rx="3"/><circle class="hn" cx="480" cy="262" r="16"/>
-        <rect class="hn idx" x="184" y="346" width="32" height="32" rx="3"/>
-        <circle class="hn pick" cx="260" cy="362" r="16" style="animation-delay:.35s"/>
-        <rect class="hn pick" x="304" y="346" width="32" height="32" rx="3" style="animation-delay:1.05s"/>
-        <text class="cap" x="200" y="402" text-anchor="middle">affected child</text>
-        <text class="cap" x="260" y="418" text-anchor="middle">4 kits, 2 couples fully tested</text>
-      </svg>
-    </div>
+    <p class="src">Synthetic family S-16. No patient data is used anywhere.</p>
   </div>
-  <div class="scroll-cue" aria-hidden="true">Scroll<i></i></div>
-</div>
+</section>
 
 <!-- ============================== PROBLEM ============================== -->
 <section id="problem">
   <div class="wrap">
     <div class="eyebrow reveal"><b>1</b>The problem in Pakistan</div>
     <h2 class="reveal">Thalassaemia runs in families. Test kits and field visits do not stretch that far.</h2>
-    <p class="lead reveal">Thalassaemia major appears when both parents are carriers. Screening teams start from a family that already has an affected child and test the relatives. This is cascade screening. Kits, laboratory capacity and home visits are limited, so on every visit someone has to choose who gets tested.</p>
+    <p class="lead reveal">A child gets thalassaemia major only when both parents are carriers, so screening starts from the relatives of a patient.</p>
 
     <div class="grid g4 mt2">
       <div class="card stat reveal"><div class="v num"><span data-count="5">0</span><small>%</small></div><div class="l">of people in Pakistan carry beta-thalassaemia<sup class="ref"><a href="#ref1">1</a></sup></div></div>
@@ -119,7 +104,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>2</b>Why it is an optimisation problem</div>
     <h2 class="reveal">The value sits on couples, not on individuals.</h2>
-    <p class="lead reveal">An at-risk couple can only be confirmed when both partners are tested. One test can rule a couple out, but it can never confirm one. So the best choice depends on pairs of people, and the obvious rule, test whoever is most likely to be a carrier, spends kits on people whose partners go untested.</p>
+    <p class="lead reveal">A couple's risk is known only when both partners are tested, so the value of a plan sits on pairs.</p>
 
     <div class="pair-demo">
       <div class="card pair-card reveal">
@@ -254,7 +239,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>5</b>Quantum method</div>
     <h2 class="reveal">A circuit that can only output plans with exactly k kits.</h2>
-    <p class="lead reveal">The objective is a sum over pairs of yes-or-no decisions, which is the native form of the Quantum Approximate Optimization Algorithm.<sup class="ref"><a href="#ref7">7</a></sup> The kit limit is enforced by the structure of the circuit, as in the quantum alternating operator ansatz, so it needs no penalty term.<sup class="ref"><a href="#ref8">8</a>, <a href="#ref5">5</a></sup></p>
+    <p class="lead reveal">One qubit per relative, one rotation per couple, and a mixer that can never change the number of kits.</p>
 
     <div class="card mt reveal">
       <div class="table-wrap"><table>
@@ -340,12 +325,27 @@
   </div>
 </section>
 
+<!-- ============================== FLOW ============================== -->
+<section class="scene dark" id="flow" style="height:560vh" aria-label="The circuit, step by step">
+  <div class="stage">
+    <canvas aria-hidden="true"></canvas>
+    <div class="cap beats">
+      <div class="beat on" data-at="0,.14"><div class="eyebrow">The circuit, as you scroll</div><h2>210 plans, all equally likely</h2><p>Ten qubits, one per relative, start in the Dicke state: every way to spend exactly four kits, with the same amplitude. Each bar is one plan, from the worst on the left to the best on the right.</p></div>
+      <div class="beat" data-at=".14,.3"><div class="eyebrow">Cost layer</div><h2>The phase turns, the heights stay</h2><p>One ZZ rotation per couple link and one Z rotation per relative. No plan becomes more likely yet. Each one's phase turns by an amount set by its value, so the colours fan out from worst to best.</p></div>
+      <div class="beat" data-at=".3,.46"><div class="eyebrow">Mixer</div><h2>Phase becomes probability</h2><p>XX+YY rotations swap a tested and an untested relative, so plans one swap apart interfere. Good plans grow and bad ones shrink, and the number of kits never changes.</p></div>
+      <div class="beat" data-at=".46,.86"><div class="eyebrow">Layers two and three</div><h2>Each layer sharpens the plan</h2><p>The same two steps repeat with their own angles, tuned by COBYLA on the Qiskit Estimator. Watch the chance of the best plan rise from 0.48% at the start.</p></div>
+      <div class="beat" data-at=".86,1.01"><div class="eyebrow">Measurement</div><h2>One shot in twelve is the best plan</h2><p>After three layers a single shot is the best plan 8.31% of the time, 17 times a random pick, and every shot uses exactly four kits. The best of the measured plans goes to the field officer.</p></div>
+    </div>
+    <p class="src">Exact simulation of the depth-3 Qiskit circuit in your browser, with the trained angles. It matches Qiskit to 1e-16.</p>
+  </div>
+</section>
+
 <!-- ============================== LAB ============================== -->
 <section id="lab" class="lab">
   <div class="wrap">
     <div class="eyebrow reveal"><b>6</b>Run the circuit</div>
     <h2 class="reveal">Watch the circuit turn <span id="lab-nplans">210</span> equal guesses into a plan.</h2>
-    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser by a JavaScript re-implementation that is checked against the Qiskit circuit. Each bar is one valid plan, a way to test exactly <span id="lab-nkits">4</span> of the relatives, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
+    <p class="lead reveal">Plan a visit, run the circuit and measure it, all in your browser, checked against Qiskit.</p>
 
     <div class="lab-shell reveal" id="lab-shell">
       <div class="lab-panel lab-plan" id="lab-plan">
@@ -493,7 +493,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>8</b>Results</div>
     <h2 class="reveal">Measured against the exact answer, every time.</h2>
-    <p class="lead reveal">All runs are noise-free statevector simulations unless stated, with fixed seeds. Quality is the expected value of a measured valid plan, scaled so that the worst valid plan is 0 and the best is 1; shots that break the kit limit are discarded first.</p>
+    <p class="lead reveal">Every number is measured against the exact optimum. Noise-free simulation unless stated.</p>
 
     <div class="grid g4 mt2">
       <div class="card stat reveal"><div class="v num" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></div><div class="l">quality of constrained QAOA at depth 3 on 16 qubits. A random valid plan scores <b data-v="bench.M.random.0.quality.mean" data-f="n2"></b>.</div></div>
@@ -640,9 +640,12 @@ pytest                            <span class="c"># 57 checks</span></pre>
 </footer>
 
 <script src="web/data/results.js"></script>
+<script src="web/fold.js"></script>
 <script src="web/app.js"></script>
 <script src="web/qaoa-sim.js"></script>
 <script src="web/lab.js"></script>
+<script src="web/scenes.js"></script>
+<script src="web/router.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>

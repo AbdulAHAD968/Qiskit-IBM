@@ -46,38 +46,8 @@
     });
   }
 
-  // --------------------------------------------------------- 1. intro
-  var hero = $("#hero");
-  if (hero) {
-    var copy = claim($$(".kicker, h1, .lede, .cta", hero));
-    var fig = claim($$(".hero-figure", hero))[0];
-    var tl = gsap.timeline({ defaults: { ease: "expo.out" } });
-    tl.from(copy, { y: 34, opacity: 0, duration: 1.1, stagger: 0.09 }, 0.05);
-    if (fig) {
-      var lines = $$(".hl", fig);
-      lines.forEach(function (p) {
-        var len = p.getTotalLength ? p.getTotalLength() : 600;
-        gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
-      });
-      tl.from(fig, { opacity: 0, duration: 0.6 }, 0.1)
-        .to(lines, { strokeDashoffset: 0, duration: 1.6, ease: "power2.inOut", stagger: 0.15 }, 0.2);
-      // People appear generation by generation, top to bottom.
-      var nodes = $$(".hn", fig).sort(function (a, b) { return nodeY(a) - nodeY(b); });
-      tl.from(nodes, { scale: 0, transformOrigin: "50% 50%", duration: 0.7, ease: "back.out(2)", stagger: 0.045 }, 0.45);
-      tl.from($$(".cap", fig), { opacity: 0, y: 8, duration: 0.6, stagger: 0.1 }, 1.2);
-    }
-    // ------------------------------------------------------ 2. hero recedes
-    var next = hero.nextElementSibling;
-    while (next && next.tagName !== "SECTION") next = next.nextElementSibling;
-    if (next) {
-      next.classList.add("over-hero");
-      gsap.to($(".wrap", hero), {
-        scale: 0.9, y: -50, opacity: 0.25, ease: "none",
-        scrollTrigger: { trigger: next, start: "top bottom", end: "top 15%", scrub: true },
-      });
-      if (fig) gsap.to(fig, { rotate: -4, ease: "none", scrollTrigger: { trigger: next, start: "top bottom", end: "top top", scrub: 0.6 } });
-    }
-  }
+  // 1 and 2 (the hero) are now the #hero scroll scene in web/scenes.js.
+
   function nodeY(n) {
     var y = n.getAttribute("y") || n.getAttribute("cy") || 0;
     return parseFloat(y);
