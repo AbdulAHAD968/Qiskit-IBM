@@ -346,7 +346,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>6</b>Run the circuit</div>
     <h2 class="reveal">Watch the circuit turn 210 equal guesses into a plan.</h2>
-    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser. Each bar is one valid way to spend the 4 kits, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
+    <p class="lead reveal">This is the constrained QAOA circuit for the family above, simulated exactly in your browser by a JavaScript re-implementation that is checked against the Qiskit circuit. Each bar is one valid way to spend the 4 kits, sorted from the worst plan on the left to the best on the right. Each bar is a complex amplitude: its height is the size, its colour is the phase, and the height squared is the chance that a measurement returns that plan.</p>
 
     <div class="lab-shell reveal" id="lab-shell">
       <div class="lab-panel lab-plan" id="lab-plan">
@@ -390,7 +390,7 @@
       <div class="lab-main">
         <div class="lab-panel lab-amp">
           <div class="lab-stages" id="lab-stages" aria-label="Circuit steps"></div>
-          <div class="lab-canvas-wrap"><canvas id="lab-amp" aria-label="Probability of each of the 210 valid plans"></canvas></div>
+          <div class="lab-canvas-wrap"><canvas id="lab-amp" aria-label="Amplitude of each of the 210 valid plans"></canvas></div>
           <div class="lab-axis"><span>worst plan</span><span class="phase-key"><i></i>colour = phase of the amplitude</span><span>best plan</span></div>
           <p class="lab-caption" id="lab-caption">The circuit starts in the Dicke state: every plan with exactly 4 kits, all equally likely.</p>
         </div>

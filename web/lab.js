@@ -81,6 +81,7 @@
     for (var l = 0; l < p; l++) { list.push({ type: "cost", l: l }); list.push({ type: "mix", l: l }); }
     return list;
   }
+  // mulberry32 by Tommy Ettinger (2017, public domain): a small seeded generator, so the shots repeat.
   function mulberry(seed) {
     return function () {
       seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
@@ -225,7 +226,7 @@
     var t = trained[S.p], check = $("#lab-check");
     if (!atEnd()) check.textContent = "Readouts follow the state at the highlighted step of the circuit.";
     else if (isTrained() && t.browser) check.innerHTML = "This visit was tuned in your browser with the recipe of the Python code (a grid, then warm starts for each depth; Nelder-Mead in place of COBYLA), in " + t.evals + " circuit evaluations. For the full family the same recipe gives Qiskit's numbers exactly.";
-    else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Aer's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
+    else if (isTrained()) check.innerHTML = "Check against Qiskit: these are the angles COBYLA found with the Aer Estimator for depth " + S.p + ". Qiskit's statevector gives " + pct(t.p_opt, 2) + "; this page gives <b>" + pct(m.p_opt, 2) + "</b>.";
     else if (S.source === "tuned") check.innerHTML = "Tuned in your browser by Nelder-Mead in " + S.evals + " circuit evaluations: " + pct(m.ratio, 0) + " of the best value per shot. " + (t && t.browser ? "The full tuning recipe" : "Qiskit's COBYLA") + " reached " + pct(t ? t.ratio : NaN, 0) + " at this depth.";
     else check.textContent = "Your angles. The " + (t && t.browser ? "tuned" : "Qiskit") + " angles give " + pct(t ? t.p_opt : NaN, 2) + " for depth " + S.p + ".";
     $("#lab-kits-label").textContent = "Shots that break the " + sim.k + "-kit limit";
@@ -696,7 +697,7 @@
     var t = penTrained[p];
     $("#cmp-check").innerHTML = t.browser
       ? "Both circuits were tuned in your browser with the same recipe. Shots that break the kit limit are wasted: a field officer cannot use them."
-      : "Check against Qiskit: for the penalty circuit at depth " + p + ", Aer gives " + pct(t.valid_share, 1) + " valid shots and " + pct(t.p_opt, 2) +
+      : "Check against Qiskit: for the penalty circuit at depth " + p + ", Qiskit's statevector gives " + pct(t.valid_share, 1) + " valid shots and " + pct(t.p_opt, 2) +
         " for the best plan; this page gives <b>" + pct(pm.valid_share, 1) + "</b> and <b>" + pct(pm.p_opt, 2) + "</b>.";
   }
 

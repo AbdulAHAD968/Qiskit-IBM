@@ -81,10 +81,11 @@ def build() -> dict:
     decomposition = _load("decomposition")
     if decomposition:
         data["decomposition"] = {k: v for k, v in decomposition.items() if k != "cells"}
+    data = _round(data)
     demo = _load("demo")
     if demo:
-        data["demo"] = demo
-    return _round(data)
+        data["demo"] = demo      # not rounded: the in-browser simulator must see the weights and angles Qiskit used
+    return data
 
 
 def main() -> int:

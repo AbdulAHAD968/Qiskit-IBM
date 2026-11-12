@@ -69,7 +69,14 @@
 ## Code credits
 
 All code in this repository was written for this project. The circuits were written from the
-papers above; no tutorial or third-party code was copied.
+papers above; no tutorial code was copied.
+
+The live circuit on the website (`web/qaoa-sim.js`) is our own JavaScript re-implementation of the
+constrained circuit, checked against Qiskit by `python -m kinship.validate_web_sim`. Two standard
+pieces are used on that page: the Nelder-Mead simplex method (Nelder JA, Mead R. A simplex method
+for function minimization. Comput J. 1965;7(4):308-313), implemented here, and the mulberry32
+pseudo-random generator (Tommy Ettinger, 2017, dedicated to the public domain), which draws the
+shots.
 
 AI assistance: an AI coding assistant was used to help write code and draft text. Every number in
 the report and on the website is produced by running the code in this repository.

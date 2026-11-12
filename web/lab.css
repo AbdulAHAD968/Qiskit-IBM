@@ -148,7 +148,9 @@ td a { overflow-wrap: anywhere; }
   .sliders { grid-template-columns: 1fr; }
   .lab-toolbar .lab-btn { flex: 1 1 auto; justify-content: center; }
   .bits { gap: 3px; }
-  .bit { font-size: 14px; }
+  /* Narrow boxes: make them taller and keep the digit above the qubit label, so the two never touch. */
+  .bit { font-size: 14px; aspect-ratio: 1 / 1.7; padding-bottom: 12px; }
+  .bit small { font-size: 8px; bottom: 2px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bit.flash { animation: none; }

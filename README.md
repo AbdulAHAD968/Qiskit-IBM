@@ -16,7 +16,7 @@ answer against the exact optimum.
 | Working, reproducible Qiskit code | this repository, `kinship/` and `tests/` |
 | Report (.docx) with results, exact comparison and limitations | [report/Kinship_QAOA_Report.docx](report/Kinship_QAOA_Report.docx) |
 | Architecture diagram | [report/architecture.png](report/architecture.png), also Figure 1 of the report |
-| Project website with the interactive walkthrough | `index.html`: open it in a browser after cloning (GitHub shows only its source) |
+| Project website with the interactive walkthrough and a live simulation of the circuit | `index.html`: open it in a browser after cloning (GitHub shows only its source) |
 | Problem statement, benchmark report, limitations, references | [DOCS/](DOCS) |
 | 3-minute video pitch and demo | link submitted with the entry form; script in [DOCS/VIDEO_SCRIPT.md](DOCS/VIDEO_SCRIPT.md) |
 
@@ -123,6 +123,7 @@ pytest                               # 57 checks, a few seconds
 python -m kinship.evaluate all       # all experiments, about 8 minutes on 8 processes
 python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (overwrites results/)
 python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 1 minute
+python -m kinship.validate_web_sim   # the website's in-browser simulator against the Qiskit circuit (needs Node.js)
 python -m kinship.compare_runs DIR   # compare results/ with the results folder DIR of another run
 python -m kinship.plots              # results/figures/*.png and report/architecture.png
 python -m kinship.report_md          # DOCS/BENCHMARKS.md
@@ -210,6 +211,7 @@ kinship/
   view.py            drawable view of a family
   validate_genetics.py  independent Monte Carlo check of the genetics engine
   compare_runs.py    compares the result files of two runs, ignoring timing fields
+  validate_web_sim.py   checks the website's in-browser simulator against the Qiskit circuit
   demo.py            one-command demo
 tests/               genetics values, objective and Ising mapping, circuits, decomposition
 data/instances/      seeded S, M and L instances as JSON
@@ -218,7 +220,7 @@ report/              the .docx report, its generator and the architecture diagra
 DOCS/                problem statement, benchmark report, limitations, references, judge Q&A, video script
 pytest.ini           lets `pytest` find the package from the repository root
 Dockerfile           container image: serves the website, runs the demo and the tests
-index.html, web/     project website (static, no dependencies)
+index.html, web/     project website (static, no dependencies); web/qaoa-sim.js runs the circuit in the browser
 ```
 
 ## Limitations in short
@@ -242,8 +244,11 @@ are lost. Details and numbers:
   python-docx 1.2.0, pytest 9.2.0.
 
 All code in this repository was written for this project; the circuits were written from the
-papers and no tutorial or third-party code was copied. An AI coding assistant was used to help
-write code and draft text; every number is produced by running the code in this repository.
+papers and no tutorial code was copied. The live circuit on the website is our own JavaScript
+re-implementation, checked against the Qiskit circuit; its angle tuner implements the Nelder-Mead
+simplex method and its shot sampler uses the public-domain mulberry32 generator (Tommy Ettinger,
+2017). An AI coding assistant was used to help write code and draft text; every number is produced
+by running the code in this repository.
 Full reference list: [DOCS/REFERENCES.md](DOCS/REFERENCES.md).
 
 ## Licence
