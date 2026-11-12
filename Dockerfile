@@ -34,4 +34,6 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD python -c "import os, urllib.request; urllib.request.urlopen(f'http://127.0.0.1:{os.environ.get(\"PORT\", \"8000\")}/', timeout=4)" || exit 1
 
-CMD ["sh", "-c", "python -m http.server ${PORT} --bind 0.0.0.0"]
+# Link previews (WhatsApp, LinkedIn, X) need absolute URLs. Set SITE_URL in Coolify to the
+# public address, for example https://kinship.example.com; Coolify's own COOLIFY_URL is the fallback.
+CMD ["sh", "-c", "url=\"${SITE_URL:-${COOLIFY_URL%%,*}}\"; url=\"${url%/}\"; sed -i \"s#__SITE_URL__#${url}#g\" index.html; exec python -m http.server ${PORT} --bind 0.0.0.0"]

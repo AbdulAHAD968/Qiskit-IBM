@@ -117,6 +117,10 @@ docker run --rm kinship-qaoa python -m kinship.demo   # one-command demo
 docker run --rm kinship-qaoa pytest                   # 57 checks
 ```
 
+For link previews on WhatsApp, LinkedIn or X, set `SITE_URL` to the public address when you deploy,
+for example `-e SITE_URL=https://kinship.example.com` (on Coolify, `COOLIFY_URL` is used if it is not set).
+The preview image is `web/og.png`, drawn by `python web/make_icons.py` with the favicons.
+
 We built and ran the image once: the 57 tests pass and the demo prints the same plan. A full
 experiment run inside it gives the same conclusions but not identical depth-3 numbers; see
 [DOCS/REPRODUCIBILITY.md](DOCS/REPRODUCIBILITY.md).
