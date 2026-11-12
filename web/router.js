@@ -11,7 +11,7 @@
 (function () {
   "use strict";
   var PAGES = [
-    { id: "", label: "Overview", sections: ["hero", "problem", "pairs", "flow"] },
+    { id: "", label: "Overview", sections: ["hero", "problem", "pairs", "feed", "flow"] },
     { id: "plan", label: "Plan a visit", sections: ["lab"] },
     { id: "results", label: "Results", sections: ["results"] },
     { id: "method", label: "How it works", sections: ["formulation", "demo", "method", "architecture"] },

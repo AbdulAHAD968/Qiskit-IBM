@@ -251,3 +251,31 @@ details.more.note { margin-top: 10px; border-top: 0; }
 details.more.note > summary { padding-top: 4px; font-size: 13px; }
 details.more.note > summary::before { width: 16px; height: 16px; font-size: 12px; }
 .stat .l { font-size: 14px; }
+
+/* live shot feed */
+.feed { background: var(--surface); }
+.feed-grid { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 48px; align-items: center; }
+.feed-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+.feed-stats b { display: block; font-family: var(--serif); font-weight: 500; font-size: 44px; line-height: 1; color: var(--ink); font-variant-numeric: lining-nums tabular-nums; }
+.feed-stats small { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
+.feed-stats div:nth-child(2) b { color: var(--accent); }
+.feed-meter { height: 6px; border-radius: 99px; background: var(--surface-2); margin-top: 18px; overflow: hidden; }
+.feed-meter i { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width 0.4s; }
+.feed-rows { display: grid; gap: 8px; }
+.feed-row { display: grid; grid-template-columns: 52px auto minmax(0, 1fr) 76px; gap: 14px; align-items: center; background: var(--bg); border-radius: 10px; padding: 10px 14px; }
+.feed-row.enter { animation: feedIn 0.45s cubic-bezier(0.2, 0.7, 0.2, 1); }
+@keyframes feedIn { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: none; } }
+.feed-row.best { outline: 1.5px solid var(--accent); }
+.feed-no { font: 500 12px/1 var(--mono); color: var(--muted); }
+.feed-bits { display: inline-grid; grid-template-columns: repeat(10, 14px); gap: 3px; }
+.feed-bits i { width: 14px; height: 18px; border-radius: 3px; background: var(--surface-2); }
+.feed-bits i.on { background: var(--accent); }
+.feed-names { font-size: 13px; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.feed-val { text-align: right; font: 600 13px/1 var(--font); color: var(--ink); font-variant-numeric: tabular-nums; }
+.feed-row.best .feed-val { color: var(--accent); }
+@media (max-width: 900px) {
+  .feed-grid { grid-template-columns: 1fr; gap: 28px; }
+  .feed-row { grid-template-columns: 40px auto 56px; }
+  .feed-names { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .feed-row.enter { animation: none; } }

@@ -26,10 +26,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="web/styles.css?v=20261112d">
-<link rel="stylesheet" href="web/lab.css?v=20261112d">
-<link rel="stylesheet" href="web/motion.css?v=20261112d">
-<link rel="stylesheet" href="web/theme.css?v=20261112d">
+<link rel="stylesheet" href="web/styles.css?v=20261112e">
+<link rel="stylesheet" href="web/lab.css?v=20261112e">
+<link rel="stylesheet" href="web/motion.css?v=20261112e">
+<link rel="stylesheet" href="web/theme.css?v=20261112e">
 <noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
 </head>
 <body>
@@ -338,6 +338,24 @@
       </div>
     </div>
     <div class="callout mt reveal"><span>Our one-sentence answer to "why quantum"</span>We do not claim a speedup. We show a problem QAOA represents directly, a circuit that cannot break the kit limit, and an honest comparison against exact answers.</div>
+  </div>
+</section>
+
+<!-- ============================== FEED ============================== -->
+<section id="feed" class="feed" aria-label="Shots from the circuit, measured live">
+  <div class="wrap feed-grid">
+    <div>
+      <div class="eyebrow">Measured live</div>
+      <h2>Every shot is a plan for the visit.</h2>
+      <p class="lead">The depth-3 circuit, measured twice a second in your browser. A lit square means "test this relative".</p>
+      <div class="feed-stats">
+        <div><b class="num" id="feed-shots">0</b><small>shots so far</small></div>
+        <div><b class="num" id="feed-hits">0%</b><small>were the best plan</small></div>
+        <div><b class="num" id="feed-random">0.48%</b><small>for a random pick</small></div>
+      </div>
+      <div class="feed-meter"><i id="feed-meter"></i></div>
+    </div>
+    <div class="feed-rows" id="feed-rows" aria-live="off"></div>
   </div>
 </section>
 
@@ -659,17 +677,18 @@ pytest                            <span class="c"># 57 checks</span></pre>
   </div>
 </footer>
 
-<script src="web/data/results.js?v=20261112d"></script>
-<script src="web/fold.js?v=20261112d"></script>
-<script src="web/app.js?v=20261112d"></script>
-<script src="web/dash.js?v=20261112d"></script>
-<script src="web/qaoa-sim.js?v=20261112d"></script>
-<script src="web/lab.js?v=20261112d"></script>
-<script src="web/scenes.js?v=20261112d"></script>
-<script src="web/router.js?v=20261112d"></script>
+<script src="web/data/results.js?v=20261112e"></script>
+<script src="web/fold.js?v=20261112e"></script>
+<script src="web/app.js?v=20261112e"></script>
+<script src="web/dash.js?v=20261112e"></script>
+<script src="web/qaoa-sim.js?v=20261112e"></script>
+<script src="web/lab.js?v=20261112e"></script>
+<script src="web/scenes.js?v=20261112e"></script>
+<script src="web/feed.js?v=20261112e"></script>
+<script src="web/router.js?v=20261112e"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous" defer></script>
-<script src="web/motion.js?v=20261112d" defer></script>
+<script src="web/motion.js?v=20261112e" defer></script>
 </body>
 </html>
