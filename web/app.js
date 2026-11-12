@@ -426,7 +426,19 @@
         (allOpt ? "All " + rows.length + " networks reached the proven optimum." : "Not every network reached the proven optimum.") +
         " At this component size sampling finds each optimum easily, so this shows the scaling route, not an advantage.");
     }
-    if (D.bench) set("#penalty-invalid", F.pct0(1 - D.bench.M.penalty["3"].valid_share.mean));
+    if (D.bench) {
+      set("#penalty-invalid", F.pct0(1 - D.bench.M.penalty["3"].valid_share.mean));
+      var evals = 0;
+      ["1", "2", "3"].forEach(function (p) { evals += D.bench.M.constrained[p].evaluations.mean; });
+      set("#train-evals", String(Math.round(evals / 10) * 10));
+    }
+    if (D.gate1 && D.gate1.summary.S.field.tie_break) {
+      var ts = D.gate1.summary.S.field.tie_break, tm = D.gate1.summary.M.field.tie_break;
+      set("#tie-note", "Robustness check. The field officer's rule breaks ties in carrier probability arbitrarily, and a tie at the cut-off occurs in " +
+        ts.families_with_tie + " and " + tm.families_with_tie + " of the " + D.gate1.n_instances + " families. Even with every tie broken in its favour it reaches only " +
+        F.pct0(ts.best_ratio.mean) + " and " + F.pct0(tm.best_ratio.mean) + " of the best value and misses the best plan in " +
+        F.pct0(ts.best_miss_rate) + " and " + F.pct0(tm.best_miss_rate) + " of the families.");
+    }
     if (D.ablation) {
       var pick = function (init) { return D.ablation.summary.filter(function (r) { return r.initial === init && r.p === 3; })[0]; };
       set("#abl-field", pctSmart(pick("field").p_opt.mean));

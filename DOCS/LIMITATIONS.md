@@ -38,6 +38,15 @@ cannot break the kit limit, and a comparison against exact answers.
 11. **One visit only.** The model chooses everyone before any result is known. Real programmes may
     test one partner first and the other only if the first is a carrier.
 12. **The trade-off result is one instance.** It is an illustration, not a general claim.
+13. **The hybrid loop is expensive.** Tuning the angles for one 16-qubit family took about 670
+    expectation evaluations, each of which would itself need thousands of shots on a real device,
+    to choose among 4,368 plans that brute force lists directly.
+14. **Assumed constraint and baseline.** We assume that the kit budget of a visit is the binding
+    limit; laboratory slots, officer time or the willingness of relatives may bind instead. The
+    "field officer's rule" is our stand-in for an unaided choice, not a documented programme
+    protocol. Its poor result does not depend on tie-breaking: with every tie in carrier
+    probability broken in its favour it reaches 48% and 38% of the best value and still misses the
+    best plan in 98% and 100% of families.
 
 ## What did not work
 

@@ -39,6 +39,8 @@ def load(name):
 
 R = {name: load(name) for name in
      ("meta", "genetics", "gate1", "benchmark", "circuits", "noise", "ablation", "tradeoff", "decomposition", "demo")}
+if R["meta"].get("quick"):
+    raise SystemExit("results/ holds a reduced --quick run. Run `python -m kinship.evaluate all` before building the report.")
 
 
 def bench(size, method, p=None):
@@ -355,6 +357,8 @@ n1p = noise("penalty", 1, 0.01)
 n5c = noise("constrained", 1, 0.001)
 META = R["meta"]
 total_seconds = sum(META["seconds"].values())
+TIE_S, TIE_M = G["S"]["field"]["tie_break"], G["M"]["field"]["tie_break"]
+TRAIN_EVALS = round(sum(bench("M", "constrained", depth)["evaluations"]["mean"] for depth in (1, 2, 3)), -1)
 
 # --------------------------------------------------------------------------
 # title block
@@ -373,12 +377,12 @@ para("**Date:** 12 November 2026.  **Software:** Qiskit %s, Qiskit Aer %s, Pytho
 
 callout("Summary", [
     "For one home visit with k test kits, which relatives of a thalassaemia patient should be tested? We choose "
-    "exactly k people to maximise the expected number of at-risk couples identified. A couple is resolved only when "
+    "exactly k people to maximise the expected number of at-risk couples identified. An at-risk couple is confirmed only when "
     "both partners are tested, so the value sits on pairs of people and the problem is a quadratic binary "
     "optimisation with a cardinality constraint. That is the form QAOA represents directly.",
     "We implement a constrained QAOA in Qiskit (Dicke start state built from gates, XY ring mixer) that can only "
     "output plans with exactly k kits, compare it with a penalty QAOA baseline, and score both against exact answers "
-    "and against the rule field teams use today.",
+    "and against the obvious rule of thumb: test the relatives most likely to be carriers.",
     f"**The simple rule fails.** Testing the highest carrier probabilities misses the best plan in "
     f"{pct(G['S']['field']['miss_rate'])} of 10-relative families and {pct(G['M']['field']['miss_rate'])} of "
     f"16-relative families, reaching {pct(G['S']['field']['ratio']['mean'])} and {pct(G['M']['field']['ratio']['mean'])} "
@@ -409,16 +413,19 @@ para("The most efficient way to find at-risk couples is cascade screening: start
      "of 214 married couples in those families were both carriers (8 percent) [1]. Marriage inside the family drives "
      "this concentration: in the 2017-18 Demographic and Health Survey 49.6 percent of ever-married women were "
      "married to a first cousin, and about 64 percent to a relative of some kind [3].", align="justify")
-para("Capacity is the bottleneck. The Punjab Thalassaemia Prevention Project covers all 36 districts of Punjab from "
+para("Field capacity is limited. The Punjab Thalassaemia Prevention Project covers all 36 districts of Punjab from "
      "nine regional centres with 48 field officers, and reports low uptake of cascade testing among relatives [2]. "
      "The legal duty is growing: in 2026 the National Assembly and the Senate passed a compulsory thalassaemia "
      "screening bill for the Islamabad Capital Territory that asks for premarital screening reports and for "
      "screening and counselling of patients' blood relatives [4].", align="justify")
 para("**The decision.** On every home visit a field officer has k test kits for one extended family and must choose "
-     "who is tested. A couple's risk is known only when both partners are tested, so the value of a plan sits on "
+     "who is tested. An at-risk couple can be confirmed only when both partners are tested (one test can rule a "
+     "couple out, but never confirm one), so the value of a plan sits on "
      "pairs of people, and the natural rule, test whoever is most likely to be a carrier, spends kits on people "
-     "whose partners go untested. **Users:** field officers planning one visit, and programme managers spreading "
-     "kits across families.", align="justify")
+     "whose partners go untested. We call that rule the field officer's rule; it is our stand-in for an unaided "
+     "choice, not a documented protocol of any programme. We assume that the number of kits for a visit is the "
+     "binding limit, which a programme would have to confirm (section 6). **Users:** field officers planning one "
+     "visit, and programme managers spreading kits across families.", align="justify")
 para("**Originality.** We searched for earlier work applying quantum optimisation to cascade screening or to test "
      "allocation on family trees and found none; two searches cannot prove that none exists. The closest published "
      "work studies QAOA on the underlying graph problems, maximum k-vertex cover and densest k-subgraph [5]. The "
@@ -452,7 +459,8 @@ para("The first term is not a proxy. For a married or engaged couple it is exact
      "multiplied by c_{ij}, the probability that the match happens; each unmarried person marries at most one cousin, "
      "so the first-cousin marriage rate of 0.5 is shared equally among the eligible cousins. The second term is a "
      "small reward for each single carrier found. The affected child and the two parents are not decision variables: "
-     "the child is diagnosed and the parents are obligate carriers.", align="justify")
+     "the child is diagnosed and the parents are obligate carriers. No weight is negative, so using all k kits is "
+     "never worse than using fewer, which is why the constraint is written as an equality.", align="justify")
 para("**Where the weights come from.** A pedigree engine (`genetics.py`) treats the family tree as a Bayesian network "
      "over genotypes: one gene, standard recessive inheritance, founders in Hardy-Weinberg proportions for a 5 percent "
      "carrier rate. The affected child is known to have two copies and everyone else is known not to. The "
@@ -487,9 +495,9 @@ para(f"**Calibration.** Across {CAL['families']} synthetic families the average 
      f"{pct(CAL['couples_both_carriers_all_married'])}, against 8 percent of all married couples in the much larger "
      "families of [1]. The calibration is approximate and is listed as a limitation.", align="justify")
 para("**Measures.** Every method is scored against the exact optimum by four numbers: *quality*, the expected value of "
-     "a measured plan scaled so that the worst valid plan is 0 and the best is 1; the *probability that one shot is "
-     "the best plan*; the *share of shots that use exactly k kits*; and the value of a plan divided by the optimum.",
-     align="justify")
+     "a measured valid plan scaled so that the worst valid plan is 0 and the best is 1 (shots that break the kit "
+     "limit are discarded first); the *probability that one shot is the best plan*, counted over all shots; the "
+     "*share of shots that use exactly k kits*; and the value of a plan divided by the optimum.", align="justify")
 
 # --------------------------------------------------------------------------
 # 3. Quantum method
@@ -561,20 +569,21 @@ table(["Module", "Role"], [
     ["`kinship/decompose.py`", "Split along the couple graph; dynamic programme over kit budgets"],
     ["`kinship/evaluate.py`, `plots.py`", "Experiment runner with fixed seeds; every figure from saved results"],
     ["`kinship/demo.py`", "One-command demonstration on one family"],
-    ["`tests/`", "46 checks: genetics values, objective, Ising mapping, circuits"],
+    ["`tests/`", "47 checks: genetics values, objective, Ising mapping, circuits"],
 ], widths=[5.4, 11.0], caption="Table 5. Modules of the repository.")
 para("**How to run.** With Python 3.11 or later:", after=3)
 code(["pip install -r requirements.txt",
       "python -m kinship.demo            # one family, one plan, about 20 seconds",
       "python -m kinship.evaluate all    # every number in this report",
       "python -m kinship.plots           # every figure",
-      "pytest                            # 46 checks"])
+      "pytest                            # 47 checks"])
 para(f"**Reproducibility.** Versions are pinned, seeds are fixed, raw results are saved as JSON, and the figures, the "
      f"website data and this report are generated from those files by scripts. The full experiment matrix took "
-     f"{total_seconds / 60:.0f} minutes on {META['workers']} processes of a laptop. **Interpretable output.** The demo "
+     f"{total_seconds / 60:.0f} minutes on {META['workers']} processes of a laptop, and a second full run in a fresh "
+     "clone of the repository reproduced every value in the result files. **Interpretable output.** The demo "
      "prints the plan in plain language, names the relatives to test, reports the expected number of at-risk couples "
      "found and its percentage of the best plan, and draws the family tree with the chosen relatives highlighted "
-     "(Figure 3).", align="justify")
+     "(Figure 5).", align="justify")
 
 # --------------------------------------------------------------------------
 # 5. Results
@@ -595,8 +604,12 @@ para(f"The field officer's rule missed the best plan in {pct(G['S']['field']['mi
      f"and in {pct(G['M']['field']['miss_rate'])} of the 16-relative families. It spends kits on grandparents and "
      "siblings whose partners are not tested. Weighting by relevance helps a little. Greedy selection does much better, "
      "and simulated annealing with swap moves finds the best plan in almost every family (Figure 2). On average "
-     f"{pct(G['M']['couple_share_of_optimum']['mean'])} of the best plan's value comes from the couple term.",
-     align="justify")
+     f"{pct(G['M']['couple_share_of_optimum']['mean'])} of the best plan's value comes from the couple term. The "
+     f"rule breaks ties in carrier probability arbitrarily, and a tie at the cut-off occurs in "
+     f"{TIE_S['families_with_tie']} and {TIE_M['families_with_tie']} of the {R['gate1']['n_instances']} families. Even "
+     f"with every tie broken in its favour the rule reaches only {pct(TIE_S['best_ratio']['mean'])} and "
+     f"{pct(TIE_M['best_ratio']['mean'])} of the best value and misses the best plan in "
+     f"{pct(TIE_S['best_miss_rate'])} and {pct(TIE_M['best_miss_rate'])} of the families.", align="justify")
 figure(FIG / "fig02_field_rule_gap.png", "Figure 2. Value of each rule's plan divided by the best plan. One dot per "
        "seeded family; the black bar and the number are the mean.")
 
@@ -618,14 +631,15 @@ for size in ("S", "M"):
 table(["Size", "Method", "p", "Quality", "Best plan per shot", "Valid shots", "Shots for 95%"], rows,
       widths=[1.1, 4.6, 0.9, 3.4, 2.5, 1.9, 2.0], align=["l", "l", "r", "r", "r", "r", "r"], size=8.5,
       caption=f"Table 7. Mean over {cS3['instances']} size-S and {cM3['instances']} size-M families, noise-free. "
-              "Quality: 0 = worst valid plan, 1 = best. Shots for 95%: shots needed to see the best plan with 95 "
-              "percent probability (median).")
-para(f"Constrained QAOA improves with depth on both sizes (Figures 4 and 5). At depth 3 its quality is "
+              "Quality: 0 = worst valid plan, 1 = best, computed over valid shots. Best plan per shot: counted over "
+              "all shots. Shots for 95%: shots needed to see the best plan with 95 percent probability (median).")
+para(f"Constrained QAOA improves with depth on both sizes (Figures 3 and 4). At depth 3 its quality is "
      f"{cS3['quality']['mean']:.2f} on 10 qubits and {cM3['quality']['mean']:.2f} on 16 qubits, against "
      f"{rS['quality']['mean']:.2f} and {rM['quality']['mean']:.2f} for a random valid plan and "
      f"{fS['quality']['mean']:.2f} and {fM['quality']['mean']:.2f} for the field officer's rule. The chance that one "
      f"shot is the best plan rises to {pct_small(cS3['p_opt']['mean'])} and {pct_small(cM3['p_opt']['mean'])}, which is "
-     f"{cS3['p_opt_gain']['mean']:.0f} and {cM3['p_opt_gain']['mean']:.0f} times a random valid pick, and every shot "
+     f"on average {cS3['p_opt_gain']['mean']:.0f} and {cM3['p_opt_gain']['mean']:.0f} times the chance of a random "
+     "valid pick, and every shot "
      "uses exactly k kits. In every instance the best of the 4,096 measured plans was the exact optimum; at these "
      "sizes that alone is a weak statement (section 6), which is why the table reports per-shot numbers.",
      align="justify")
@@ -636,22 +650,22 @@ para(f"Penalty QAOA learns the constraint before it learns the objective. Its sh
      f"does not beat the stronger classical heuristics: greedy reaches {gS['quality']['mean']:.2f} and "
      f"{gM['quality']['mean']:.2f}, and simulated annealing finds the optimum in {pct(aS['optimal_share'])} and "
      f"{pct(aM['optimal_share'])} of these families.", align="justify")
-figure(FIG / "fig03_quality_vs_depth.png", "Figure 4. Quality against QAOA depth. Whiskers: one standard deviation "
+figure(FIG / "fig03_quality_vs_depth.png", "Figure 3. Quality against QAOA depth. Whiskers: one standard deviation "
        "over families.", width=15.0)
-figure(FIG / "fig04_probability_of_best_plan.png", "Figure 5. Probability that a single shot is the best plan "
+figure(FIG / "fig04_probability_of_best_plan.png", "Figure 4. Probability that a single shot is the best plan "
        "(log scale).", width=15.0)
 
 heading("5.3 A worked example", level=2)
 fld = DEMO["plans"]["field"]
-para(f"Figure 3 shows instance {DEMO['name']}, chosen by a fixed rule (the size-S instance with the largest optimum "
+para(f"Figure 5 shows instance {DEMO['name']}, chosen by a fixed rule (the size-S instance with the largest optimum "
      f"among those with at least five couple links), not by QAOA performance. The field officer's rule tests "
      f"{', '.join(fld['labels'])}: {fld['couples']:.3f} expected at-risk couples, {pct(fld['ratio'])} of the best "
      f"plan. The best plan measured from the constrained QAOA circuit tests {', '.join(dq['best']['labels'])}: "
      f"{dq['best']['couples']:.3f} expected at-risk couples, which equals the exact optimum. One shot is the best "
      f"plan with probability {pct(dq['p_opt'], 1)}, against {pct(DEMO['random']['p_opt'], 2)} for a random valid plan.",
      align="justify")
-figure(FIG / "fig01_pedigree_plans.png", "Figure 3. One family, two plans. The field rule tests people whose partners "
-       "are not tested; the QAOA plan resolves the possible matches between siblings and cousins.", width=13.4)
+figure(FIG / "fig01_pedigree_plans.png", "Figure 5. One family, two plans. The field rule tests people whose partners "
+       "are not tested; the QAOA plan tests both partners of the possible matches between siblings and cousins.", width=13.4)
 
 heading("5.4 Circuit cost", level=2)
 rows = []
@@ -680,8 +694,9 @@ para(f"The constrained circuit pays a fixed price for its start state: {circ('S'
      f"circuit is the smaller one ({cM3c['two_qubit']} against {pM3c['two_qubit']} CZ gates).", align="justify")
 
 heading("5.5 Under noise", level=2)
-para(f"We ran the 10-qubit circuits on Aer with a depolarising error on every CZ gate, a tenth of that on single-qubit "
-     f"gates and a readout error at twice that rate ({R['noise']['instances']} families, {R['noise']['shots']:,} shots). "
+para(f"We ran the 10-qubit circuits on Aer with a depolarising error after every CZ gate, a tenth of that on "
+     f"single-qubit gates and a readout error at twice that rate ({R['noise']['instances']} families, "
+     f"{R['noise']['shots']:,} shots). The error rates quoted are the depolarising probability of the CZ gate. "
      "Shots without exactly k ones are discarded and the surviving share is reported (Figure 6). For constrained QAOA "
      f"at depth 1 the share of valid shots falls from 100% to {pct(n5c['valid_share']['mean'])} at 0.1 percent error and "
      f"to {pct(n1c['valid_share']['mean'])} at 1 percent; the quality of the surviving shots falls from "
@@ -726,6 +741,9 @@ bullets([
     f"**No quantum speedup.** Brute force gives the exact answer for the 10- and 16-qubit instances in milliseconds, and "
     f"simulated annealing found the best plan in {pct(aM['optimal_share'])} of the 16-qubit families. At these sizes a "
     "classical solver wins. This is a method study on a new problem.",
+    f"**The hybrid loop is expensive.** Tuning the angles for one 16-qubit family took about {TRAIN_EVALS:.0f} "
+    "expectation evaluations, each of which would itself need thousands of shots on a real device, to choose among "
+    "4,368 plans that brute force lists directly.",
     f"**Family graphs are sparse.** The couple graph splits into small pieces: its largest connected component has "
     f"{G['M']['largest_component']['mean']:.1f} people on average in the 16-relative families (at most "
     f"{G['M']['largest_component']['max']:.0f}). An exact dynamic programme over those pieces solves the problem, so "
@@ -758,6 +776,9 @@ bullets([
     "assumptions and were not reviewed by a practitioner.",
     "**One visit only.** The model chooses everyone before any result is known. Real programmes may test one partner "
     "first and the other only if the first is a carrier; step-by-step testing is the natural next model.",
+    "**Assumed constraint and baseline.** We assume that the kit budget of a visit is the binding limit; laboratory "
+    "slots, officer time or the willingness of relatives may bind instead. The field officer's rule is our stand-in "
+    "for an unaided choice, not a documented programme protocol.",
 ])
 
 # --------------------------------------------------------------------------

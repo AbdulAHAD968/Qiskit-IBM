@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from itertools import combinations
 
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
@@ -70,6 +71,27 @@ def field_rule(problem: ScreeningProblem) -> np.ndarray:
 def relevance_rule(problem: ScreeningProblem) -> np.ndarray:
     """A sharper individual rule: rank by relevance times carrier probability."""
     return _top_k(problem.r * problem.p, problem.k)
+
+
+def tie_break_range(problem: ScreeningProblem, scores: np.ndarray, tol: float = 1e-9):
+    """Best and worst value of a top-k rule over every way of breaking ties in the scores.
+
+    Scores within ``tol`` of the k-th largest count as tied. Returns
+    (best value, worst value, True if there is a tie at the cut-off).
+    The rules above break ties by index, which is arbitrary; this bracket shows
+    how much that choice can matter.
+    """
+    k = problem.k
+    kth = np.sort(scores)[::-1][k - 1]
+    forced = [i for i in range(problem.n) if scores[i] > kth + tol]
+    tied = [i for i in range(problem.n) if abs(scores[i] - kth) <= tol]
+    need = k - len(forced)
+    values = []
+    for extra in combinations(tied, need):
+        x = np.zeros(problem.n, dtype=int)
+        x[forced + list(extra)] = 1
+        values.append(problem.value(x))
+    return max(values), min(values), len(tied) > need
 
 
 def greedy(problem: ScreeningProblem) -> np.ndarray:

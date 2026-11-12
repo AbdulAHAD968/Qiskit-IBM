@@ -24,7 +24,7 @@ import numpy as np
 
 from . import CARRIER_RATE, DEFAULT_LAMBDA, __version__
 from .classical import (
-    feasible_table, field_rule, greedy, milp_exact, relevance_rule, simulated_annealing,
+    feasible_table, field_rule, greedy, milp_exact, relevance_rule, simulated_annealing, tie_break_range,
 )
 from .decompose import couple_components, largest_component, pool_values, split_budget
 from .genetics import PedigreeModel, allele_frequency
@@ -199,9 +199,12 @@ def _gate1_task(args):
     table = feasible_table(prob)
     cl = _classical(prob, table, idx)
     best_x = prob.mask_to_x(table.best_mask)
+    tie_best, tie_worst, tie = tie_break_range(prob, prob.p)
     return {"size": size, "index": idx, "edges": len(prob.edges), "best": table.best,
             "largest_component": largest_component(prob),
             "couple_share_of_optimum": prob.couples_found(best_x) / table.best,
+            "field_tie": bool(tie), "field_best_tie_ratio": tie_best / table.best,
+            "field_worst_tie_ratio": tie_worst / table.best,
             **{f"{k}_ratio": v["ratio"] for k, v in cl.items()},
             **{f"{k}_optimal": v.get("optimal") for k, v in cl.items() if "optimal" in v}}
 
@@ -221,6 +224,13 @@ def exp_gate1(n_instances: int = 50, workers: int = 8, **_) -> dict:
             if name != "random":
                 summ[name]["miss_rate"] = float(np.mean([not r[f"{name}_optimal"] for r in sub]))
                 summ[name]["mean_gap"] = float(1 - np.mean(ratios))
+        # The field rule breaks ties in carrier probability by index. Bracket that choice.
+        summ["field"]["tie_break"] = {
+            "families_with_tie": int(sum(r["field_tie"] for r in sub)),
+            "best_ratio": _stats([r["field_best_tie_ratio"] for r in sub]),
+            "worst_ratio": _stats([r["field_worst_tie_ratio"] for r in sub]),
+            "best_miss_rate": float(np.mean([r["field_best_tie_ratio"] < 1 - 1e-9 for r in sub])),
+        }
         out["summary"][size] = summ
     save("gate1", out)
     return out

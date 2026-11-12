@@ -24,7 +24,8 @@ large as possible.
 
 ## Why it is an optimisation problem
 
-A couple's risk is known only when both partners are tested. Testing one partner resolves nothing.
+An at-risk couple can be confirmed only when both partners are tested. One test can rule a couple out,
+but it can never confirm one.
 The value of a plan therefore sits on pairs of people, and the pair probabilities cannot be built
 from single-person probabilities: each grandparent of an affected child is a carrier with
 probability 0.51, but both together only with probability 0.026.
@@ -47,7 +48,8 @@ subject to  sum over i of x_i = k,     x_i in {0, 1}
 - **Objective.** The first term is the expected number of at-risk couples found. It is exact for
   married and engaged couples. The second term is a small reward for single carriers found
   (lambda = 0.05).
-- **Constraint.** Exactly k people are tested. People who are absent or decline are fixed to 0.
+- **Constraint.** Exactly k people are tested. No weight is negative, so using every kit is never
+  worse than using fewer. People who are absent or decline are fixed to 0.
   The affected child and the parents (obligate carriers) are not decision variables.
 - **Measurable outcome.** Expected at-risk couples found per visit; every method is scored against
   the exact optimum.

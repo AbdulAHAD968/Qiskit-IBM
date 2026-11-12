@@ -10,9 +10,9 @@ Decision variable  x_i = 1 if relative i is tested in this visit, else 0.
     p_i   probability that i is a carrier
     r_i   relevance of learning the carrier status of i
 
-The first term is the expected number of at-risk couples identified: a couple
-is only resolved when both partners are tested, which is why the value sits on
-pairs and the problem is quadratic.
+The first term is the expected number of at-risk couples identified: an at-risk
+couple is only confirmed when both partners are tested, which is why the value
+sits on pairs and the problem is quadratic.
 
 Bit convention used everywhere: index i of x, qubit i, and bit i of an integer
 mask all refer to the same relative.

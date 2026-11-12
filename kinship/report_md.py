@@ -56,8 +56,9 @@ def build() -> str:
                  ["Instances", f"{cfg['n_s']} of size S (10 relatives, 4 kits), {cfg['n_m']} of size M (16 relatives, 5 kits)"],
                  ["Total run time", f"{sum(meta['seconds'].values()) / 60:.1f} minutes on {meta['workers']} processes"],
              ]), "",
-             "Definitions. *Quality*: expected value of a measured plan, scaled so that the worst valid plan is 0 and "
-             "the best is 1. *Best plan per shot*: probability that a single shot is an optimal plan. *Valid shots*: "
+             "Definitions. *Quality*: expected value of a measured valid plan, scaled so that the worst valid plan is 0 "
+             "and the best is 1; shots that break the kit limit are discarded first. *Best plan per shot*: probability "
+             "that a single shot is an optimal plan, counted over all shots. *Valid shots*: "
              "share of shots that use exactly k kits. *Shots for 95%*: shots needed to see an optimal plan with 95 "
              "percent probability (median over instances).", ""]
 
@@ -89,6 +90,14 @@ def build() -> str:
                      f"{pct(s['couple_share_of_optimum']['mean'])} of the best plan's value; the largest connected "
                      f"component of the couple graph has {s['largest_component']['mean']:.1f} people on average "
                      f"(maximum {s['largest_component']['max']:.0f}).")
+    parts.append("")
+    for size in ("S", "M"):
+        t = g1["summary"][size]["field"]["tie_break"]
+        parts.append(f"Tie-breaking, size {size}: the field officer's rule has a tie in carrier probability at the "
+                     f"cut-off in {t['families_with_tie']} of {g1['n_instances']} families. Breaking every tie in its "
+                     f"favour gives {pct(t['best_ratio']['mean'], 1)} of the optimum on average (every tie against it: "
+                     f"{pct(t['worst_ratio']['mean'], 1)}), and it still misses the best plan in "
+                     f"{pct(t['best_miss_rate'])} of the families.")
     parts += ["", "![Field rule gap](../results/figures/fig02_field_rule_gap.png)", ""]
 
     parts += ["## 3. QAOA against the references", ""]
@@ -119,7 +128,7 @@ def build() -> str:
     parts += ["## 4. Circuit cost", "",
               "Transpiled to the basis RZ, SX, X, CZ at optimisation level 3, first instance of each size.", ""]
     rows = []
-    for size in ("S", "M"):
+    for size in [s for s in ("S", "M") if any(r["size"] == s for r in circ["rows"])]:
         for method in ("dicke_only", "constrained", "penalty"):
             for p in sorted({r["p"] for r in circ["rows"] if r["method"] == method}):
                 a = next(r for r in circ["rows"] if r["size"] == size and r["method"] == method and r["p"] == p
@@ -134,7 +143,8 @@ def build() -> str:
               "![Circuit cost](../results/figures/fig08_circuit_cost.png)", ""]
 
     parts += ["## 5. Noise sweep", "", f"Model: {noise['model']}. Size S, {noise['instances']} families, "
-              f"{noise['shots']:,} shots. Shots without exactly k ones are discarded. Simulator only.", ""]
+              f"{noise['shots']:,} shots. Shots without exactly k ones are discarded. The two-qubit error is the "
+              "depolarising probability applied after each CZ gate. Simulator only.", ""]
     rows = [[NAMES[r["method"]], r["p"], "0" if r["e2"] == 0 else f"{100 * r['e2']:g}%", f"{r['two_qubit']['mean']:.0f}",
              pct(r["valid_share"]["mean"], 1), f"{r['quality']['mean']:.3f}", small(r["p_opt"]["mean"])]
             for r in noise["summary"]]

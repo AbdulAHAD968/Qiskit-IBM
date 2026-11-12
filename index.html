@@ -69,7 +69,7 @@
         <circle class="hn pick" cx="260" cy="362" r="16" style="animation-delay:.35s"/>
         <rect class="hn pick" x="304" y="346" width="32" height="32" rx="3" style="animation-delay:1.05s"/>
         <text class="cap" x="200" y="402" text-anchor="middle">affected child</text>
-        <text class="cap" x="260" y="418" text-anchor="middle">4 kits, 2 couples resolved</text>
+        <text class="cap" x="260" y="418" text-anchor="middle">4 kits, 2 couples fully tested</text>
       </svg>
     </div>
   </div>
@@ -98,7 +98,7 @@
       </div>
       <div class="card reveal" style="--d:.08s">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
-        <h3>Capacity is the limit</h3>
+        <h3>Field capacity is limited</h3>
         <p class="small">The Punjab Thalassaemia Prevention Project covers all 36 districts of Punjab from nine regional centres with 48 field officers, and reports that uptake of cascade testing among relatives is low.<sup class="ref"><a href="#ref2">2</a></sup></p>
       </div>
       <div class="card reveal" style="--d:.16s">
@@ -116,7 +116,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>2</b>Why it is an optimisation problem</div>
     <h2 class="reveal">The value sits on couples, not on individuals.</h2>
-    <p class="lead reveal">A couple's risk is only known when both partners are tested. Testing one partner resolves nothing. So the best choice depends on pairs of people, and the obvious rule, test whoever is most likely to be a carrier, spends kits on people whose partners go untested.</p>
+    <p class="lead reveal">An at-risk couple can only be confirmed when both partners are tested. One test can rule a couple out, but it can never confirm one. So the best choice depends on pairs of people, and the obvious rule, test whoever is most likely to be a carrier, spends kits on people whose partners go untested.</p>
 
     <div class="pair-demo">
       <div class="card pair-card reveal">
@@ -126,7 +126,7 @@
           <circle class="pn" cx="235" cy="55" r="30"/>
           <text class="pt" x="90" y="112" text-anchor="middle">tested</text><text class="pt" x="235" y="112" text-anchor="middle">not tested</text>
         </svg>
-        <div class="verdict no">One kit used. No couple resolved.</div>
+        <div class="verdict no">One kit used. No at-risk couple can be confirmed.</div>
       </div>
       <div class="card pair-card reveal" style="--d:.12s">
         <svg viewBox="0 0 330 130" aria-hidden="true">
@@ -250,7 +250,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>5</b>Quantum method</div>
     <h2 class="reveal">A circuit that can only output plans with exactly k kits.</h2>
-    <p class="lead reveal">The objective is a sum over pairs of yes-or-no decisions, which is the native form of the Quantum Approximate Optimization Algorithm. The kit limit is enforced by the structure of the circuit, so it needs no penalty term.<sup class="ref"><a href="#ref5">5</a></sup></p>
+    <p class="lead reveal">The objective is a sum over pairs of yes-or-no decisions, which is the native form of the Quantum Approximate Optimization Algorithm.<sup class="ref"><a href="#ref7">7</a></sup> The kit limit is enforced by the structure of the circuit, as in the quantum alternating operator ansatz, so it needs no penalty term.<sup class="ref"><a href="#ref8">8</a>, <a href="#ref5">5</a></sup></p>
 
     <div class="card mt reveal">
       <div class="table-wrap"><table>
@@ -377,7 +377,7 @@
   <div class="wrap">
     <div class="eyebrow reveal"><b>7</b>Results</div>
     <h2 class="reveal">Measured against the exact answer, every time.</h2>
-    <p class="lead reveal">All runs are noise-free statevector simulations unless stated, with fixed seeds. Quality is the expected value of a measured plan, scaled so that the worst valid plan is 0 and the best is 1.</p>
+    <p class="lead reveal">All runs are noise-free statevector simulations unless stated, with fixed seeds. Quality is the expected value of a measured valid plan, scaled so that the worst valid plan is 0 and the best is 1; shots that break the kit limit are discarded first.</p>
 
     <div class="grid g4 mt2">
       <div class="card stat reveal"><div class="v num" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></div><div class="l">quality of constrained QAOA at depth 3 on 16 qubits. A random valid plan scores <b data-v="bench.M.random.0.quality.mean" data-f="n2"></b>.</div></div>
@@ -391,6 +391,8 @@
       <div class="card chart-card reveal"><h3>10 relatives, 4 kits</h3><div class="sub">Value of each rule's plan divided by the best plan. One dot per seeded family; the bar is the mean.</div><div id="gate1-S"></div></div>
       <div class="card chart-card reveal" style="--d:.1s"><h3>16 relatives, 5 kits</h3><div class="sub">The field officer's rule never found the best plan. Simulated annealing almost always did.</div><div id="gate1-M"></div></div>
     </div>
+
+    <p class="small reveal" id="tie-note" style="margin-top:14px"></p>
 
     <h3 class="mt2 reveal">QAOA against random picks and the field rule</h3>
     <div class="chart-legend reveal" style="margin-top:10px"><span><i class="bg-constrained"></i>Constrained QAOA</span><span><i class="bg-penalty"></i>Penalty QAOA</span><span style="color:var(--c-random)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Random valid plan</em></span><span style="color:var(--c-field)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Field officer's rule</em></span></div>
@@ -412,7 +414,7 @@
     </div>
 
     <h3 class="mt2 reveal">Under noise</h3>
-    <p class="small reveal">Aer noise model on the 10-qubit instances: depolarising error on every CZ gate, a tenth of that on single-qubit gates, readout error at twice that rate. Shots without exactly k ones are discarded and the surviving share is reported. No real quantum processor was used.</p>
+    <p class="small reveal">Aer noise model on the 10-qubit instances: a depolarising error after every CZ gate (the horizontal axis shows its probability), a tenth of that on single-qubit gates, and a readout error at twice that rate. Shots without exactly k ones are discarded and the surviving share is reported. No real quantum processor was used.</p>
     <div class="chart-legend reveal"><span><i class="bg-constrained"></i>Constrained, p = 1</span><span style="color:var(--c-constrained)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Constrained, p = 2</em></span><span><i class="bg-penalty"></i>Penalty, p = 1</span><span style="color:var(--c-penalty)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Penalty, p = 2</em></span></div>
     <div class="grid g3" style="margin-top:6px">
       <div class="card chart-card reveal"><h3>Valid shots</h3><div class="sub">Percent of shots with exactly k kits.</div><div id="noise-valid"></div></div>
@@ -421,7 +423,7 @@
     </div>
 
     <div class="grid g2 mt2">
-      <div class="card chart-card reveal"><h3>Couples against carriers</h3><div class="sub">Sweeping &lambda; trades at-risk couples found against single carriers found. Instance <span data-v="tradeoff.instance" data-f="raw"></span>, <span data-v="tradeoff.total_shots" data-f="int"></span> shots in total.</div>
+      <div class="card chart-card reveal"><h3>Couples against carriers</h3><div class="sub">Sweeping &lambda; trades at-risk couples found against single carriers found, an idea borrowed from multi-objective QAOA.<sup class="ref"><a href="#ref11">11</a></sup> Instance <span data-v="tradeoff.instance" data-f="raw"></span>, <span data-v="tradeoff.total_shots" data-f="int"></span> shots in total.</div>
         <div class="chart-legend"><span><i class="bg-exact"></i>Exact trade-off front</span><span><i class="bg-constrained"></i>Best plans among QAOA shots</span><span><i class="bg-field"></i>Field rule</span><span><i class="bg-relevance"></i>Relevance rule</span></div>
         <div id="tradeoff"></div>
         <p class="src" id="tradeoff-note"></p></div>
@@ -444,7 +446,7 @@
     <div class="eyebrow reveal"><b>8</b>Limitations and what did not work</div>
     <h2 class="reveal">What the numbers do not show.</h2>
     <div class="grid g3 mt2">
-      <div class="card limit reveal"><h3>No quantum speedup</h3><p class="small">Brute force gives the exact answer for the 10- and 16-qubit instances in milliseconds, and simulated annealing found the best plan in <span class="n" data-v="bench.M.annealing.0.optimal_share" data-f="pct0"></span> of the 16-qubit families. At these sizes a classical solver wins. This is a method study on a new problem.</p></div>
+      <div class="card limit reveal"><h3>No quantum speedup</h3><p class="small">Brute force gives the exact answer for the 10- and 16-qubit instances in milliseconds, and simulated annealing found the best plan in <span class="n" data-v="bench.M.annealing.0.optimal_share" data-f="pct0"></span> of the 16-qubit families. At these sizes a classical solver wins. Tuning the angles for one 16-qubit family alone took about <span class="n" id="train-evals"></span> circuit evaluations, to choose among 4,368 plans. This is a method study on a new problem.</p></div>
       <div class="card limit reveal" style="--d:.06s"><h3>Family graphs are sparse</h3><p class="small">The couple graph splits into small pieces: the largest connected component has <span class="n" data-v="gate1.summary.M.largest_component.mean" data-f="n1"></span> people on average in the 16-relative families (at most <span class="n" data-v="gate1.summary.M.largest_component.max" data-f="int"></span>). An exact dynamic programme over those pieces solves the problem, so worst-case hardness results do not apply to these instances.</p></div>
       <div class="card limit reveal" style="--d:.12s"><h3>Expected quality is modest</h3><p class="small">At depth 3 constrained QAOA reaches <span class="n" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></span> on 16 qubits. A classical greedy heuristic reaches <span class="n" data-v="bench.M.greedy.0.quality.mean" data-f="n2"></span>. QAOA beats the field rule and random picks, not the stronger classical heuristics.</p></div>
       <div class="card limit reveal"><h3>Penalty QAOA barely beats random</h3><p class="small">Its valid shots score <span class="n" data-v="bench.M.penalty.3.quality.mean" data-f="n2"></span> against <span class="n" data-v="bench.M.random.0.quality.mean" data-f="n2"></span> for a random valid plan on 16 qubits, and <span class="n" id="penalty-invalid"></span> of its shots break the kit limit at depth 3.</p></div>
@@ -452,7 +454,7 @@
       <div class="card limit reveal" style="--d:.12s"><h3>Noise costs most of the shots</h3><p class="small">The Dicke start state alone takes <span class="n" data-v="circ.S.all.dicke_only.0.two_qubit" data-f="int"></span> CZ gates on 10 qubits. At 1 percent two-qubit error only <span class="n" id="noise-valid-1"></span> of constrained shots still use exactly k kits.</p></div>
       <div class="card limit reveal"><h3>Simulator only</h3><p class="small">No real quantum processor was used. The noise model is generic and assumes all-to-all connectivity; on a line of qubits the depth-1 circuit grows from <span class="n" data-v="circ.S.all.constrained.1.two_qubit" data-f="int"></span> to <span class="n" data-v="circ.S.line.constrained.1.two_qubit" data-f="int"></span> CZ gates.</p></div>
       <div class="card limit reveal" style="--d:.06s"><h3>Sampling flatters small instances</h3><p class="small">With thousands of shots and only 210 or 4,368 valid plans, even uniform sampling usually contains the best plan. That is why the charts report the chance per shot and the expected quality, not the best of all shots.</p></div>
-      <div class="card limit reveal" style="--d:.12s"><h3>Synthetic families, simple genetics</h3><p class="small">Families are generated, not observed. The average carrier share among testable relatives is <span class="n" data-v="genetics.calibration.carrier_share_candidates" data-f="pct0"></span> against 31 percent in the 2002 study. The model covers one visit, one gene, a perfect test, and no step-by-step testing.</p></div>
+      <div class="card limit reveal" style="--d:.12s"><h3>Synthetic families, simple genetics</h3><p class="small">Families are generated, not observed. The average carrier share among testable relatives is <span class="n" data-v="genetics.calibration.carrier_share_candidates" data-f="pct0"></span> against 31 percent in the 2002 study. The model covers one visit, one gene, a perfect test, and no step-by-step testing. The kit budget as the binding limit and the field officer's rule as the baseline are our assumptions, not programme protocol.</p></div>
     </div>
 
     <div class="grid g2 mt2" id="ethics">
@@ -473,7 +475,7 @@
 pip install -r requirements.txt
 python -m kinship.demo            <span class="c"># one family, one plan, about 20 s</span>
 python -m kinship.evaluate all    <span class="c"># every number on this page</span>
-pytest                            <span class="c"># 46 checks</span></pre>
+pytest                            <span class="c"># 47 checks</span></pre>
         <p class="small" style="margin-top:14px">Versions used: Qiskit <span data-v="meta.qiskit" data-f="raw"></span>, Qiskit Aer <span data-v="meta.qiskit_aer" data-f="raw"></span>, NumPy <span data-v="meta.numpy" data-f="raw"></span>, SciPy <span data-v="meta.scipy" data-f="raw"></span>, Python <span data-v="meta.python" data-f="raw"></span>. Results generated <span data-v="meta.generated" data-f="date"></span>.</p>
       </div>
       <div class="card reveal" style="--d:.1s">
@@ -481,8 +483,8 @@ pytest                            <span class="c"># 46 checks</span></pre>
         <div class="table-wrap"><table>
           <tr><td>Code and results</td><td><a href="https://github.com/AbdulAHAD968/Qiskit-IBM" rel="noopener">github.com/AbdulAHAD968/Qiskit-IBM</a></td></tr>
           <tr><td>Report with architecture diagram</td><td><a href="report/Kinship_QAOA_Report.docx">report/Kinship_QAOA_Report.docx</a></td></tr>
-          <tr><td>Benchmark report</td><td><a href="DOCS/BENCHMARKS.md">DOCS/BENCHMARKS.md</a></td></tr>
-          <tr><td>Limitations and ethics</td><td><a href="DOCS/LIMITATIONS.md">DOCS/LIMITATIONS.md</a></td></tr>
+          <tr><td>Benchmark report</td><td><a href="https://github.com/AbdulAHAD968/Qiskit-IBM/blob/main/DOCS/BENCHMARKS.md" rel="noopener">DOCS/BENCHMARKS.md</a></td></tr>
+          <tr><td>Limitations and ethics</td><td><a href="https://github.com/AbdulAHAD968/Qiskit-IBM/blob/main/DOCS/LIMITATIONS.md" rel="noopener">DOCS/LIMITATIONS.md</a></td></tr>
         </table></div>
       </div>
     </div>

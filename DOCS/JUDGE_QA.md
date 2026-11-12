@@ -21,7 +21,9 @@ prove there is none.
 **Why not simply test the closest relatives?**
 Because the value sits on couples. The rule "test the highest carrier probabilities" missed the
 best plan in 98% of 10-relative families and 100% of 16-relative families, and reached 45% and 35%
-of the best value.
+of the best value. Breaking every tie in carrier probability in the rule's favour does not rescue
+it: 48% and 38%, with the same miss rates. The rule is our stand-in for an unaided choice, not a
+documented programme protocol.
 
 **Why not test one partner first and the other only if positive?**
 That is sensible when results return quickly. Our model covers the single-visit case. Step-by-step
@@ -86,5 +88,5 @@ It can be. The tool uses synthetic data, treats consent as an input, publishes n
 scores, and is meant to support a counsellor's plan for one visit.
 
 **How reproducible is it?**
-Pinned requirements, fixed seeds, saved JSON results, 46 tests, and scripts that regenerate every
+Pinned requirements, fixed seeds, saved JSON results, 47 tests, and scripts that regenerate every
 figure, the website data and the report. The full matrix takes about 8 minutes on 8 processes.

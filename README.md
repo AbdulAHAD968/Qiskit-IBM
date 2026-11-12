@@ -16,7 +16,7 @@ answer against the exact optimum.
 | Working, reproducible Qiskit code | this repository, `kinship/` and `tests/` |
 | Report (.docx) with results, exact comparison and limitations | [report/Kinship_QAOA_Report.docx](report/Kinship_QAOA_Report.docx) |
 | Architecture diagram | [report/architecture.png](report/architecture.png), also Figure 1 of the report |
-| Project website with the interactive walkthrough | [index.html](index.html) |
+| Project website with the interactive walkthrough | `index.html`: open it in a browser after cloning (GitHub shows only its source) |
 | Problem statement, benchmark report, limitations, references | [DOCS/](DOCS) |
 | 3-minute video pitch and demo | link submitted with the entry form; script in [DOCS/VIDEO_SCRIPT.md](DOCS/VIDEO_SCRIPT.md) |
 
@@ -28,7 +28,7 @@ relatives were carriers, against none in control families (Ahmed et al., NEJM 20
 teams therefore test the relatives of patients, but kits, laboratory capacity and field officers
 are limited: 48 field officers cover the 36 districts of Punjab.
 
-A couple's risk is known only when **both** partners are tested, so the value of a visit sits on
+An at-risk couple can be confirmed only when **both** partners are tested, so the value of a visit sits on
 pairs of people:
 
 ```
@@ -91,7 +91,7 @@ or a new one with `python -m kinship.demo --seed 42 --n 9 --k 3`.
 ## Reproduce every number
 
 ```bash
-pytest                               # 46 checks, a few seconds
+pytest                               # 47 checks, a few seconds
 python -m kinship.evaluate all       # all experiments, about 8 minutes on 8 processes
 python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (overwrites results/)
 python -m kinship.plots              # results/figures/*.png and report/architecture.png
@@ -101,7 +101,10 @@ python report/build_report.py        # report/Kinship_QAOA_Report.docx
 ```
 
 Seeds are fixed and versions are pinned in `requirements.txt` (Qiskit 2.6.2, Qiskit Aer 0.18.2).
-The committed `results/*.json` files are the output of the full run.
+The committed `results/*.json` files are the output of the full run. A second full run in a fresh
+clone reproduced every value in them (timing fields aside). The `--quick` run is only a smoke test:
+it overwrites `results/` with a reduced matrix, so run the full matrix again before regenerating the
+figures, the website data or the report.
 
 To view the website, open `index.html` in a browser, or serve the folder:
 
@@ -124,9 +127,9 @@ Quality is the expected value of a measured plan, scaled so the worst valid plan
 | **Constrained QAOA, depth 3** | **0.62** | **0.50** | **0.98%** | **100%** |
 
 - The field officer's rule misses the best plan in 98% (10 relatives) and 100% (16 relatives) of
-  50 seeded families.
-- Constrained QAOA makes one shot the best plan 12 times (10 qubits) and 32 times (16 qubits) more
-  often than a random valid pick, and never breaks the kit limit.
+  50 seeded families, also when every tie in carrier probability is broken in its favour.
+- Constrained QAOA makes one shot the best plan on average 12 times (10 qubits) and 32 times
+  (16 qubits) more often than a random valid pick, and never breaks the kit limit.
 - Networks of 48 relatives and 12 kits are solved to the proven optimum with circuits of at most
   9 qubits, by splitting along the couple graph.
 - **No speedup is claimed.** Brute force and simulated annealing solve these sizes. See
@@ -183,7 +186,8 @@ index.html, web/     project website (static, no dependencies)
 ## Limitations in short
 
 Simulator only, no real quantum processor. Synthetic families calibrated loosely to one study.
-One gene, a perfect test, one visit. A classical solver wins at these sizes, and family graphs are
+One gene, a perfect test, one visit, and the kit budget assumed to be the binding limit. A classical
+solver wins at these sizes, and family graphs are
 sparse enough for an exact dynamic programme. Penalty QAOA barely beats random, a cheaper start
 state failed, and at 1% two-qubit error most shots are lost. Details and numbers:
 [DOCS/LIMITATIONS.md](DOCS/LIMITATIONS.md).

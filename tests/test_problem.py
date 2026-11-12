@@ -4,6 +4,7 @@ import pytest
 
 from kinship.classical import (
     brute_force, feasible_table, field_rule, greedy, milp_exact, relevance_rule, simulated_annealing,
+    tie_break_range,
 )
 from kinship.pedigree import generate_family
 from kinship.problem import build_problem, make_instance
@@ -88,3 +89,12 @@ def test_restrict_keeps_internal_links_only(small):
     assert sub.n == 4
     for (i, j) in sub.edges:
         assert 0 <= i < j < 4
+
+
+def test_tie_break_range_brackets_the_field_rule():
+    for index in range(6):
+        prob = make_instance("S", index)
+        best, worst, _ = tie_break_range(prob, prob.p)
+        value = prob.value(field_rule(prob))
+        assert worst - 1e-12 <= value <= best + 1e-12
+        assert best <= feasible_table(prob).best + 1e-12
