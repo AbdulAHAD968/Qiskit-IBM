@@ -1,6 +1,6 @@
 """Independent check of the pedigree engine by Monte Carlo gene dropping.
 
-    python -m kinship.validate_genetics        about 2 minutes, writes results/genetics_montecarlo.json
+    python -m kinship.validate_genetics        about 1 minute, writes results/genetics_montecarlo.json
 
 Nothing here uses the engine's inference code. Founders are drawn in
 Hardy-Weinberg proportions, alleles are dropped down the family tree by

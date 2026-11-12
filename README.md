@@ -113,7 +113,7 @@ website on port 8000; the same image runs the demo and the tests.
 docker build -t kinship-qaoa .
 docker run --rm -p 8000:8000 kinship-qaoa            # website at http://localhost:8000
 docker run --rm kinship-qaoa python -m kinship.demo   # one-command demo
-docker run --rm kinship-qaoa pytest                   # 47 checks
+docker run --rm kinship-qaoa pytest                   # 57 checks
 ```
 
 ## Reproduce every number
@@ -122,7 +122,7 @@ docker run --rm kinship-qaoa pytest                   # 47 checks
 pytest                               # 57 checks, a few seconds
 python -m kinship.evaluate all       # all experiments, about 8 minutes on 8 processes
 python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (overwrites results/)
-python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 2 minutes
+python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 1 minute
 python -m kinship.compare_runs DIR   # compare results/ with the results folder DIR of another run
 python -m kinship.plots              # results/figures/*.png and report/architecture.png
 python -m kinship.report_md          # DOCS/BENCHMARKS.md
@@ -217,6 +217,7 @@ results/             raw outputs (*.json) and figures
 report/              the .docx report, its generator and the architecture diagram
 DOCS/                problem statement, benchmark report, limitations, references, judge Q&A, video script
 pytest.ini           lets `pytest` find the package from the repository root
+Dockerfile           container image: serves the website, runs the demo and the tests
 index.html, web/     project website (static, no dependencies)
 ```
 

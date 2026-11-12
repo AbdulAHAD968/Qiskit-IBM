@@ -7,7 +7,7 @@
 #
 # The same image runs the code:
 #   docker run --rm kinship-qaoa python -m kinship.demo   # one-command demo
-#   docker run --rm kinship-qaoa pytest                   # 47 checks
+#   docker run --rm kinship-qaoa pytest                   # 57 checks
 #   docker run --rm kinship-qaoa python -m kinship.demo --size M --index 1
 FROM python:3.11-slim
 

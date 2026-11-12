@@ -16,8 +16,8 @@ cd ..
 python -m kinship.compare_runs second-run/results     # run from the first copy of the repository
 ```
 
-`compare_runs` walks every JSON file, ignores the timing fields, compares numbers with a relative
-tolerance of 1e-9, and exits with status 1 if anything differs.
+`compare_runs` walks every JSON file, ignores the timing fields, compares numbers with a tolerance
+of 1e-9 (absolute for values up to 1, relative above), and exits with status 1 if anything differs.
 
 ## Result
 
