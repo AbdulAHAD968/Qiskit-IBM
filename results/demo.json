@@ -1,0 +1,1750 @@
+{
+ "name": "S-16",
+ "n": 10,
+ "k": 4,
+ "lam": 0.05,
+ "people": [
+  {
+   "id": 0,
+   "label": "Great-grandfather",
+   "role": "ancestor",
+   "sex": "M",
+   "gen": 0,
+   "father": null,
+   "mother": null,
+   "status": "deceased",
+   "stage": "elder",
+   "p": 0.47111987094462143,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.342948717948718,
+   "y": 0.0
+  },
+  {
+   "id": 1,
+   "label": "Great-grandmother",
+   "role": "ancestor",
+   "sex": "F",
+   "gen": 0,
+   "father": null,
+   "mother": null,
+   "status": "deceased",
+   "stage": "elder",
+   "p": 0.47111987094462143,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.43910256410256415,
+   "y": 0.0
+  },
+  {
+   "id": 2,
+   "label": "Paternal grandfather",
+   "role": "pgf",
+   "sex": "M",
+   "gen": 1,
+   "father": 0,
+   "mother": 1,
+   "status": "deceased",
+   "stage": "elder",
+   "p": 0.8758298093865462,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.25,
+   "y": 1.0
+  },
+  {
+   "id": 3,
+   "label": "Paternal grandmother",
+   "role": "pgm",
+   "sex": "F",
+   "gen": 1,
+   "father": null,
+   "mother": null,
+   "status": "unavailable",
+   "stage": "elder",
+   "p": 0.15562552782495095,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.34615384615384615,
+   "y": 1.0
+  },
+  {
+   "id": 4,
+   "label": "Maternal grandfather",
+   "role": "mgf",
+   "sex": "M",
+   "gen": 1,
+   "father": 0,
+   "mother": 1,
+   "status": "deceased",
+   "stage": "elder",
+   "p": 0.8754453696279986,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.5320512820512822,
+   "y": 1.0
+  },
+  {
+   "id": 5,
+   "label": "Maternal grandmother",
+   "role": "mgm",
+   "sex": "F",
+   "gen": 1,
+   "father": null,
+   "mother": null,
+   "status": "deceased",
+   "stage": "elder",
+   "p": 0.14823137343407944,
+   "r": 0.1,
+   "qubit": null,
+   "x": 0.6282051282051283,
+   "y": 1.0
+  },
+  {
+   "id": 6,
+   "label": "Father",
+   "role": "father",
+   "sex": "M",
+   "gen": 2,
+   "father": 2,
+   "mother": 3,
+   "status": "obligate",
+   "stage": "married",
+   "p": 1.0,
+   "r": 0.7,
+   "qubit": null,
+   "x": 0.09615384615384615,
+   "y": 2.0
+  },
+  {
+   "id": 7,
+   "label": "Mother",
+   "role": "mother",
+   "sex": "F",
+   "gen": 2,
+   "father": 4,
+   "mother": 5,
+   "status": "obligate",
+   "stage": "married",
+   "p": 1.0,
+   "r": 0.7,
+   "qubit": null,
+   "x": 0.1923076923076923,
+   "y": 2.0
+  },
+  {
+   "id": 8,
+   "label": "Paternal aunt 1",
+   "role": "paternal_sib",
+   "sex": "F",
+   "gen": 2,
+   "father": 2,
+   "mother": 3,
+   "status": "candidate",
+   "stage": "married",
+   "p": 0.420095470303696,
+   "r": 0.7,
+   "qubit": 0,
+   "x": 0.5,
+   "y": 2.0
+  },
+  {
+   "id": 9,
+   "label": "Maternal aunt 1",
+   "role": "maternal_sib",
+   "sex": "F",
+   "gen": 2,
+   "father": 4,
+   "mother": 5,
+   "status": "unavailable",
+   "stage": "married",
+   "p": 0.49662722563725153,
+   "r": 0.7,
+   "qubit": null,
+   "x": 0.9519230769230769,
+   "y": 2.0
+  },
+  {
+   "id": 10,
+   "label": "Maternal uncle 1",
+   "role": "maternal_sib",
+   "sex": "M",
+   "gen": 2,
+   "father": 4,
+   "mother": 5,
+   "status": "candidate",
+   "stage": "married",
+   "p": 0.41848956699542883,
+   "r": 0.7,
+   "qubit": 1,
+   "x": 0.5961538461538461,
+   "y": 2.0
+  },
+  {
+   "id": 11,
+   "label": "Husband of maternal aunt 1",
+   "role": "spouse",
+   "sex": "M",
+   "gen": 2,
+   "father": null,
+   "mother": null,
+   "status": "candidate",
+   "stage": "married",
+   "p": 0.03598009619681147,
+   "r": 0.7,
+   "qubit": 2,
+   "x": 0.8557692307692307,
+   "y": 2.0
+  },
+  {
+   "id": 12,
+   "label": "Cousin 1",
+   "role": "cousin",
+   "sex": "F",
+   "gen": 3,
+   "father": 10,
+   "mother": 8,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.37725393150012093,
+   "r": 1.0,
+   "qubit": 3,
+   "x": 0.4519230769230769,
+   "y": 3.0
+  },
+  {
+   "id": 13,
+   "label": "Cousin 2",
+   "role": "cousin",
+   "sex": "F",
+   "gen": 3,
+   "father": 10,
+   "mother": 8,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.37725393150012093,
+   "r": 1.0,
+   "qubit": 4,
+   "x": 0.5480769230769231,
+   "y": 3.0
+  },
+  {
+   "id": 14,
+   "label": "Cousin 3",
+   "role": "cousin",
+   "sex": "M",
+   "gen": 3,
+   "father": 10,
+   "mother": 8,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.37725393150012093,
+   "r": 1.0,
+   "qubit": 5,
+   "x": 0.6442307692307693,
+   "y": 3.0
+  },
+  {
+   "id": 15,
+   "label": "Cousin 4",
+   "role": "cousin",
+   "sex": "F",
+   "gen": 3,
+   "father": 11,
+   "mother": 9,
+   "status": "candidate",
+   "stage": "child",
+   "p": 0.26270536866206085,
+   "r": 0.5,
+   "qubit": 6,
+   "x": 0.8076923076923077,
+   "y": 3.0
+  },
+  {
+   "id": 16,
+   "label": "Cousin 5",
+   "role": "cousin",
+   "sex": "M",
+   "gen": 3,
+   "father": 11,
+   "mother": 9,
+   "status": "unavailable",
+   "stage": "child",
+   "p": 0.26270536866206085,
+   "r": 0.5,
+   "qubit": null,
+   "x": 0.9038461538461539,
+   "y": 3.0
+  },
+  {
+   "id": 17,
+   "label": "Cousin 6",
+   "role": "cousin",
+   "sex": "M",
+   "gen": 3,
+   "father": 11,
+   "mother": 9,
+   "status": "unavailable",
+   "stage": "unmarried",
+   "p": 0.26270536866206085,
+   "r": 1.0,
+   "qubit": null,
+   "x": 1.0,
+   "y": 3.0
+  },
+  {
+   "id": 18,
+   "label": "Index child",
+   "role": "proband",
+   "sex": "F",
+   "gen": 3,
+   "father": 6,
+   "mother": 7,
+   "status": "affected",
+   "stage": "child",
+   "p": 0.0,
+   "r": 0.5,
+   "qubit": null,
+   "x": 0.0,
+   "y": 3.0
+  },
+  {
+   "id": 19,
+   "label": "Sibling 1",
+   "role": "sibling",
+   "sex": "M",
+   "gen": 3,
+   "father": 6,
+   "mother": 7,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.6666666666666667,
+   "r": 1.0,
+   "qubit": 7,
+   "x": 0.09615384615384615,
+   "y": 3.0
+  },
+  {
+   "id": 20,
+   "label": "Sibling 2",
+   "role": "sibling",
+   "sex": "M",
+   "gen": 3,
+   "father": 6,
+   "mother": 7,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.6666666666666667,
+   "r": 1.0,
+   "qubit": 8,
+   "x": 0.1923076923076923,
+   "y": 3.0
+  },
+  {
+   "id": 21,
+   "label": "Sibling 3",
+   "role": "sibling",
+   "sex": "F",
+   "gen": 3,
+   "father": 6,
+   "mother": 7,
+   "status": "candidate",
+   "stage": "unmarried",
+   "p": 0.6666666666666667,
+   "r": 1.0,
+   "qubit": 9,
+   "x": 0.28846153846153844,
+   "y": 3.0
+  }
+ ],
+ "couples": [
+  {
+   "a": 6,
+   "b": 7,
+   "kind": "married",
+   "strength": 1.0,
+   "w": 1.0,
+   "weight": 1.0,
+   "in_problem": false
+  },
+  {
+   "a": 10,
+   "b": 8,
+   "kind": "married",
+   "strength": 1.0,
+   "w": 0.12611576144832437,
+   "weight": 0.12611576144832437,
+   "in_problem": true
+  },
+  {
+   "a": 11,
+   "b": 9,
+   "kind": "married",
+   "strength": 1.0,
+   "w": 0.010794876764911927,
+   "weight": 0.010794876764911927,
+   "in_problem": false
+  },
+  {
+   "a": 12,
+   "b": 19,
+   "kind": "potential",
+   "strength": 0.25,
+   "w": 0.2515026210000806,
+   "weight": 0.06287565525002015,
+   "in_problem": true
+  },
+  {
+   "a": 12,
+   "b": 20,
+   "kind": "potential",
+   "strength": 0.25,
+   "w": 0.2515026210000806,
+   "weight": 0.06287565525002015,
+   "in_problem": true
+  },
+  {
+   "a": 13,
+   "b": 19,
+   "kind": "potential",
+   "strength": 0.25,
+   "w": 0.2515026210000806,
+   "weight": 0.06287565525002015,
+   "in_problem": true
+  },
+  {
+   "a": 13,
+   "b": 20,
+   "kind": "potential",
+   "strength": 0.25,
+   "w": 0.2515026210000806,
+   "weight": 0.06287565525002015,
+   "in_problem": true
+  },
+  {
+   "a": 14,
+   "b": 21,
+   "kind": "potential",
+   "strength": 0.5,
+   "w": 0.2515026210000806,
+   "weight": 0.1257513105000403,
+   "in_problem": true
+  }
+ ],
+ "candidates": [
+  {
+   "qubit": 0,
+   "id": 8,
+   "label": "Paternal aunt 1",
+   "p": 0.420095470303696,
+   "r": 0.7
+  },
+  {
+   "qubit": 1,
+   "id": 10,
+   "label": "Maternal uncle 1",
+   "p": 0.41848956699542883,
+   "r": 0.7
+  },
+  {
+   "qubit": 2,
+   "id": 11,
+   "label": "Husband of maternal aunt 1",
+   "p": 0.03598009619681147,
+   "r": 0.7
+  },
+  {
+   "qubit": 3,
+   "id": 12,
+   "label": "Cousin 1",
+   "p": 0.37725393150012093,
+   "r": 1.0
+  },
+  {
+   "qubit": 4,
+   "id": 13,
+   "label": "Cousin 2",
+   "p": 0.37725393150012093,
+   "r": 1.0
+  },
+  {
+   "qubit": 5,
+   "id": 14,
+   "label": "Cousin 3",
+   "p": 0.37725393150012093,
+   "r": 1.0
+  },
+  {
+   "qubit": 6,
+   "id": 15,
+   "label": "Cousin 4",
+   "p": 0.26270536866206085,
+   "r": 0.5
+  },
+  {
+   "qubit": 7,
+   "id": 19,
+   "label": "Sibling 1",
+   "p": 0.6666666666666667,
+   "r": 1.0
+  },
+  {
+   "qubit": 8,
+   "id": 20,
+   "label": "Sibling 2",
+   "p": 0.6666666666666667,
+   "r": 1.0
+  },
+  {
+   "qubit": 9,
+   "id": 21,
+   "label": "Sibling 3",
+   "p": 0.6666666666666667,
+   "r": 1.0
+  }
+ ],
+ "edges": [
+  {
+   "i": 0,
+   "j": 1,
+   "kind": "married",
+   "w": 0.12611576144832437,
+   "c": 1.0,
+   "weight": 0.12611576144832437
+  },
+  {
+   "i": 3,
+   "j": 7,
+   "kind": "potential",
+   "w": 0.2515026210000806,
+   "c": 0.25,
+   "weight": 0.06287565525002015
+  },
+  {
+   "i": 3,
+   "j": 8,
+   "kind": "potential",
+   "w": 0.2515026210000806,
+   "c": 0.25,
+   "weight": 0.06287565525002015
+  },
+  {
+   "i": 4,
+   "j": 7,
+   "kind": "potential",
+   "w": 0.2515026210000806,
+   "c": 0.25,
+   "weight": 0.06287565525002015
+  },
+  {
+   "i": 4,
+   "j": 8,
+   "kind": "potential",
+   "w": 0.2515026210000806,
+   "c": 0.25,
+   "weight": 0.06287565525002015
+  },
+  {
+   "i": 5,
+   "j": 9,
+   "kind": "potential",
+   "w": 0.2515026210000806,
+   "c": 0.5,
+   "weight": 0.1257513105000403
+  }
+ ],
+ "n_feasible": 210,
+ "best": 0.35589468081675935,
+ "worst": 0.04133676900328598,
+ "mean": 0.1446221605053637,
+ "random": {
+  "value": 0.1446221605053637,
+  "ratio": 0.4063622422607259,
+  "quality": 0.32835095740120473,
+  "p_opt": 0.004761904761904762,
+  "shots_95": 627.6047196879148
+ },
+ "plans": {
+  "exact": {
+   "mask": 408,
+   "chosen": [
+    12,
+    13,
+    19,
+    20
+   ],
+   "labels": [
+    "Cousin 1",
+    "Cousin 2",
+    "Sibling 1",
+    "Sibling 2"
+   ],
+   "value": 0.35589468081675935,
+   "couples": 0.2515026210000806,
+   "carriers": 2.0878411963335752,
+   "ratio": 1.0,
+   "quality": 1.0
+  },
+  "field": {
+   "mask": 897,
+   "chosen": [
+    8,
+    19,
+    20,
+    21
+   ],
+   "labels": [
+    "Paternal aunt 1",
+    "Sibling 1",
+    "Sibling 2",
+    "Sibling 3"
+   ],
+   "value": 0.11470334146062938,
+   "couples": 0.0,
+   "carriers": 2.2940668292125874,
+   "ratio": 0.32229574546433604,
+   "quality": 0.23323709149254632
+  },
+  "relevance": {
+   "mask": 904,
+   "chosen": [
+    12,
+    19,
+    20,
+    21
+   ],
+   "labels": [
+    "Cousin 1",
+    "Sibling 1",
+    "Sibling 2",
+    "Sibling 3"
+   ],
+   "value": 0.24461400707504635,
+   "couples": 0.1257513105000403,
+   "carriers": 2.377253931500121,
+   "ratio": 0.6873213348220609,
+   "quality": 0.6462315218836389
+  },
+  "greedy": {
+   "mask": 408,
+   "chosen": [
+    12,
+    13,
+    19,
+    20
+   ],
+   "labels": [
+    "Cousin 1",
+    "Cousin 2",
+    "Sibling 1",
+    "Sibling 2"
+   ],
+   "value": 0.35589468081675935,
+   "couples": 0.2515026210000806,
+   "carriers": 2.0878411963335752,
+   "ratio": 1.0,
+   "quality": 1.0
+  },
+  "annealing": {
+   "mask": 408,
+   "chosen": [
+    12,
+    13,
+    19,
+    20
+   ],
+   "labels": [
+    "Cousin 1",
+    "Cousin 2",
+    "Sibling 1",
+    "Sibling 2"
+   ],
+   "value": 0.35589468081675935,
+   "couples": 0.2515026210000806,
+   "carriers": 2.0878411963335752,
+   "ratio": 1.0,
+   "quality": 1.0
+  }
+ },
+ "qaoa": [
+  {
+   "method": "constrained",
+   "p": 1,
+   "angles": [
+    0.5043968428006894,
+    0.4352993570978169
+   ],
+   "quality": 0.5160720375247961,
+   "ratio": 0.5722797289495744,
+   "p_opt": 0.02670199231390484,
+   "valid_share": 0.9999999999999987,
+   "shots_95": 110.68671640032461,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 680,
+     "chosen": [
+      12,
+      14,
+      19,
+      21
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 1",
+      "Sibling 3"
+     ],
+     "value": 0.2930190255667392,
+     "couples": 0.18862696575006044,
+     "carriers": 2.0878411963335752,
+     "ratio": 0.8233307249613175,
+     "quality": 0.8001142146209815,
+     "share": 0.031982421875
+    },
+    {
+     "mask": 154,
+     "chosen": [
+      10,
+      12,
+      13,
+      19
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.21145717182822574,
+     "couples": 0.1257513105000403,
+     "carriers": 1.7141172265637088,
+     "ratio": 0.594156595268417,
+     "quality": 0.5408237924907697,
+     "share": 0.02880859375
+    },
+    {
+     "mask": 394,
+     "chosen": [
+      10,
+      12,
+      19,
+      20
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.22592780858655304,
+     "couples": 0.1257513105000403,
+     "carriers": 2.003529961730255,
+     "ratio": 0.6348164801678428,
+     "quality": 0.5868268851324455,
+     "share": 0.02734375
+    },
+    {
+     "mask": 408,
+     "chosen": [
+      12,
+      13,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.35589468081675935,
+     "couples": 0.2515026210000806,
+     "carriers": 2.0878411963335752,
+     "ratio": 1.0,
+     "quality": 1.0,
+     "share": 0.02734375
+    },
+    {
+     "mask": 554,
+     "chosen": [
+      10,
+      12,
+      14,
+      21
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 3"
+     ],
+     "value": 0.21145717182822574,
+     "couples": 0.1257513105000403,
+     "carriers": 1.7141172265637088,
+     "ratio": 0.594156595268417,
+     "quality": 0.5408237924907697,
+     "share": 0.02294921875
+    },
+    {
+     "mask": 393,
+     "chosen": [
+      8,
+      12,
+      19,
+      20
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Cousin 1",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.22598401520234238,
+     "couples": 0.1257513105000403,
+     "carriers": 2.0046540940460416,
+     "ratio": 0.6349744106422751,
+     "quality": 0.5870055696089074,
+     "share": 0.02294921875
+    }
+   ]
+  },
+  {
+   "method": "constrained",
+   "p": 2,
+   "angles": [
+    0.36204527726450286,
+    0.5387127429122969,
+    0.55905042062562,
+    0.3250092608760457
+   ],
+   "quality": 0.585966285265911,
+   "ratio": 0.6340558380129705,
+   "p_opt": 0.06407962081150301,
+   "valid_share": 1.0000000000000004,
+   "shots_95": 45.235758471728985,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 408,
+     "chosen": [
+      12,
+      13,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.35589468081675935,
+     "couples": 0.2515026210000806,
+     "carriers": 2.0878411963335752,
+     "ratio": 1.0,
+     "quality": 1.0,
+     "share": 0.063720703125
+    },
+    {
+     "mask": 680,
+     "chosen": [
+      12,
+      14,
+      19,
+      21
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 1",
+      "Sibling 3"
+     ],
+     "value": 0.2930190255667392,
+     "couples": 0.18862696575006044,
+     "carriers": 2.0878411963335752,
+     "ratio": 0.8233307249613175,
+     "quality": 0.8001142146209815,
+     "share": 0.0556640625
+    },
+    {
+     "mask": 808,
+     "chosen": [
+      12,
+      14,
+      20,
+      21
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 2",
+      "Sibling 3"
+     ],
+     "value": 0.2930190255667392,
+     "couples": 0.18862696575006044,
+     "carriers": 2.0878411963335752,
+     "ratio": 0.8233307249613175,
+     "quality": 0.8001142146209815,
+     "share": 0.04443359375
+    },
+    {
+     "mask": 147,
+     "chosen": [
+      8,
+      10,
+      13,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.0400390625
+    },
+    {
+     "mask": 282,
+     "chosen": [
+      10,
+      12,
+      13,
+      20
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 2"
+     ],
+     "value": 0.21145717182822574,
+     "couples": 0.1257513105000403,
+     "carriers": 1.7141172265637088,
+     "ratio": 0.594156595268417,
+     "quality": 0.5408237924907697,
+     "share": 0.03564453125
+    },
+    {
+     "mask": 547,
+     "chosen": [
+      8,
+      10,
+      14,
+      21
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 3",
+      "Sibling 3"
+     ],
+     "value": 0.33341357816217343,
+     "couples": 0.25186707194836466,
+     "carriers": 1.630930124276175,
+     "ratio": 0.9368321476370679,
+     "quality": 0.9285311168141377,
+     "share": 0.031494140625
+    }
+   ]
+  },
+  {
+   "method": "constrained",
+   "p": 3,
+   "angles": [
+    0.28718234695233463,
+    0.47043098506348935,
+    0.6974558027825513,
+    0.6121545641268756,
+    0.5480179671884043,
+    0.3251854814198917
+   ],
+   "quality": 0.6310677855609059,
+   "ratio": 0.6739188495080843,
+   "p_opt": 0.08310677125587139,
+   "valid_share": 1.0000000000000027,
+   "shots_95": 34.52726568363717,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 808,
+     "chosen": [
+      12,
+      14,
+      20,
+      21
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 2",
+      "Sibling 3"
+     ],
+     "value": 0.2930190255667392,
+     "couples": 0.18862696575006044,
+     "carriers": 2.0878411963335752,
+     "ratio": 0.8233307249613175,
+     "quality": 0.8001142146209815,
+     "share": 0.118896484375
+    },
+    {
+     "mask": 408,
+     "chosen": [
+      12,
+      13,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.35589468081675935,
+     "couples": 0.2515026210000806,
+     "carriers": 2.0878411963335752,
+     "ratio": 1.0,
+     "quality": 1.0,
+     "share": 0.085205078125
+    },
+    {
+     "mask": 147,
+     "chosen": [
+      8,
+      10,
+      13,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.0732421875
+    },
+    {
+     "mask": 816,
+     "chosen": [
+      13,
+      14,
+      20,
+      21
+     ],
+     "labels": [
+      "Cousin 2",
+      "Cousin 3",
+      "Sibling 2",
+      "Sibling 3"
+     ],
+     "value": 0.2930190255667392,
+     "couples": 0.18862696575006044,
+     "carriers": 2.0878411963335752,
+     "ratio": 0.8233307249613175,
+     "quality": 0.8001142146209815,
+     "share": 0.054443359375
+    },
+    {
+     "mask": 402,
+     "chosen": [
+      10,
+      13,
+      19,
+      20
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.22592780858655304,
+     "couples": 0.1257513105000403,
+     "carriers": 2.003529961730255,
+     "ratio": 0.6348164801678428,
+     "quality": 0.5868268851324455,
+     "share": 0.0400390625
+    },
+    {
+     "mask": 547,
+     "chosen": [
+      8,
+      10,
+      14,
+      21
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 3",
+      "Sibling 3"
+     ],
+     "value": 0.33341357816217343,
+     "couples": 0.25186707194836466,
+     "carriers": 1.630930124276175,
+     "ratio": 0.9368321476370679,
+     "quality": 0.9285311168141377,
+     "share": 0.03515625
+    }
+   ]
+  },
+  {
+   "method": "penalty",
+   "p": 1,
+   "angles": [
+    0.12880549499538385,
+    0.2471248515500276
+   ],
+   "quality": 0.3451541940403586,
+   "ratio": 0.42121380176363765,
+   "p_opt": 0.0030879532981732787,
+   "valid_share": 0.5048553281676956,
+   "shots_95": 968.6365886721503,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 298,
+     "chosen": [
+      10,
+      12,
+      14,
+      20
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Cousin 3",
+      "Sibling 2"
+     ],
+     "value": 0.1485815165782056,
+     "couples": 0.06287565525002015,
+     "carriers": 1.7141172265637088,
+     "ratio": 0.4174873202297346,
+     "quality": 0.34093800711175126,
+     "share": 0.004638671875
+    },
+    {
+     "mask": 147,
+     "chosen": [
+      8,
+      10,
+      13,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.004150390625
+    },
+    {
+     "mask": 51,
+     "chosen": [
+      8,
+      10,
+      13,
+      14
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Cousin 3"
+     ],
+     "value": 0.1931916309038058,
+     "couples": 0.12611576144832437,
+     "carriers": 1.341517389109629,
+     "ratio": 0.5428337126602772,
+     "quality": 0.4827564534144249,
+     "share": 0.004150390625
+    },
+    {
+     "mask": 836,
+     "chosen": [
+      11,
+      15,
+      20,
+      21
+     ],
+     "labels": [
+      "Husband of maternal aunt 1",
+      "Cousin 4",
+      "Sibling 2",
+      "Sibling 3"
+     ],
+     "value": 0.0744936042501066,
+     "couples": 0.0,
+     "carriers": 1.4898720850021319,
+     "ratio": 0.20931362075754473,
+     "quality": 0.1054077293928692,
+     "share": 0.00390625
+    },
+    {
+     "mask": 387,
+     "chosen": [
+      8,
+      10,
+      19,
+      20
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.2221329044204604,
+     "couples": 0.12611576144832437,
+     "carriers": 1.9203428594427208,
+     "ratio": 0.6241534824591287,
+     "quality": 0.5747626386977764,
+     "share": 0.00390625
+    },
+    {
+     "mask": 139,
+     "chosen": [
+      8,
+      10,
+      12,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.00390625
+    }
+   ]
+  },
+  {
+   "method": "penalty",
+   "p": 2,
+   "angles": [
+    0.08898973416191157,
+    0.33601431795954084,
+    0.3026011488093743,
+    0.09408308048041618
+   ],
+   "quality": 0.35926824756088804,
+   "ratio": 0.43368852375850564,
+   "p_opt": 0.005265811011715151,
+   "valid_share": 0.7088830759253402,
+   "shots_95": 567.4031685324345,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 284,
+     "chosen": [
+      11,
+      12,
+      13,
+      20
+     ],
+     "labels": [
+      "Husband of maternal aunt 1",
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 2"
+     ],
+     "value": 0.19806934035027413,
+     "couples": 0.1257513105000403,
+     "carriers": 1.4463605970046767,
+     "ratio": 0.5565391983260765,
+     "quality": 0.49826300805279844,
+     "share": 0.006591796875
+    },
+    {
+     "mask": 456,
+     "chosen": [
+      12,
+      15,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 4",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.21784830795826454,
+     "couples": 0.1257513105000403,
+     "carriers": 1.8419399491644848,
+     "ratio": 0.6121145375320426,
+     "quality": 0.561141628698395,
+     "share": 0.006591796875
+    },
+    {
+     "mask": 147,
+     "chosen": [
+      8,
+      10,
+      13,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.006591796875
+    },
+    {
+     "mask": 579,
+     "chosen": [
+      8,
+      10,
+      15,
+      21
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 4",
+      "Sibling 3"
+     ],
+     "value": 0.1953672053036786,
+     "couples": 0.12611576144832437,
+     "carriers": 1.3850288771070844,
+     "ratio": 0.5489466851691103,
+     "quality": 0.4896727455125326,
+     "share": 0.005615234375
+    },
+    {
+     "mask": 674,
+     "chosen": [
+      10,
+      14,
+      19,
+      21
+     ],
+     "labels": [
+      "Maternal uncle 1",
+      "Cousin 3",
+      "Sibling 1",
+      "Sibling 3"
+     ],
+     "value": 0.22592780858655304,
+     "couples": 0.1257513105000403,
+     "carriers": 2.003529961730255,
+     "ratio": 0.6348164801678428,
+     "quality": 0.5868268851324455,
+     "share": 0.005615234375
+    },
+    {
+     "mask": 43,
+     "chosen": [
+      8,
+      10,
+      12,
+      14
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 1",
+      "Cousin 3"
+     ],
+     "value": 0.1931916309038058,
+     "couples": 0.12611576144832437,
+     "carriers": 1.341517389109629,
+     "ratio": 0.5428337126602772,
+     "quality": 0.4827564534144249,
+     "share": 0.00537109375
+    }
+   ]
+  },
+  {
+   "method": "penalty",
+   "p": 3,
+   "angles": [
+    0.07436415495337635,
+    0.27188371964192015,
+    0.55003173629497,
+    0.34206213665600743,
+    0.1274739485829074,
+    0.08012576757683318
+   ],
+   "quality": 0.37876036484586323,
+   "ratio": 0.45091665342853576,
+   "p_opt": 0.00886634442870968,
+   "valid_share": 0.9011510501116939,
+   "shots_95": 336.3767320237482,
+   "best": {
+    "mask": 408,
+    "chosen": [
+     12,
+     13,
+     19,
+     20
+    ],
+    "labels": [
+     "Cousin 1",
+     "Cousin 2",
+     "Sibling 1",
+     "Sibling 2"
+    ],
+    "value": 0.35589468081675935,
+    "couples": 0.2515026210000806,
+    "carriers": 2.0878411963335752,
+    "ratio": 1.0,
+    "quality": 1.0
+   },
+   "top": [
+    {
+     "mask": 147,
+     "chosen": [
+      8,
+      10,
+      13,
+      19
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 1"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.00830078125
+    },
+    {
+     "mask": 456,
+     "chosen": [
+      12,
+      15,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 4",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.21784830795826454,
+     "couples": 0.1257513105000403,
+     "carriers": 1.8419399491644848,
+     "ratio": 0.6121145375320426,
+     "quality": 0.561141628698395,
+     "share": 0.00830078125
+    },
+    {
+     "mask": 804,
+     "chosen": [
+      11,
+      14,
+      20,
+      21
+     ],
+     "labels": [
+      "Husband of maternal aunt 1",
+      "Cousin 3",
+      "Sibling 2",
+      "Sibling 3"
+     ],
+     "value": 0.2125399771086014,
+     "couples": 0.1257513105000403,
+     "carriers": 1.7357733321712223,
+     "ratio": 0.5971990832255022,
+     "quality": 0.5442661006944741,
+     "share": 0.008056640625
+    },
+    {
+     "mask": 547,
+     "chosen": [
+      8,
+      10,
+      14,
+      21
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 3",
+      "Sibling 3"
+     ],
+     "value": 0.33341357816217343,
+     "couples": 0.25186707194836466,
+     "carriers": 1.630930124276175,
+     "ratio": 0.9368321476370679,
+     "quality": 0.9285311168141377,
+     "share": 0.008056640625
+    },
+    {
+     "mask": 408,
+     "chosen": [
+      12,
+      13,
+      19,
+      20
+     ],
+     "labels": [
+      "Cousin 1",
+      "Cousin 2",
+      "Sibling 1",
+      "Sibling 2"
+     ],
+     "value": 0.35589468081675935,
+     "couples": 0.2515026210000806,
+     "carriers": 2.0878411963335752,
+     "ratio": 1.0,
+     "quality": 1.0,
+     "share": 0.0078125
+    },
+    {
+     "mask": 275,
+     "chosen": [
+      8,
+      10,
+      13,
+      20
+     ],
+     "labels": [
+      "Paternal aunt 1",
+      "Maternal uncle 1",
+      "Cousin 2",
+      "Sibling 2"
+     ],
+     "value": 0.2705379229121533,
+     "couples": 0.18899141669834452,
+     "carriers": 1.630930124276175,
+     "ratio": 0.7601628725983854,
+     "quality": 0.7286453314351192,
+     "share": 0.007568359375
+    }
+   ]
+  }
+ ],
+ "histogram": {
+  "edges": [
+   0.0,
+   0.1,
+   0.2,
+   0.30000000000000004,
+   0.4,
+   0.5,
+   0.6000000000000001,
+   0.7000000000000001,
+   0.8,
+   0.9,
+   1.0
+  ],
+  "random": [
+   0.2095238095238096,
+   0.1476190476190477,
+   0.09047619047619049,
+   0.1761904761904763,
+   0.10476190476190476,
+   0.19047619047619052,
+   0.03333333333333334,
+   0.019047619047619053,
+   0.019047619047619053,
+   0.009523809523809526
+  ],
+  "constrained_p1": [
+   0.05823126202580239,
+   0.042878290877777094,
+   0.04746541304531274,
+   0.12364357070502685,
+   0.0851969328254753,
+   0.39835193460506424,
+   0.04594234950952825,
+   0.07208833798377692,
+   0.07930852536785786,
+   0.046893383054378276
+  ],
+  "constrained_p2": [
+   0.04271290421081721,
+   0.030199709894518353,
+   0.028029894333337888,
+   0.10163999700847656,
+   0.037509570487554156,
+   0.3795047736865844,
+   0.04313831639567961,
+   0.09743357170135969,
+   0.14205048138358545,
+   0.09778078089808684
+  ],
+  "constrained_p3": [
+   0.02581533497272575,
+   0.019425944258715102,
+   0.023727006163037023,
+   0.09006110137602549,
+   0.0457990447827059,
+   0.2887524986243189,
+   0.05447651762312207,
+   0.11965037008890866,
+   0.21866523756699635,
+   0.11362694454344488
+  ],
+  "penalty_p1": [
+   0.19140997098424575,
+   0.13509988058931072,
+   0.08949209269885902,
+   0.17461470076846158,
+   0.11294326192990611,
+   0.204228148087099,
+   0.03576629758839742,
+   0.021963841168864406,
+   0.022356710742154416,
+   0.012125095442701472
+  ],
+  "penalty_p2": [
+   0.17640331862458247,
+   0.1258202305942573,
+   0.08803811539729968,
+   0.1735724526438795,
+   0.11826671761691772,
+   0.21522840105189478,
+   0.03790515561849315,
+   0.02468296116867389,
+   0.025450847492076014,
+   0.014631799791925392
+  ],
+  "penalty_p3": [
+   0.15725075277485526,
+   0.11400327756400727,
+   0.08562040538458,
+   0.17121958904727558,
+   0.12426666058329308,
+   0.22826960265901297,
+   0.0404392626844434,
+   0.029145773598817384,
+   0.030579328382752673,
+   0.019205347320962463
+  ]
+ },
+ "parents_are_cousins": true,
+ "selection": "small instance with the largest optimum among those with at least five couple links"
+}

@@ -1,0 +1,472 @@
+{
+ "name": "S-17",
+ "n": 10,
+ "k": 4,
+ "lam": 0.05,
+ "p": [
+  0.4937212042,
+  0.4950810841,
+  0.4958901687,
+  0.0334233758,
+  0.0360009524,
+  0.2608747035,
+  0.2608747035,
+  0.2623526086,
+  0.6666666667,
+  0.6666666667
+ ],
+ "r": [
+  0.7,
+  0.7,
+  0.7,
+  0.7,
+  0.7,
+  1.0,
+  1.0,
+  0.5,
+  1.0,
+  1.0
+ ],
+ "edges": [
+  [
+   0,
+   3
+  ],
+  [
+   2,
+   4
+  ]
+ ],
+ "w": [
+  0.0080927596,
+  0.0107788558
+ ],
+ "c": [
+  1.0,
+  1.0
+ ],
+ "kinds": [
+  "married",
+  "married"
+ ],
+ "labels": [
+  "Paternal uncle 1",
+  "Paternal uncle 2",
+  "Maternal uncle 1",
+  "Wife of paternal uncle 1",
+  "Wife of maternal uncle 1",
+  "Cousin 2",
+  "Cousin 4",
+  "Cousin 10",
+  "Sibling 1",
+  "Sibling 2"
+ ],
+ "person_ids": [
+  6,
+  7,
+  8,
+  9,
+  11,
+  13,
+  15,
+  21,
+  23,
+  24
+ ],
+ "family": {
+  "people": [
+   {
+    "id": 0,
+    "label": "Paternal grandfather",
+    "role": "pgf",
+    "sex": "M",
+    "gen": 1,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": false,
+    "available": true,
+    "stage": "elder",
+    "family": 0
+   },
+   {
+    "id": 1,
+    "label": "Paternal grandmother",
+    "role": "pgm",
+    "sex": "F",
+    "gen": 1,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "elder",
+    "family": 0
+   },
+   {
+    "id": 2,
+    "label": "Maternal grandfather",
+    "role": "mgf",
+    "sex": "M",
+    "gen": 1,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "elder",
+    "family": 0
+   },
+   {
+    "id": 3,
+    "label": "Maternal grandmother",
+    "role": "mgm",
+    "sex": "F",
+    "gen": 1,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": false,
+    "available": true,
+    "stage": "elder",
+    "family": 0
+   },
+   {
+    "id": 4,
+    "label": "Father",
+    "role": "father",
+    "sex": "M",
+    "gen": 2,
+    "father": 0,
+    "mother": 1,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 5,
+    "label": "Mother",
+    "role": "mother",
+    "sex": "F",
+    "gen": 2,
+    "father": 2,
+    "mother": 3,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 6,
+    "label": "Paternal uncle 1",
+    "role": "paternal_sib",
+    "sex": "M",
+    "gen": 2,
+    "father": 0,
+    "mother": 1,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 7,
+    "label": "Paternal uncle 2",
+    "role": "paternal_sib",
+    "sex": "M",
+    "gen": 2,
+    "father": 0,
+    "mother": 1,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 8,
+    "label": "Maternal uncle 1",
+    "role": "maternal_sib",
+    "sex": "M",
+    "gen": 2,
+    "father": 2,
+    "mother": 3,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 9,
+    "label": "Wife of paternal uncle 1",
+    "role": "spouse",
+    "sex": "F",
+    "gen": 2,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 10,
+    "label": "Wife of paternal uncle 2",
+    "role": "spouse",
+    "sex": "F",
+    "gen": 2,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 11,
+    "label": "Wife of maternal uncle 1",
+    "role": "spouse",
+    "sex": "F",
+    "gen": 2,
+    "father": null,
+    "mother": null,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "married",
+    "family": 0
+   },
+   {
+    "id": 12,
+    "label": "Cousin 1",
+    "role": "cousin",
+    "sex": "F",
+    "gen": 3,
+    "father": 6,
+    "mother": 9,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "child",
+    "family": 0
+   },
+   {
+    "id": 13,
+    "label": "Cousin 2",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 6,
+    "mother": 9,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 14,
+    "label": "Cousin 3",
+    "role": "cousin",
+    "sex": "F",
+    "gen": 3,
+    "father": 6,
+    "mother": 9,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 15,
+    "label": "Cousin 4",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 6,
+    "mother": 9,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 16,
+    "label": "Cousin 5",
+    "role": "cousin",
+    "sex": "F",
+    "gen": 3,
+    "father": 7,
+    "mother": 10,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 17,
+    "label": "Cousin 6",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 7,
+    "mother": 10,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "child",
+    "family": 0
+   },
+   {
+    "id": 18,
+    "label": "Cousin 7",
+    "role": "cousin",
+    "sex": "F",
+    "gen": 3,
+    "father": 7,
+    "mother": 10,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 19,
+    "label": "Cousin 8",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 8,
+    "mother": 11,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "child",
+    "family": 0
+   },
+   {
+    "id": 20,
+    "label": "Cousin 9",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 8,
+    "mother": 11,
+    "affected": false,
+    "alive": true,
+    "available": false,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 21,
+    "label": "Cousin 10",
+    "role": "cousin",
+    "sex": "M",
+    "gen": 3,
+    "father": 8,
+    "mother": 11,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "child",
+    "family": 0
+   },
+   {
+    "id": 22,
+    "label": "Index child",
+    "role": "proband",
+    "sex": "F",
+    "gen": 3,
+    "father": 4,
+    "mother": 5,
+    "affected": true,
+    "alive": true,
+    "available": true,
+    "stage": "child",
+    "family": 0
+   },
+   {
+    "id": 23,
+    "label": "Sibling 1",
+    "role": "sibling",
+    "sex": "M",
+    "gen": 3,
+    "father": 4,
+    "mother": 5,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "unmarried",
+    "family": 0
+   },
+   {
+    "id": 24,
+    "label": "Sibling 2",
+    "role": "sibling",
+    "sex": "M",
+    "gen": 3,
+    "father": 4,
+    "mother": 5,
+    "affected": false,
+    "alive": true,
+    "available": true,
+    "stage": "unmarried",
+    "family": 0
+   }
+  ],
+  "couples": [
+   {
+    "a": 4,
+    "b": 5,
+    "kind": "married",
+    "strength": 1.0
+   },
+   {
+    "a": 6,
+    "b": 9,
+    "kind": "married",
+    "strength": 1.0
+   },
+   {
+    "a": 7,
+    "b": 10,
+    "kind": "married",
+    "strength": 1.0
+   },
+   {
+    "a": 8,
+    "b": 11,
+    "kind": "married",
+    "strength": 1.0
+   }
+  ],
+  "probands": [
+   22
+  ],
+  "seed": 1017,
+  "params": {
+   "n_candidates": 10,
+   "consanguinity": 0.6,
+   "exchange": 0.4,
+   "cousin_marriage_rate": 0.5,
+   "engaged_rate": 0.15,
+   "parents_are_cousins": false
+  }
+ },
+ "meta": {
+  "carrier_rate": 0.05,
+  "seed": 1017
+ }
+}

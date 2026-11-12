@@ -453,7 +453,18 @@ def _tradeoff_task(args):
             "p_opt": last["p_opt"], "best_is_optimal": bool((m["best_ratio"] or 0) >= 1 - 1e-9)}
 
 
-def exp_tradeoff(size: str = "M", index: int = 0, p: int = 2, shots: int = 256, workers: int = 8, **_) -> dict:
+def _front_size(prob: ScreeningProblem) -> int:
+    masks = prob.feasible_masks()
+    bits = ((masks[:, None] >> np.arange(prob.n)) & 1).astype(float)
+    pts = np.column_stack([0.5 * np.einsum("si,ij,sj->s", bits, prob.W, bits), bits @ (prob.r * prob.p)])
+    return len({(round(float(a), 9), round(float(b), 9)) for a, b in pts[_pareto(pts)]})
+
+
+def exp_tradeoff(size: str = "M", index: int | None = None, p: int = 2, shots: int = 256,
+                 workers: int = 8, scan: int = 12, **_) -> dict:
+    if index is None:
+        # Fixed rule, stated in the report: the instance with the largest exact front.
+        index = max(range(scan), key=lambda i: (_front_size(make_instance(size, i)), -i))
     runs = _map(_tradeoff_task, [(size, index, lam, p, shots) for lam in LAMBDAS], workers)
     prob = make_instance(size, index)
     masks = prob.feasible_masks()
@@ -489,6 +500,7 @@ def exp_tradeoff(size: str = "M", index: int = 0, p: int = 2, shots: int = 256, 
 
     out = {
         "instance": prob.name, "n": prob.n, "k": prob.k, "p": p, "shots_per_lambda": shots,
+        "selection": f"size {size} instance with the largest exact trade-off front among the first {scan}",
         "lambdas": LAMBDAS, "total_shots": total_shots, "n_feasible": int(len(masks)),
         "front": [point(i) for i in sorted(front_idx, key=lambda i: pts[i, 0])],
         "cloud": [point(i) for i in cloud],
@@ -601,11 +613,9 @@ def exp_demo(index: int | None = None, **_) -> dict:
     bench = load("benchmark")
     small = [r for r in bench["instances"] if r["size"] == "S"]
     if index is None:
-        def score(r):
-            q3 = [q for q in r["qaoa"] if q["method"] == "constrained"][-1]
-            ok = r["edges"] >= 4 and r["classical"]["field"]["ratio"] < 0.85 and r["n_optimal"] == 1
-            return (ok, q3["p_opt"])
-        index = max(small, key=score)["index"]
+        # Fixed rule, independent of QAOA performance: among the small instances with at
+        # least five couple links, take the one whose best plan is worth the most.
+        index = max(small, key=lambda r: (r["edges"] >= 5, r["best"]))["index"]
     row = next(r for r in small if r["index"] == index)
     prob = make_instance("S", index)
     table = feasible_table(prob)
@@ -673,7 +683,8 @@ def exp_demo(index: int | None = None, **_) -> dict:
                      for (i, j), k, w, c in zip(prob.edges, prob.kinds, prob.w, prob.c)],
            "n_feasible": int(len(table.masks)), "best": table.best, "worst": table.worst, "mean": table.mean,
            "random": row["classical"]["random"], "plans": plans, "qaoa": qaoa, "histogram": hist,
-           "parents_are_cousins": bool(fam.params.get("parents_are_cousins"))}
+           "parents_are_cousins": bool(fam.params.get("parents_are_cousins")),
+           "selection": "small instance with the largest optimum among those with at least five couple links"}
     save("demo", out)
     return out
 
@@ -690,7 +701,7 @@ EXPERIMENTS = {
 QUICK = {
     "genetics": {"n_cal": 10}, "gate1": {"n_instances": 12}, "benchmark": {"n_s": 4, "n_m": 2, "maxiter": 80},
     "circuits": {"sizes": ("S",)}, "ablation": {"n": 3}, "noise": {"n": 2, "depths": (1,), "shots": 2048},
-    "tradeoff": {"size": "S", "shots": 64}, "decomposition": {"n": 1, "depths": (1,)}, "demo": {},
+    "tradeoff": {"size": "S", "shots": 64, "scan": 4}, "decomposition": {"n": 1, "depths": (1,)}, "demo": {},
 }
 
 

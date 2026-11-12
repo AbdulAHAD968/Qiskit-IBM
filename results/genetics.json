@@ -1,0 +1,70 @@
+{
+ "carrier_rate": 0.05,
+ "allele_frequency": 0.025658350974743116,
+ "checks": [
+  {
+   "relation": "Parent of the affected child",
+   "textbook": "1",
+   "expected": 1.0,
+   "computed": 1.0
+  },
+  {
+   "relation": "Unaffected sibling",
+   "textbook": "2/3",
+   "expected": 0.6666666666666666,
+   "computed": 0.6666666666666666
+  },
+  {
+   "relation": "Grandparent",
+   "textbook": "about 1/2",
+   "expected": 0.5128291754873715,
+   "computed": 0.5128291754873715,
+   "formula": "(1 + q) / 2"
+  },
+  {
+   "relation": "Aunt or uncle",
+   "textbook": "about 1/2",
+   "expected": 0.5032280001621194,
+   "computed": 0.5032280001621194,
+   "formula": "2 / (4 - q)"
+  },
+  {
+   "relation": "First cousin",
+   "textbook": "about 1/4",
+   "expected": null,
+   "computed": 0.2657140170042934
+  },
+  {
+   "relation": "Married-in spouse",
+   "textbook": "population rate",
+   "expected": null,
+   "computed": 0.04401550054963579
+  },
+  {
+   "relation": "Member of a family with no affected child",
+   "textbook": "population rate",
+   "expected": null,
+   "computed": 0.048811839338543966
+  },
+  {
+   "relation": "Both grandparents carriers (joint)",
+   "textbook": "not a product",
+   "expected": 0.025658350974743116,
+   "computed": 0.025658350974743113,
+   "formula": "q",
+   "note": "product of the two single probabilities would be 0.263"
+  }
+ ],
+ "calibration": {
+  "families": 120,
+  "mean_people_per_family": 26.466666666666665,
+  "carrier_share_living_relatives": 0.4173285598586832,
+  "carrier_share_candidates": 0.35549842057514314,
+  "couples_both_carriers_all_married": 0.2620817956695935,
+  "couples_both_carriers_excluding_index_parents": 0.023402053029030687,
+  "married_couples": 491,
+  "target_carrier_share": 0.3096446700507614,
+  "target_couples_both_carriers": 0.0794392523364486,
+  "source": "Ahmed et al., N Engl J Med 2002;347:1162-8"
+ }
+}
