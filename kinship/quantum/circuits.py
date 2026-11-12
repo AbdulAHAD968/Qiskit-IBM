@@ -3,7 +3,7 @@
 Constrained QAOA (main method)
     start state   Dicke state |D^n_k>: equal superposition of every plan that
                   uses exactly k kits, built from gates with the deterministic
-                  scheme of Baertschi and Eidenbenz (O(kn) gates, no ancillas).
+                  scheme of Bärtschi and Eidenbenz (O(kn) gates, no ancillas).
     cost layer    RZZ on every couple link, RZ on every relative.
     mixer         ring of XX+YY rotations. Each one swaps a tested and an
                   untested relative, so the number of kits never changes.
@@ -14,7 +14,7 @@ Penalty QAOA (baseline)
                   rotation on every pair of qubits.
     mixer         RX on every qubit.
 
-The Dicke-state and XY-mixer design follows Cook, Eidenbenz and Baertschi,
+The Dicke-state and XY-mixer design follows Cook, Eidenbenz and Bärtschi,
 "The Quantum Alternating Operator Ansatz on Maximum k-Vertex Cover" (2020).
 The circuits here are written from the papers, not copied from any code base.
 """
@@ -44,7 +44,7 @@ def _ccry(qc: QuantumCircuit, theta: float, c1: int, c2: int, target: int) -> No
 
 
 def _split_cyclic_shift(qc: QuantumCircuit, n: int, k: int, first: int) -> None:
-    """SCS_{n,k} block of Baertschi and Eidenbenz on qubits first .. first+k.
+    """SCS_{n,k} block of Bärtschi and Eidenbenz on qubits first .. first+k.
 
     For every l <= k it maps |0..0 1^l> to
     sqrt(l/n) |0..0 1^l> + sqrt((n-l)/n) |0..0 1^l 0>, i.e. it decides whether

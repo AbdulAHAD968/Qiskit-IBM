@@ -1,4 +1,4 @@
-"""Classical references: exact answers and the heuristics a field team would use."""
+"""Classical references: exact solvers and simple selection rules."""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -31,7 +31,8 @@ class FeasibleTable:
 
     @property
     def best_mask(self) -> int:
-        return int(self.masks[int(np.argmax(self.values))])
+        """The first optimal plan in enumeration order (several plans can share the best value)."""
+        return int(self.masks[np.flatnonzero(self.values >= self.best - 1e-12)[0]])
 
     def optimal_masks(self, tol: float = 1e-12) -> np.ndarray:
         return self.masks[self.values >= self.best - tol]
@@ -56,10 +57,30 @@ def brute_force(problem: ScreeningProblem):
     return problem.mask_to_x(table.best_mask), table.best
 
 
+TIE_TOL = 1e-9      # scores closer than this count as equal
+
+
+def _first_within_tolerance(values: np.ndarray, last: bool = False) -> int:
+    """Index of the largest value, where values within TIE_TOL of it are tied and the lowest index wins.
+
+    With ``last=True`` the highest index wins instead, which is the opposite, equally arbitrary convention.
+
+    Genetically identical relatives (two siblings, say) get probabilities that
+    differ in the last floating-point bit. A plain argmax would let that
+    rounding noise choose between them, which is neither meaningful nor
+    reproducible across machines.
+    """
+    tied = np.flatnonzero(values >= values.max() - TIE_TOL)
+    return int(tied[-1] if last else tied[0])
+
+
 def _top_k(scores: np.ndarray, k: int) -> np.ndarray:
-    order = np.lexsort((np.arange(len(scores)), -scores))     # ties broken by index
+    scores = np.array(scores, dtype=float)
     x = np.zeros(len(scores), dtype=int)
-    x[order[:k]] = 1
+    for _ in range(k):                           # ties are broken by index
+        pick = _first_within_tolerance(scores)
+        x[pick] = 1
+        scores[pick] = -np.inf
     return x
 
 
@@ -73,7 +94,7 @@ def relevance_rule(problem: ScreeningProblem) -> np.ndarray:
     return _top_k(problem.r * problem.p, problem.k)
 
 
-def tie_break_range(problem: ScreeningProblem, scores: np.ndarray, tol: float = 1e-9):
+def tie_break_range(problem: ScreeningProblem, scores: np.ndarray, tol: float = TIE_TOL):
     """Best and worst value of a top-k rule over every way of breaking ties in the scores.
 
     Scores within ``tol`` of the k-th largest count as tied. Returns
@@ -94,14 +115,21 @@ def tie_break_range(problem: ScreeningProblem, scores: np.ndarray, tol: float = 
     return max(values), min(values), len(tied) > need
 
 
-def greedy(problem: ScreeningProblem) -> np.ndarray:
-    """Add, one at a time, the person with the largest marginal gain."""
+def greedy(problem: ScreeningProblem, last_on_tie: bool = False) -> np.ndarray:
+    """Add, one at a time, the person with the largest marginal gain (ties broken by index).
+
+    ``last_on_tie=True`` breaks ties the other way and is used to measure how much the choice matters.
+
+    The result can depend strongly on how a tie is broken: the first pick has
+    no couple gain yet, so two identical siblings look the same although only
+    one of them may lead to the best couple.
+    """
     W, h = problem.W, problem.h
     x = np.zeros(problem.n, dtype=int)
     for _ in range(problem.k):
         gain = h + W @ x
         gain[x == 1] = -np.inf
-        x[int(np.argmax(gain))] = 1
+        x[_first_within_tolerance(gain, last=last_on_tie)] = 1
     return x
 
 
@@ -132,7 +160,8 @@ def simulated_annealing(
         i = int(rng.choice(np.flatnonzero(x == 1)))
         j = int(rng.choice(np.flatnonzero(x == 0)))
         delta = (h[j] + W[j] @ x - W[j, i]) - (h[i] + W[i] @ x)
-        if delta >= 0 or rng.random() < np.exp(delta / temp):
+        draw = rng.random()                      # drawn at every step, so rounding noise in delta cannot shift the stream
+        if delta >= -TIE_TOL or draw < np.exp(delta / temp):
             x[i], x[j] = 0, 1
             cur += delta
             if cur > best + 1e-12:
@@ -168,7 +197,7 @@ def milp_exact(problem: ScreeningProblem, time_limit: float = 60.0):
         constraints=LinearConstraint(np.array(rows), np.array(lo), np.array(hi)),
         integrality=np.concatenate([np.ones(n), np.zeros(m)]),
         bounds=Bounds(np.zeros(n + m), np.ones(n + m)),
-        options={"time_limit": time_limit},
+        options={"time_limit": time_limit, "mip_rel_gap": 0.0},     # zero gap: status 0 means a proven optimum
     )
     x = np.round(res.x[:n]).astype(int)
     return x, problem.value(x), {"status": int(res.status), "message": res.message, "proven_optimal": res.status == 0}

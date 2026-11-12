@@ -74,6 +74,19 @@ def build() -> str:
               f"{pct(cal['couples_both_carriers_all_married'], 1)} when the index parents are counted (8% of all married "
               "couples in the much larger families of that study).", ""]
 
+    mc_path = RESULTS / "genetics_montecarlo.json"
+    if mc_path.exists():
+        mc = json.loads(mc_path.read_text(encoding="utf-8"))
+        parts += [f"Independent check (`python -m kinship.validate_genetics`): a Monte Carlo gene-dropping simulation "
+                  f"with rejection sampling, which shares no code with the engine's inference, was compared with the "
+                  f"exact values on {len(mc['cases'])} families.", "",
+                  table(["Family", "People", "Accepted samples", "Simulated families", "Probabilities compared",
+                         "Largest deviation (standard errors)"],
+                        [[c["instance"], c["people"], f"{c['accepted']:,}", f"{c['simulated']:,}", c["comparisons"],
+                          f"{c['max_abs_z']:.2f}"] for c in mc["cases"]], ["l", "r", "r", "r", "r", "r"]), "",
+                  f"Over all {mc['comparisons']} carrier and couple probabilities the largest deviation is "
+                  f"{mc['max_abs_z']:.2f} standard errors; {pct(mc['share_above_2'], 1)} lie beyond two standard errors "
+                  "(about 5% expected by chance).", ""]
     parts += ["## 2. Is the problem trivial? Classical rules against the exact optimum", "",
               f"{g1['n_instances']} seeded families per size.", ""]
     rows = []
@@ -98,6 +111,14 @@ def build() -> str:
                      f"favour gives {pct(t['best_ratio']['mean'], 1)} of the optimum on average (every tie against it: "
                      f"{pct(t['worst_ratio']['mean'], 1)}), and it still misses the best plan in "
                      f"{pct(t['best_miss_rate'])} of the families.")
+    parts.append("")
+    for size in ("S", "M"):
+        t = g1["summary"][size]["greedy"]["tie_break"]
+        parts.append(f"Greedy and ties, size {size}: greedy also breaks ties by index. Breaking them the other way "
+                     f"changes its result in {t['families_changed']} of {g1['n_instances']} families, by up to "
+                     f"{pct(t['largest_change'])} of the optimum (mean value / optimum "
+                     f"{pct(t['other_ratio']['mean'], 1)} instead of "
+                     f"{pct(g1['summary'][size]['greedy']['ratio']['mean'], 1)}).")
     parts += ["", "![Field rule gap](../results/figures/fig02_field_rule_gap.png)", ""]
 
     parts += ["## 3. QAOA against the references", ""]
@@ -142,7 +163,10 @@ def build() -> str:
                     rows, ["l", "l", "r", "r", "r", "r", "r"]), "",
               "![Circuit cost](../results/figures/fig08_circuit_cost.png)", ""]
 
-    parts += ["## 5. Noise sweep", "", f"Model: {noise['model']}. Size S, {noise['instances']} families, "
+    parts += ["## 5. Noise sweep", "",
+              "Noise model: a depolarising error with probability e2 after each CZ gate, e2/10 after each SX or X gate, "
+              "and a symmetric readout error of 2*e2. Circuits are transpiled to RZ, SX, X, CZ with all-to-all "
+              f"connectivity. Size S, {noise['instances']} families, "
               f"{noise['shots']:,} shots. Shots without exactly k ones are discarded. The two-qubit error is the "
               "depolarising probability applied after each CZ gate. Simulator only.", ""]
     rows = [[NAMES[r["method"]], r["p"], "0" if r["e2"] == 0 else f"{100 * r['e2']:g}%", f"{r['two_qubit']['mean']:.0f}",

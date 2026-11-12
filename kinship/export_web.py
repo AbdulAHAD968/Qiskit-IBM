@@ -35,6 +35,10 @@ def build() -> dict:
     genetics = _load("genetics")
     if genetics:
         data["genetics"] = genetics
+    mc = _load("genetics_montecarlo")
+    if mc:
+        data["genetics_mc"] = {k: v for k, v in mc.items() if k != "cases"}
+        data["genetics_mc"]["families"] = len(mc["cases"])
     gate1 = _load("gate1")
     if gate1:
         keep = ("size", "index", "edges", "largest_component", "field_ratio", "relevance_ratio",

@@ -1,0 +1,638 @@
+{
+ "carrier_rate": 0.05,
+ "method": "gene dropping with rejection sampling",
+ "comparisons": 85,
+ "max_abs_z": 2.8885283303888802,
+ "share_above_2": 0.047058823529411764,
+ "share_above_3": 0.0,
+ "cases": [
+  {
+   "instance": "S-16",
+   "people": 22,
+   "accepted": 40032,
+   "simulated": 64500000,
+   "comparisons": 26,
+   "max_abs_z": 1.738787305843961,
+   "share_above_2": 0.0,
+   "rows": [
+    {
+     "kind": "carrier",
+     "label": "Great-grandfather",
+     "exact": 0.47111987094462143,
+     "simulated": 0.4702737809752198,
+     "z": -0.3391375310847593
+    },
+    {
+     "kind": "carrier",
+     "label": "Great-grandmother",
+     "exact": 0.47111987094462143,
+     "simulated": 0.47224720223820943,
+     "z": 0.45186725460463073
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal grandfather",
+     "exact": 0.8758298093865462,
+     "simulated": 0.8741256994404476,
+     "z": -1.033909962370424
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal grandmother",
+     "exact": 0.15562552782495095,
+     "simulated": 0.15702438049560352,
+     "z": 0.7720895139767456
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandfather",
+     "exact": 0.8754453696279986,
+     "simulated": 0.8773980815347722,
+     "z": 1.1831705597262778
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandmother",
+     "exact": 0.14823137343407944,
+     "simulated": 0.1465327737809752,
+     "z": -0.9564533420253089
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal aunt 1",
+     "exact": 0.420095470303696,
+     "simulated": 0.4213629096722622,
+     "z": 0.513781647377112
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal aunt 1",
+     "exact": 0.49662722563725153,
+     "simulated": 0.4970523581135092,
+     "z": 0.17012486869174842
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal uncle 1",
+     "exact": 0.41848956699542883,
+     "simulated": 0.4206384892086331,
+     "z": 0.8715719925363403
+    },
+    {
+     "kind": "carrier",
+     "label": "Husband of maternal aunt 1",
+     "exact": 0.03598009619681147,
+     "simulated": 0.03544664268585132,
+     "z": -0.5730942635756757
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 1",
+     "exact": 0.37725393150012093,
+     "simulated": 0.37412569944044766,
+     "z": -1.2913091315108416
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 2",
+     "exact": 0.37725393150012093,
+     "simulated": 0.3795963229416467,
+     "z": 0.9669204203255222
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 3",
+     "exact": 0.37725393150012093,
+     "simulated": 0.3791966426858513,
+     "z": 0.8019356128854082
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 4",
+     "exact": 0.26270536866206085,
+     "simulated": 0.26258992805755393,
+     "z": -0.05248161928438272
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 5",
+     "exact": 0.26270536866206085,
+     "simulated": 0.2634142685851319,
+     "z": 0.322280154649707
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 6",
+     "exact": 0.26270536866206085,
+     "simulated": 0.2624400479616307,
+     "z": -0.1206201236360331
+    },
+    {
+     "kind": "carrier",
+     "label": "Sibling 1",
+     "exact": 0.6666666666666667,
+     "simulated": 0.6685401678657075,
+     "z": 0.795177121574956
+    },
+    {
+     "kind": "carrier",
+     "label": "Sibling 2",
+     "exact": 0.6666666666666667,
+     "simulated": 0.663619104716227,
+     "z": -1.2934881177620026
+    },
+    {
+     "kind": "carrier",
+     "label": "Sibling 3",
+     "exact": 0.6666666666666667,
+     "simulated": 0.6625699440447642,
+     "z": -1.738787305843961
+    },
+    {
+     "kind": "couple",
+     "label": "Maternal uncle 1 + Paternal aunt 1",
+     "exact": 0.12611576144832437,
+     "simulated": 0.12854716227018384,
+     "z": 1.4653742872640485
+    },
+    {
+     "kind": "couple",
+     "label": "Husband of maternal aunt 1 + Maternal aunt 1",
+     "exact": 0.010794876764911927,
+     "simulated": 0.01066646682653877,
+     "z": -0.2486281272243549
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 1 + Sibling 1",
+     "exact": 0.2515026210000806,
+     "simulated": 0.2519734212629896,
+     "z": 0.21710705738336536
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 1 + Sibling 2",
+     "exact": 0.2515026210000806,
+     "simulated": 0.24797661870503598,
+     "z": -1.625997355808735
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 2 + Sibling 1",
+     "exact": 0.2515026210000806,
+     "simulated": 0.2517735811350919,
+     "z": 0.12495183672375201
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 2 + Sibling 2",
+     "exact": 0.2515026210000806,
+     "simulated": 0.2515237809752198,
+     "z": 0.009757810899254543
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 3 + Sibling 3",
+     "exact": 0.2515026210000806,
+     "simulated": 0.25209832134292565,
+     "z": 0.2747040702956141
+    }
+   ]
+  },
+  {
+   "instance": "S-01",
+   "people": 15,
+   "accepted": 30323,
+   "simulated": 70500000,
+   "comparisons": 16,
+   "max_abs_z": 1.576585109599197,
+   "share_above_2": 0.0,
+   "rows": [
+    {
+     "kind": "carrier",
+     "label": "Paternal grandfather",
+     "exact": 0.5096840004863583,
+     "simulated": 0.5069419252712463,
+     "z": -0.9551617297984588
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal grandmother",
+     "exact": 0.5096840004863583,
+     "simulated": 0.5126471655179237,
+     "z": 1.0321751283954517
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandfather",
+     "exact": 0.5096289192537948,
+     "simulated": 0.511789730567556,
+     "z": 0.7526853632939723
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandmother",
+     "exact": 0.5096289192537948,
+     "simulated": 0.5080302080928668,
+     "z": -0.5568864265481491
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal uncle 1",
+     "exact": 0.5032280001621194,
+     "simulated": 0.5041717508162121,
+     "z": 0.3286868998172775
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal uncle 1",
+     "exact": 0.4945280664397475,
+     "simulated": 0.4921346832437424,
+     "z": -0.833593510572434
+    },
+    {
+     "kind": "carrier",
+     "label": "Wife of maternal uncle 1",
+     "exact": 0.03339623171095329,
+     "simulated": 0.03502291989578867,
+     "z": 1.576585109599197
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 1",
+     "exact": 0.26126015401718977,
+     "simulated": 0.25874748540711673,
+     "z": -0.9959532329966259
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 2",
+     "exact": 0.26126015401718977,
+     "simulated": 0.2619133990700129,
+     "z": 0.258928503221644
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 3",
+     "exact": 0.26126015401718977,
+     "simulated": 0.25812089832800184,
+     "z": -1.2443152432898372
+    },
+    {
+     "kind": "carrier",
+     "label": "Sibling 1",
+     "exact": 0.6666666666666666,
+     "simulated": 0.6659631302971342,
+     "z": -0.2598836114015567
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 4",
+     "exact": 0.26126015401718977,
+     "simulated": 0.25729644164495596,
+     "z": -1.5711073620966782
+    },
+    {
+     "kind": "couple",
+     "label": "Maternal uncle 1 + Wife of maternal uncle 1",
+     "exact": 0.00810598517448187,
+     "simulated": 0.007881805889918544,
+     "z": -0.43535749384174194
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 1 + Sibling 1",
+     "exact": 0.17417343601145988,
+     "simulated": 0.17386142532071364,
+     "z": -0.14325842557886828
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 2 + Sibling 1",
+     "exact": 0.17417343601145988,
+     "simulated": 0.1768294693796788,
+     "z": 1.2195067986482717
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 3 + Sibling 1",
+     "exact": 0.17417343601145988,
+     "simulated": 0.1721135771526564,
+     "z": -0.9457757242903901
+    }
+   ]
+  },
+  {
+   "instance": "M-01",
+   "people": 35,
+   "accepted": 30852,
+   "simulated": 25500000,
+   "comparisons": 43,
+   "max_abs_z": 2.8885283303888802,
+   "share_above_2": 0.09302325581395349,
+   "rows": [
+    {
+     "kind": "carrier",
+     "label": "Great-grandfather",
+     "exact": 0.4706299252788345,
+     "simulated": 0.47287047841306884,
+     "z": 0.7884559704113504
+    },
+    {
+     "kind": "carrier",
+     "label": "Great-grandmother",
+     "exact": 0.4706299252788345,
+     "simulated": 0.46872163879165046,
+     "z": -0.6715305480089601
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal grandfather",
+     "exact": 0.8746031511569902,
+     "simulated": 0.8761830675482951,
+     "z": 0.8379670381525424
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal grandmother",
+     "exact": 0.15030142882754974,
+     "simulated": 0.15071956437183975,
+     "z": 0.20551557941374546
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandfather",
+     "exact": 0.874299206152362,
+     "simulated": 0.8738817580707896,
+     "z": -0.22117960526578676
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal grandmother",
+     "exact": 0.1444554770481483,
+     "simulated": 0.1451445611305588,
+     "z": 0.3442909168706397
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal uncle 1",
+     "exact": 0.49547439339603117,
+     "simulated": 0.49098923894723195,
+     "z": -1.5756757465230216
+    },
+    {
+     "kind": "carrier",
+     "label": "Paternal aunt 1",
+     "exact": 0.49683282677907264,
+     "simulated": 0.49257746661480617,
+     "z": -1.4949156679802444
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal aunt 1",
+     "exact": 0.49580302731812825,
+     "simulated": 0.49931933099961107,
+     "z": 1.2353025352526845
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal uncle 1",
+     "exact": 0.4976040600301566,
+     "simulated": 0.4970828471411902,
+     "z": -0.18310145271451272
+    },
+    {
+     "kind": "carrier",
+     "label": "Maternal uncle 2",
+     "exact": 0.49580302731812825,
+     "simulated": 0.49598081161675095,
+     "z": 0.062456890732522044
+    },
+    {
+     "kind": "carrier",
+     "label": "Wife of paternal uncle 1",
+     "exact": 0.03336439577309336,
+     "simulated": 0.03173214054194218,
+     "z": -1.596455085331211
+    },
+    {
+     "kind": "carrier",
+     "label": "Husband of paternal aunt 1",
+     "exact": 0.03597427839137274,
+     "simulated": 0.036140282639699206,
+     "z": 0.15657431033291755
+    },
+    {
+     "kind": "carrier",
+     "label": "Husband of maternal aunt 1",
+     "exact": 0.03600341817557644,
+     "simulated": 0.03782574873590043,
+     "z": 1.7181425973461306
+    },
+    {
+     "kind": "carrier",
+     "label": "Wife of maternal uncle 1",
+     "exact": 0.03945408640458092,
+     "simulated": 0.039251912355762995,
+     "z": -0.18241561420530217
+    },
+    {
+     "kind": "carrier",
+     "label": "Wife of maternal uncle 2",
+     "exact": 0.03600341817557643,
+     "simulated": 0.03782574873590043,
+     "z": 1.718142597346137
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 1",
+     "exact": 0.2617122289993217,
+     "simulated": 0.2605341631012576,
+     "z": -0.47074574180643797
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 2",
+     "exact": 0.2617122289993217,
+     "simulated": 0.25648256190846624,
+     "z": -2.0897332807366165
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 3",
+     "exact": 0.2617122289993217,
+     "simulated": 0.25651497471800855,
+     "z": -2.076781380425186
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 4",
+     "exact": 0.2617122289993217,
+     "simulated": 0.25878387138597175,
+     "z": -1.1701483586242674
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 5",
+     "exact": 0.26280377065558663,
+     "simulated": 0.2610203552443926,
+     "z": -0.7116833867123694
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 6",
+     "exact": 0.26280377065558663,
+     "simulated": 0.26127965772073125,
+     "z": -0.6082070662851271
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 7",
+     "exact": 0.26280377065558663,
+     "simulated": 0.26095552962530794,
+     "z": -0.73755246681918
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 8",
+     "exact": 0.26231090218709935,
+     "simulated": 0.26682224815246985,
+     "z": 1.8013700661590824
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 9",
+     "exact": 0.26231090218709935,
+     "simulated": 0.26607675353299626,
+     "z": 1.503695779524738
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 10",
+     "exact": 0.26231090218709935,
+     "simulated": 0.26954492415402564,
+     "z": 2.8885283303888802
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 11",
+     "exact": 0.26375649292786757,
+     "simulated": 0.2646181771035913,
+     "z": 0.34346102382543825
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 12",
+     "exact": 0.2637564929278675,
+     "simulated": 0.2625113444833398,
+     "z": -0.49630708282758546
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 13",
+     "exact": 0.26231090218709935,
+     "simulated": 0.26627123039025025,
+     "z": 1.5813499412554395
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 14",
+     "exact": 0.26231090218709935,
+     "simulated": 0.26328925191235575,
+     "z": 0.39065279471801767
+    },
+    {
+     "kind": "carrier",
+     "label": "Cousin 15",
+     "exact": 0.26231090218709935,
+     "simulated": 0.265169194865811,
+     "z": 1.1413096914481313
+    },
+    {
+     "kind": "carrier",
+     "label": "Sibling 1",
+     "exact": 0.6666666666666666,
+     "simulated": 0.661901983663944,
+     "z": -1.7753416027066278
+    },
+    {
+     "kind": "couple",
+     "label": "Paternal uncle 1 + Wife of paternal uncle 1",
+     "exact": 0.00812149675572148,
+     "simulated": 0.007552184623363153,
+     "z": -1.114152973639098
+    },
+    {
+     "kind": "couple",
+     "label": "Husband of paternal aunt 1 + Paternal aunt 1",
+     "exact": 0.010799345788908418,
+     "simulated": 0.010793465577596266,
+     "z": -0.009992949058366892
+    },
+    {
+     "kind": "couple",
+     "label": "Husband of maternal aunt 1 + Maternal aunt 1",
+     "exact": 0.010776961679259168,
+     "simulated": 0.011376896149358226,
+     "z": 1.0205873866090394
+    },
+    {
+     "kind": "couple",
+     "label": "Maternal uncle 1 + Wife of maternal uncle 1",
+     "exact": 0.014317740868503575,
+     "simulated": 0.015071956437183976,
+     "z": 1.1151452409949927
+    },
+    {
+     "kind": "couple",
+     "label": "Maternal uncle 2 + Wife of maternal uncle 2",
+     "exact": 0.01077696167925917,
+     "simulated": 0.011960326721120186,
+     "z": 2.0130989227507077
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 1 + Cousin 11",
+     "exact": 0.06902856494764928,
+     "simulated": 0.07085440165953585,
+     "z": 1.2650887572127847
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 4 + Cousin 13",
+     "exact": 0.06865023581949752,
+     "simulated": 0.07001166861143523,
+     "z": 0.9457153695098574
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 5 + Cousin 9",
+     "exact": 0.06893655937115725,
+     "simulated": 0.06858550499157266,
+     "z": -0.24338937635590868
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 3 + Cousin 15",
+     "exact": 0.06865023581949752,
+     "simulated": 0.06771035913392973,
+     "z": -0.6528826338319194
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 12 + Cousin 15",
+     "exact": 0.06930456017464807,
+     "simulated": 0.06955788927784261,
+     "z": 0.1752032056892603
+    },
+    {
+     "kind": "couple",
+     "label": "Cousin 15 + Sibling 1",
+     "exact": 0.17487393479139954,
+     "simulated": 0.17622844548165434,
+     "z": 0.6263273896665721
+    }
+   ]
+  }
+ ]
+}

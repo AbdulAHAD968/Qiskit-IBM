@@ -30,7 +30,7 @@
    }
   }
  },
- "seconds": 351.7,
+ "seconds": 330.6,
  "summary": [
   {
    "size": "M",
@@ -142,17 +142,17 @@
    "p": null,
    "kind": "classical",
    "quality": {
-    "mean": 0.7401929032248978,
-    "std": 0.2203804080624405,
-    "median": 0.80037235970688,
+    "mean": 0.7798680899649838,
+    "std": 0.21892647388441475,
+    "median": 0.8240372726434086,
     "min": 0.27154547711667487,
     "max": 1.0,
     "n": 12
    },
    "ratio": {
-    "mean": 0.7708139123623715,
-    "std": 0.18668860205726104,
-    "median": 0.8141275444477885,
+    "mean": 0.8065142224973968,
+    "std": 0.18433066533379505,
+    "median": 0.837105970445557,
     "min": 0.39521766909804956,
     "max": 1.0,
     "n": 12
@@ -168,18 +168,18 @@
    "p": null,
    "kind": "classical",
    "quality": {
-    "mean": 0.9999113174797322,
-    "std": 0.0003072052616942108,
+    "mean": 0.9999798999057107,
+    "std": 6.962876909173917e-05,
     "median": 1.0,
-    "min": 0.9989358097567863,
+    "min": 0.9997587988685293,
     "max": 1.0000000000000002,
     "n": 12
    },
    "ratio": {
-    "mean": 0.9999189119585821,
-    "std": 0.00028089721524435376,
+    "mean": 0.999983312366807,
+    "std": 5.7807657096361925e-05,
     "median": 1.0,
-    "min": 0.9990269435029844,
+    "min": 0.9997997484016852,
     "max": 1.0000000000000002,
     "n": 12
    },
@@ -1288,7 +1288,7 @@
      ],
      "expectation": 0.1920547470748015,
      "evaluations": 218,
-     "seconds": 13.115,
+     "seconds": 12.409,
      "valid_share": 1.0000000000000016,
      "mean_valid": 0.19205474707480177,
      "quality": 0.3213471329213244,
@@ -1354,7 +1354,7 @@
      ],
      "expectation": 0.2317191228284647,
      "evaluations": 169,
-     "seconds": 15.954,
+     "seconds": 14.218,
      "valid_share": 0.9999999999999944,
      "mean_valid": 0.2317191228284643,
      "quality": 0.42194685934456666,
@@ -1422,7 +1422,7 @@
      ],
      "expectation": 0.2559983701385843,
      "evaluations": 257,
-     "seconds": 25.162,
+     "seconds": 24.498,
      "valid_share": 1.0000000000000033,
      "mean_valid": 0.25599837013858445,
      "quality": 0.4835256839384416,
@@ -1486,7 +1486,7 @@
      ],
      "expectation": -0.11605584178595141,
      "evaluations": 233,
-     "seconds": 18.265,
+     "seconds": 17.594,
      "valid_share": 0.3825185496903559,
      "mean_valid": 0.13356279951317632,
      "quality": 0.17299552493922177,
@@ -1552,7 +1552,7 @@
      ],
      "expectation": -0.01000990036188476,
      "evaluations": 300,
-     "seconds": 40.78,
+     "seconds": 39.797,
      "valid_share": 0.5066989407529147,
      "mean_valid": 0.1367921701255572,
      "quality": 0.18118609377969513,
@@ -1620,7 +1620,7 @@
      ],
      "expectation": 0.038113811434039135,
      "evaluations": 300,
-     "seconds": 51.137,
+     "seconds": 49.114,
      "valid_share": 0.6611021460355552,
      "mean_valid": 0.14159520863512925,
      "quality": 0.19336791565088973,
@@ -1631,7 +1631,7 @@
      "sampled_valid_share": 0.660888671875,
      "sampled_p_opt": 0.0,
      "sampled_best_ratio": 0.9908006528898056,
-     "sampled_best_mask": 49552,
+     "sampled_best_mask": 49428,
      "sampled_top": [
       {
        "mask": 16490,
@@ -1676,7 +1676,7 @@
      ]
     }
    ],
-   "seconds": 169.92
+   "seconds": 162.64
   },
   {
    "size": "M",
@@ -1738,7 +1738,7 @@
      ],
      "expectation": 0.12173856278444442,
      "evaluations": 220,
-     "seconds": 13.152,
+     "seconds": 12.473,
      "valid_share": 0.9999999999999966,
      "mean_valid": 0.12173856278444416,
      "quality": 0.4388577170381999,
@@ -1804,7 +1804,7 @@
      ],
      "expectation": 0.13781153683254352,
      "evaluations": 196,
-     "seconds": 18.376,
+     "seconds": 16.484,
      "valid_share": 1.0000000000000016,
      "mean_valid": 0.13781153683254355,
      "quality": 0.5272043522642949,
@@ -1872,7 +1872,7 @@
      ],
      "expectation": 0.14597865750001843,
      "evaluations": 279,
-     "seconds": 27.492,
+     "seconds": 26.86,
      "valid_share": 1.0000000000000047,
      "mean_valid": 0.14597865750001845,
      "quality": 0.5720957101609516,
@@ -1936,7 +1936,7 @@
      ],
      "expectation": -0.0022387741773718384,
      "evaluations": 255,
-     "seconds": 20.412,
+     "seconds": 20.074,
      "valid_share": 0.3742495156343103,
      "mean_valid": 0.09403370305761881,
      "quality": 0.2865753124905863,
@@ -2002,7 +2002,7 @@
      ],
      "expectation": 0.0368848565431974,
      "evaluations": 177,
-     "seconds": 23.832,
+     "seconds": 23.602,
      "valid_share": 0.478115357378414,
      "mean_valid": 0.0950643569367744,
      "quality": 0.2922403998623217,
@@ -2070,7 +2070,7 @@
      ],
      "expectation": 0.043900690482572724,
      "evaluations": 300,
-     "seconds": 50.029,
+     "seconds": 48.713,
      "valid_share": 0.5203009815532746,
      "mean_valid": 0.0955779323919763,
      "quality": 0.2950633163472247,
@@ -2126,7 +2126,7 @@
      ]
     }
    ],
-   "seconds": 158.55
+   "seconds": 153.16
   },
   {
    "size": "M",
@@ -2167,7 +2167,7 @@
      "value": 0.19872267241993347,
      "ratio": 1.0,
      "quality": 1.0,
-     "mask": 58624,
+     "mask": 58880,
      "optimal": true
     },
     "random": {
@@ -2188,7 +2188,7 @@
      ],
      "expectation": 0.11053335652817907,
      "evaluations": 214,
-     "seconds": 13.266,
+     "seconds": 12.53,
      "valid_share": 1.000000000000002,
      "mean_valid": 0.11053335652817903,
      "quality": 0.4927780366797534,
@@ -2254,7 +2254,7 @@
      ],
      "expectation": 0.12050167040698721,
      "evaluations": 222,
-     "seconds": 21.033,
+     "seconds": 19.152,
      "valid_share": 1.0000000000000047,
      "mean_valid": 0.1205016704069872,
      "quality": 0.5501109197560613,
@@ -2322,7 +2322,7 @@
      ],
      "expectation": 0.12735417870149662,
      "evaluations": 251,
-     "seconds": 25.222,
+     "seconds": 24.696,
      "valid_share": 0.9999999999999964,
      "mean_valid": 0.1273541787014965,
      "quality": 0.5895232076921135,
@@ -2386,7 +2386,7 @@
      ],
      "expectation": -0.0633618589282876,
      "evaluations": 250,
-     "seconds": 19.962,
+     "seconds": 19.401,
      "valid_share": 0.3835522674456462,
      "mean_valid": 0.08256730428734142,
      "quality": 0.33193093427876386,
@@ -2452,7 +2452,7 @@
      ],
      "expectation": -0.00559765082900987,
      "evaluations": 300,
-     "seconds": 40.764,
+     "seconds": 39.732,
      "valid_share": 0.4883064843571606,
      "mean_valid": 0.08331685843204412,
      "quality": 0.33624200440156177,
@@ -2520,7 +2520,7 @@
      ],
      "expectation": 0.02431065988858805,
      "evaluations": 300,
-     "seconds": 51.916,
+     "seconds": 49.005,
      "valid_share": 0.6450696810674199,
      "mean_valid": 0.08494040059228299,
      "quality": 0.34557982762563955,
@@ -2576,7 +2576,7 @@
      ]
     }
    ],
-   "seconds": 177.43
+   "seconds": 169.46
   },
   {
    "size": "M",
@@ -2638,7 +2638,7 @@
      ],
      "expectation": 0.14429607560126145,
      "evaluations": 218,
-     "seconds": 13.378,
+     "seconds": 12.796,
      "valid_share": 0.9999999999999983,
      "mean_valid": 0.14429607560126137,
      "quality": 0.42780628839534107,
@@ -2704,7 +2704,7 @@
      ],
      "expectation": 0.17059775865007956,
      "evaluations": 142,
-     "seconds": 13.336,
+     "seconds": 12.388,
      "valid_share": 0.9999999999999999,
      "mean_valid": 0.1705977586500797,
      "quality": 0.5189705800749617,
@@ -2772,7 +2772,7 @@
      ],
      "expectation": 0.17536243928548118,
      "evaluations": 300,
-     "seconds": 31.05,
+     "seconds": 29.493,
      "valid_share": 1.0000000000000047,
      "mean_valid": 0.17536243928548126,
      "quality": 0.5354854447092803,
@@ -2836,7 +2836,7 @@
      ],
      "expectation": -0.07467559527560375,
      "evaluations": 255,
-     "seconds": 20.49,
+     "seconds": 19.964,
      "valid_share": 0.3823521830773163,
      "mean_valid": 0.10057235197743747,
      "quality": 0.2762554432892336,
@@ -2902,7 +2902,7 @@
      ],
      "expectation": -0.0010727751169581357,
      "evaluations": 300,
-     "seconds": 40.833,
+     "seconds": 39.51,
      "valid_share": 0.4956885422038945,
      "mean_valid": 0.10198426483586408,
      "quality": 0.2811492759543487,
@@ -2970,7 +2970,7 @@
      ],
      "expectation": 0.01970358650638193,
      "evaluations": 300,
-     "seconds": 51.593,
+     "seconds": 49.068,
      "valid_share": 0.5739162293713678,
      "mean_valid": 0.10310441890394517,
      "quality": 0.2850318431649381,
@@ -3026,7 +3026,7 @@
      ]
     }
    ],
-   "seconds": 176.38
+   "seconds": 168.16
   },
   {
    "size": "M",
@@ -3088,7 +3088,7 @@
      ],
      "expectation": 0.14662651505791385,
      "evaluations": 226,
-     "seconds": 13.645,
+     "seconds": 12.988,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.14662651505791388,
      "quality": 0.36842066710470517,
@@ -3154,7 +3154,7 @@
      ],
      "expectation": 0.17544238881939517,
      "evaluations": 175,
-     "seconds": 16.116,
+     "seconds": 14.288,
      "valid_share": 0.9999999999999981,
      "mean_valid": 0.17544238881939514,
      "quality": 0.4584180604767496,
@@ -3222,7 +3222,7 @@
      ],
      "expectation": 0.18901437096725904,
      "evaluations": 261,
-     "seconds": 24.895,
+     "seconds": 24.414,
      "valid_share": 0.9999999999999982,
      "mean_valid": 0.18901437096725893,
      "quality": 0.5008059133077953,
@@ -3286,7 +3286,7 @@
      ],
      "expectation": -0.15290282714414127,
      "evaluations": 232,
-     "seconds": 18.123,
+     "seconds": 17.61,
      "valid_share": 0.38675513270622197,
      "mean_valid": 0.0996244567983111,
      "quality": 0.22162439913452722,
@@ -3352,7 +3352,7 @@
      ],
      "expectation": -0.05516523585808297,
      "evaluations": 300,
-     "seconds": 40.644,
+     "seconds": 39.881,
      "valid_share": 0.4867204265194364,
      "mean_valid": 0.10088754655173973,
      "quality": 0.2255692659931358,
@@ -3420,7 +3420,7 @@
      ],
      "expectation": -0.007334958440790906,
      "evaluations": 300,
-     "seconds": 50.893,
+     "seconds": 49.412,
      "valid_share": 0.6263068391720943,
      "mean_valid": 0.1052550283576041,
      "quality": 0.23920973309752172,
@@ -3476,7 +3476,7 @@
      ]
     }
    ],
-   "seconds": 169.53
+   "seconds": 163.5
   },
   {
    "size": "M",
@@ -3538,7 +3538,7 @@
      ],
      "expectation": 0.1409480845626403,
      "evaluations": 226,
-     "seconds": 14.165,
+     "seconds": 13.384,
      "valid_share": 1.0000000000000027,
      "mean_valid": 0.14094808456264038,
      "quality": 0.36359651589606107,
@@ -3604,7 +3604,7 @@
      ],
      "expectation": 0.16129045640994477,
      "evaluations": 203,
-     "seconds": 19.457,
+     "seconds": 17.735,
      "valid_share": 0.9999999999999952,
      "mean_valid": 0.16129045640994452,
      "quality": 0.42721423415461895,
@@ -3672,7 +3672,7 @@
      ],
      "expectation": 0.1841926833767511,
      "evaluations": 246,
-     "seconds": 25.196,
+     "seconds": 24.726,
      "valid_share": 1.000000000000003,
      "mean_valid": 0.18419268337675107,
      "quality": 0.4988375155302827,
@@ -3736,7 +3736,7 @@
      ],
      "expectation": -0.14713364855037314,
      "evaluations": 236,
-     "seconds": 18.477,
+     "seconds": 18.102,
      "valid_share": 0.3862404699515186,
      "mean_valid": 0.10520073203624439,
      "quality": 0.25180203005221935,
@@ -3802,7 +3802,7 @@
      ],
      "expectation": -0.054297988452308044,
      "evaluations": 177,
-     "seconds": 23.846,
+     "seconds": 23.44,
      "valid_share": 0.4819381608564426,
      "mean_valid": 0.10684029339711867,
      "quality": 0.2569295124080952,
@@ -3870,7 +3870,7 @@
      ],
      "expectation": 0.014764349967923973,
      "evaluations": 300,
-     "seconds": 50.592,
+     "seconds": 48.84,
      "valid_share": 0.6633842724563563,
      "mean_valid": 0.10919196252605792,
      "quality": 0.26428400505060545,
@@ -3926,7 +3926,7 @@
      ]
     }
    ],
-   "seconds": 156.92
+   "seconds": 151.12
   },
   {
    "size": "M",
@@ -3988,7 +3988,7 @@
      ],
      "expectation": 0.15907686264110366,
      "evaluations": 227,
-     "seconds": 14.169,
+     "seconds": 13.28,
      "valid_share": 1.0000000000000022,
      "mean_valid": 0.15907686264110368,
      "quality": 0.38324107031745897,
@@ -4054,7 +4054,7 @@
      ],
      "expectation": 0.18510100973014765,
      "evaluations": 215,
-     "seconds": 20.484,
+     "seconds": 18.311,
      "valid_share": 1.000000000000004,
      "mean_valid": 0.1851010097301479,
      "quality": 0.4680804189030319,
@@ -4122,7 +4122,7 @@
      ],
      "expectation": 0.20561141007138686,
      "evaluations": 278,
-     "seconds": 27.988,
+     "seconds": 27.562,
      "valid_share": 0.9999999999999972,
      "mean_valid": 0.2056114100713866,
      "quality": 0.5349448198083188,
@@ -4186,7 +4186,7 @@
      ],
      "expectation": -0.13349709494352968,
      "evaluations": 268,
-     "seconds": 21.701,
+     "seconds": 21.367,
      "valid_share": 0.3843208017937917,
      "mean_valid": 0.11594160700212781,
      "quality": 0.24261909423650216,
@@ -4252,7 +4252,7 @@
      ],
      "expectation": -0.03612464761415923,
      "evaluations": 300,
-     "seconds": 40.693,
+     "seconds": 39.737,
      "valid_share": 0.49114546943508125,
      "mean_valid": 0.1179441351946402,
      "quality": 0.24914738455071264,
@@ -4320,7 +4320,7 @@
      ],
      "expectation": 0.02456425951265606,
      "evaluations": 300,
-     "seconds": 51.939,
+     "seconds": 49.344,
      "valid_share": 0.6627567441619631,
      "mean_valid": 0.12015885460877095,
      "quality": 0.256367423376645,
@@ -4376,7 +4376,7 @@
      ]
     }
    ],
-   "seconds": 181.83
+   "seconds": 174.47
   },
   {
    "size": "M",
@@ -4407,10 +4407,10 @@
      "optimal": false
     },
     "greedy": {
-     "value": 0.19714394783534367,
-     "ratio": 0.5632306987838002,
-     "quality": 0.5146007549360627,
-     "mask": 53568,
+     "value": 0.3470952930477949,
+     "ratio": 0.9916344204041013,
+     "quality": 0.990702995817095,
+     "mask": 53344,
      "optimal": false
     },
     "annealing": {
@@ -4438,7 +4438,7 @@
      ],
      "expectation": 0.1480788839052075,
      "evaluations": 216,
-     "seconds": 13.043,
+     "seconds": 12.563,
      "valid_share": 1.000000000000003,
      "mean_valid": 0.14807888390520746,
      "quality": 0.35881697818492725,
@@ -4504,7 +4504,7 @@
      ],
      "expectation": 0.16225768861046075,
      "evaluations": 216,
-     "seconds": 20.46,
+     "seconds": 18.875,
      "valid_share": 1.0000000000000013,
      "mean_valid": 0.16225768861046078,
      "quality": 0.40383531852473165,
@@ -4572,7 +4572,7 @@
      ],
      "expectation": 0.17073810115281968,
      "evaluations": 268,
-     "seconds": 26.829,
+     "seconds": 26.883,
      "valid_share": 0.9999999999999956,
      "mean_valid": 0.17073810115281954,
      "quality": 0.4307610083829468,
@@ -4636,7 +4636,7 @@
      ],
      "expectation": -0.1448964780380555,
      "evaluations": 245,
-     "seconds": 19.26,
+     "seconds": 18.98,
      "valid_share": 0.3856190145515171,
      "mean_valid": 0.10801187075172562,
      "quality": 0.23160241588303118,
@@ -4702,7 +4702,7 @@
      ],
      "expectation": -0.04984940590071041,
      "evaluations": 300,
-     "seconds": 40.502,
+     "seconds": 39.673,
      "valid_share": 0.4920164034867121,
      "mean_valid": 0.10984978301891596,
      "quality": 0.23743786969448122,
@@ -4770,7 +4770,7 @@
      ],
      "expectation": 0.01684849362697216,
      "evaluations": 300,
-     "seconds": 51.358,
+     "seconds": 49.529,
      "valid_share": 0.6658493319518783,
      "mean_valid": 0.11217550768324938,
      "quality": 0.24482214972739874,
@@ -4826,7 +4826,7 @@
      ]
     }
    ],
-   "seconds": 176.94
+   "seconds": 171.59
   },
   {
    "size": "M",
@@ -4864,11 +4864,11 @@
      "optimal": false
     },
     "annealing": {
-     "value": 0.2069235624607088,
-     "ratio": 1.0000000000000002,
-     "quality": 1.0000000000000002,
-     "mask": 12868,
-     "optimal": true
+     "value": 0.20688212568659703,
+     "ratio": 0.9997997484016852,
+     "quality": 0.9997587988685293,
+     "mask": 12865,
+     "optimal": false
     },
     "random": {
      "value": 0.0819504822045859,
@@ -4888,7 +4888,7 @@
      ],
      "expectation": 0.10724698472094209,
      "evaluations": 222,
-     "seconds": 13.663,
+     "seconds": 13.052,
      "valid_share": 1.0000000000000018,
      "mean_valid": 0.1072469847209421,
      "quality": 0.4197882473399223,
@@ -4954,7 +4954,7 @@
      ],
      "expectation": 0.11925011368860551,
      "evaluations": 171,
-     "seconds": 16.284,
+     "seconds": 14.659,
      "valid_share": 0.9999999999999992,
      "mean_valid": 0.11925011368860537,
      "quality": 0.4896577859381999,
@@ -5022,7 +5022,7 @@
      ],
      "expectation": 0.1271138767523424,
      "evaluations": 248,
-     "seconds": 25.165,
+     "seconds": 23.623,
      "valid_share": 0.9999999999999963,
      "mean_valid": 0.12711387675234223,
      "quality": 0.5354323084305994,
@@ -5086,7 +5086,7 @@
      ],
      "expectation": -0.012770984240786154,
      "evaluations": 269,
-     "seconds": 23.421,
+     "seconds": 22.171,
      "valid_share": 0.37673149201236933,
      "mean_valid": 0.08369657380000452,
      "quality": 0.28270262997476275,
@@ -5152,7 +5152,7 @@
      ],
      "expectation": 0.029921158919238078,
      "evaluations": 300,
-     "seconds": 45.187,
+     "seconds": 40.664,
      "valid_share": 0.5042065902104471,
      "mean_valid": 0.0849970293747975,
      "quality": 0.2902725087308045,
@@ -5220,7 +5220,7 @@
      ],
      "expectation": 0.040366916157300814,
      "evaluations": 300,
-     "seconds": 53.387,
+     "seconds": 49.639,
      "valid_share": 0.5724918975457025,
      "mean_valid": 0.0857795514429062,
      "quality": 0.29482752567588766,
@@ -5276,7 +5276,7 @@
      ]
     }
    ],
-   "seconds": 182.49
+   "seconds": 168.54
   },
   {
    "size": "M",
@@ -5338,7 +5338,7 @@
      ],
      "expectation": 0.12284453283408397,
      "evaluations": 219,
-     "seconds": 13.201,
+     "seconds": 12.739,
      "valid_share": 1.0000000000000022,
      "mean_valid": 0.1228445328340842,
      "quality": 0.32025368385686326,
@@ -5404,7 +5404,7 @@
      ],
      "expectation": 0.14432092702556523,
      "evaluations": 171,
-     "seconds": 16.032,
+     "seconds": 14.347,
      "valid_share": 0.9999999999999984,
      "mean_valid": 0.14432092702556526,
      "quality": 0.3894422526906181,
@@ -5472,7 +5472,7 @@
      ],
      "expectation": 0.14954116825454528,
      "evaluations": 300,
-     "seconds": 29.899,
+     "seconds": 28.188,
      "valid_share": 1.0000000000000049,
      "mean_valid": 0.1495411682545455,
      "quality": 0.4062598346543246,
@@ -5536,7 +5536,7 @@
      ],
      "expectation": -0.16687385432504342,
      "evaluations": 243,
-     "seconds": 20.52,
+     "seconds": 19.434,
      "valid_share": 0.38749874601003653,
      "mean_valid": 0.08641109890591733,
      "quality": 0.20287936446627697,
@@ -5602,7 +5602,7 @@
      ],
      "expectation": -0.06062444235472286,
      "evaluations": 300,
-     "seconds": 45.461,
+     "seconds": 40.683,
      "valid_share": 0.4982802676189043,
      "mean_valid": 0.08789868888575525,
      "quality": 0.2076717993973347,
@@ -5670,7 +5670,7 @@
      ],
      "expectation": -0.030870552511643723,
      "evaluations": 300,
-     "seconds": 52.895,
+     "seconds": 49.166,
      "valid_share": 0.5706179911506886,
      "mean_valid": 0.08905351340624347,
      "quality": 0.2113921937575016,
@@ -5726,7 +5726,7 @@
      ]
     }
    ],
-   "seconds": 183.36
+   "seconds": 169.17
   },
   {
    "size": "M",
@@ -5764,11 +5764,11 @@
      "optimal": false
     },
     "annealing": {
-     "value": 0.349166802418603,
-     "ratio": 0.9990269435029844,
-     "quality": 0.9989358097567863,
-     "mask": 57888,
-     "optimal": false
+     "value": 0.34950689237097626,
+     "ratio": 0.9999999999999999,
+     "quality": 0.9999999999999998,
+     "mask": 61456,
+     "optimal": true
     },
     "random": {
      "value": 0.1036556054819067,
@@ -5788,7 +5788,7 @@
      ],
      "expectation": 0.13739212190596095,
      "evaluations": 211,
-     "seconds": 13.572,
+     "seconds": 12.373,
      "valid_share": 1.000000000000002,
      "mean_valid": 0.13739212190596084,
      "quality": 0.3362624576376982,
@@ -5854,7 +5854,7 @@
      ],
      "expectation": 0.14738773051441045,
      "evaluations": 187,
-     "seconds": 18.049,
+     "seconds": 16.798,
      "valid_share": 1.0000000000000004,
      "mean_valid": 0.1473877305144105,
      "quality": 0.3675401507358414,
@@ -5922,7 +5922,7 @@
      ],
      "expectation": 0.15290984908495878,
      "evaluations": 238,
-     "seconds": 25.793,
+     "seconds": 24.072,
      "valid_share": 0.999999999999996,
      "mean_valid": 0.15290984908495853,
      "quality": 0.38481965183146777,
@@ -5986,7 +5986,7 @@
      ],
      "expectation": -0.14581730244997537,
      "evaluations": 241,
-     "seconds": 20.247,
+     "seconds": 18.736,
      "valid_share": 0.38541147170831197,
      "mean_valid": 0.10583499576852472,
      "quality": 0.23751568342409562,
@@ -6052,7 +6052,7 @@
      ],
      "expectation": -0.055112663912819215,
      "evaluations": 300,
-     "seconds": 45.538,
+     "seconds": 41.01,
      "valid_share": 0.4814526030106707,
      "mean_valid": 0.10762687461089868,
      "quality": 0.24312272934758758,
@@ -6120,7 +6120,7 @@
      ],
      "expectation": 0.01667478299291858,
      "evaluations": 300,
-     "seconds": 50.905,
+     "seconds": 47.721,
      "valid_share": 0.662527495484033,
      "mean_valid": 0.10981094807795927,
      "quality": 0.24995700850781516,
@@ -6176,7 +6176,7 @@
      ]
     }
    ],
-   "seconds": 179.62
+   "seconds": 165.47
   },
   {
    "size": "M",
@@ -6217,7 +6217,7 @@
      "value": 0.409123877047366,
      "ratio": 1.0,
      "quality": 1.0,
-     "mask": 26692,
+     "mask": 51268,
      "optimal": true
     },
     "random": {
@@ -6238,7 +6238,7 @@
      ],
      "expectation": 0.16620857770566796,
      "evaluations": 222,
-     "seconds": 13.674,
+     "seconds": 12.677,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.1662085777056681,
      "quality": 0.36724129339052564,
@@ -6249,7 +6249,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.006591796875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 51268,
+     "sampled_best_mask": 26692,
      "sampled_top": [
       {
        "mask": 18756,
@@ -6304,7 +6304,7 @@
      ],
      "expectation": 0.21232578517620784,
      "evaluations": 154,
-     "seconds": 13.393,
+     "seconds": 12.698,
      "valid_share": 0.9999999999999973,
      "mean_valid": 0.21232578517620773,
      "quality": 0.4873698510835995,
@@ -6315,7 +6315,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.02099609375,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 51268,
+     "sampled_best_mask": 26692,
      "sampled_top": [
       {
        "mask": 18516,
@@ -6372,7 +6372,7 @@
      ],
      "expectation": 0.24439529354040365,
      "evaluations": 260,
-     "seconds": 25.497,
+     "seconds": 23.942,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.24439529354040374,
      "quality": 0.5709062141250486,
@@ -6383,7 +6383,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.0546875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 51268,
+     "sampled_best_mask": 26692,
      "sampled_top": [
       {
        "mask": 26692,
@@ -6436,7 +6436,7 @@
      ],
      "expectation": -0.14097575800363282,
      "evaluations": 242,
-     "seconds": 20.326,
+     "seconds": 19.056,
      "valid_share": 0.3857237232043745,
      "mean_valid": 0.11209994389875634,
      "quality": 0.2262962428447116,
@@ -6502,7 +6502,7 @@
      ],
      "expectation": -0.03760747840139533,
      "evaluations": 300,
-     "seconds": 45.821,
+     "seconds": 40.879,
      "valid_share": 0.4903379946783315,
      "mean_valid": 0.11375797280806334,
      "quality": 0.2306151648352876,
@@ -6513,7 +6513,7 @@
      "sampled_valid_share": 0.495849609375,
      "sampled_p_opt": 0.000732421875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 51268,
+     "sampled_best_mask": 26692,
      "sampled_top": [
       {
        "mask": 41097,
@@ -6570,7 +6570,7 @@
      ],
      "expectation": -0.015792873113916972,
      "evaluations": 300,
-     "seconds": 52.056,
+     "seconds": 48.87,
      "valid_share": 0.5396940023523852,
      "mean_valid": 0.11468141961509279,
      "quality": 0.23302060825042906,
@@ -6626,7 +6626,7 @@
      ]
     }
    ],
-   "seconds": 176.7
+   "seconds": 162.71
   },
   {
    "size": "S",
@@ -6688,7 +6688,7 @@
      ],
      "expectation": 0.2000861807183349,
      "evaluations": 221,
-     "seconds": 1.487,
+     "seconds": 1.328,
      "valid_share": 0.9999999999999989,
      "mean_valid": 0.20008618071833495,
      "quality": 0.39231501123123386,
@@ -6754,7 +6754,7 @@
      ],
      "expectation": 0.22727679417053764,
      "evaluations": 185,
-     "seconds": 3.807,
+     "seconds": 3.294,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.22727679417053767,
      "quality": 0.4594038527578371,
@@ -6822,7 +6822,7 @@
      ],
      "expectation": 0.240764881086687,
      "evaluations": 266,
-     "seconds": 6.45,
+     "seconds": 5.483,
      "valid_share": 0.9999999999999993,
      "mean_valid": 0.24076488108668706,
      "quality": 0.492683724401972,
@@ -6886,7 +6886,7 @@
      ],
      "expectation": 0.015819039690216807,
      "evaluations": 225,
-     "seconds": 1.892,
+     "seconds": 1.843,
      "valid_share": 0.5145777726350391,
      "mean_valid": 0.14728474483510706,
      "quality": 0.2620352302849897,
@@ -6952,7 +6952,7 @@
      ],
      "expectation": 0.08252494332213778,
      "evaluations": 178,
-     "seconds": 4.592,
+     "seconds": 4.491,
      "valid_share": 0.703378374512685,
      "mean_valid": 0.1526711570327486,
      "quality": 0.2753254105510499,
@@ -7020,7 +7020,7 @@
      ],
      "expectation": 0.1189958691280868,
      "evaluations": 300,
-     "seconds": 9.59,
+     "seconds": 8.527,
      "valid_share": 0.8625222153138197,
      "mean_valid": 0.1589037102279508,
      "quality": 0.29070331934130456,
@@ -7076,7 +7076,7 @@
      ]
     }
    ],
-   "seconds": 28.81
+   "seconds": 25.88
   },
   {
    "size": "S",
@@ -7138,7 +7138,7 @@
      ],
      "expectation": 0.08953079537794299,
      "evaluations": 228,
-     "seconds": 1.593,
+     "seconds": 1.38,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.08953079537794299,
      "quality": 0.5003801141931538,
@@ -7204,7 +7204,7 @@
      ],
      "expectation": 0.09929305324442775,
      "evaluations": 214,
-     "seconds": 4.33,
+     "seconds": 3.928,
      "valid_share": 0.9999999999999983,
      "mean_valid": 0.09929305324442773,
      "quality": 0.5699623911439274,
@@ -7272,7 +7272,7 @@
      ],
      "expectation": 0.10691835000649094,
      "evaluations": 295,
-     "seconds": 7.071,
+     "seconds": 6.156,
      "valid_share": 0.9999999999999996,
      "mean_valid": 0.10691835000649096,
      "quality": 0.6243130873031939,
@@ -7336,7 +7336,7 @@
      ],
      "expectation": -0.011963501888477501,
      "evaluations": 237,
-     "seconds": 2.045,
+     "seconds": 2.015,
      "valid_share": 0.5218124684322788,
      "mean_valid": 0.06740922008486662,
      "quality": 0.3427045436763401,
@@ -7402,7 +7402,7 @@
      ],
      "expectation": 0.025397838353086677,
      "evaluations": 300,
-     "seconds": 8.248,
+     "seconds": 7.474,
      "valid_share": 0.7174852950354597,
      "mean_valid": 0.06842999607425368,
      "quality": 0.34998031108277994,
@@ -7470,7 +7470,7 @@
      ],
      "expectation": 0.05669920809444701,
      "evaluations": 300,
-     "seconds": 9.801,
+     "seconds": 8.9,
      "valid_share": 0.9399813514537845,
      "mean_valid": 0.06974861262219194,
      "quality": 0.3593789914992758,
@@ -7526,7 +7526,7 @@
      ]
     }
    ],
-   "seconds": 34.1
+   "seconds": 30.76
   },
   {
    "size": "S",
@@ -7588,7 +7588,7 @@
      ],
      "expectation": 0.19072546511481345,
      "evaluations": 241,
-     "seconds": 1.713,
+     "seconds": 1.612,
      "valid_share": 1.0000000000000007,
      "mean_valid": 0.19072546511481336,
      "quality": 0.48709343787695497,
@@ -7654,7 +7654,7 @@
      ],
      "expectation": 0.24387510791870623,
      "evaluations": 179,
-     "seconds": 3.563,
+     "seconds": 3.19,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.24387510791870615,
      "quality": 0.6521419728676355,
@@ -7722,7 +7722,7 @@
      ],
      "expectation": 0.2686827961380136,
      "evaluations": 277,
-     "seconds": 6.506,
+     "seconds": 5.76,
      "valid_share": 0.9999999999999969,
      "mean_valid": 0.26868279613801405,
      "quality": 0.729178663635432,
@@ -7786,7 +7786,7 @@
      ],
      "expectation": -0.08152507621913441,
      "evaluations": 237,
-     "seconds": 2.055,
+     "seconds": 1.971,
      "valid_share": 0.5245120380574151,
      "mean_valid": 0.10744793564272456,
      "quality": 0.22848710466553449,
@@ -7852,7 +7852,7 @@
      ],
      "expectation": 0.00975035671129909,
      "evaluations": 300,
-     "seconds": 8.178,
+     "seconds": 7.523,
      "valid_share": 0.714313280973984,
      "mean_valid": 0.11242268277720077,
      "quality": 0.24393546298327368,
@@ -7920,7 +7920,7 @@
      ],
      "expectation": 0.07069320392829626,
      "evaluations": 300,
-     "seconds": 9.856,
+     "seconds": 9.005,
      "valid_share": 0.889093598332257,
      "mean_valid": 0.11811883627248693,
      "quality": 0.26162404450296295,
@@ -7976,7 +7976,7 @@
      ]
     }
    ],
-   "seconds": 32.94
+   "seconds": 29.98
   },
   {
    "size": "S",
@@ -8038,7 +8038,7 @@
      ],
      "expectation": 0.08119207139928887,
      "evaluations": 225,
-     "seconds": 1.564,
+     "seconds": 1.406,
      "valid_share": 0.999999999999998,
      "mean_valid": 0.08119207139928887,
      "quality": 0.5076472249689975,
@@ -8049,7 +8049,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.030029296875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 816,
+     "sampled_best_mask": 432,
      "sampled_top": [
       {
        "mask": 282,
@@ -8104,7 +8104,7 @@
      ],
      "expectation": 0.09532377531163237,
      "evaluations": 151,
-     "seconds": 3.566,
+     "seconds": 3.002,
      "valid_share": 1.0000000000000022,
      "mean_valid": 0.09532377531163234,
      "quality": 0.6292028912133164,
@@ -8172,7 +8172,7 @@
      ],
      "expectation": 0.10377776497196471,
      "evaluations": 262,
-     "seconds": 5.775,
+     "seconds": 5.552,
      "valid_share": 1.0000000000000013,
      "mean_valid": 0.10377776497196468,
      "quality": 0.7019209690869044,
@@ -8183,7 +8183,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.04248046875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 816,
+     "sampled_best_mask": 432,
      "sampled_top": [
       {
        "mask": 402,
@@ -8236,7 +8236,7 @@
      ],
      "expectation": 0.009703075025651098,
      "evaluations": 235,
-     "seconds": 2.001,
+     "seconds": 1.935,
      "valid_share": 0.5158191891393467,
      "mean_valid": 0.06180362912025748,
      "quality": 0.3408750485006925,
@@ -8247,7 +8247,7 @@
      "sampled_valid_share": 0.518798828125,
      "sampled_p_opt": 0.00439453125,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 816,
+     "sampled_best_mask": 432,
      "sampled_top": [
       {
        "mask": 169,
@@ -8302,7 +8302,7 @@
      ],
      "expectation": 0.028460384827359075,
      "evaluations": 300,
-     "seconds": 8.436,
+     "seconds": 7.568,
      "valid_share": 0.630780233135862,
      "mean_valid": 0.06257579974072205,
      "quality": 0.34751697326836867,
@@ -8313,7 +8313,7 @@
      "sampled_valid_share": 0.627685546875,
      "sampled_p_opt": 0.007080078125,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 816,
+     "sampled_best_mask": 432,
      "sampled_top": [
       {
        "mask": 278,
@@ -8370,7 +8370,7 @@
      ],
      "expectation": 0.03865548191315432,
      "evaluations": 300,
-     "seconds": 9.86,
+     "seconds": 8.953,
      "valid_share": 0.7610210280858616,
      "mean_valid": 0.06381513519853427,
      "quality": 0.3581772763860264,
@@ -8426,7 +8426,7 @@
      ]
     }
    ],
-   "seconds": 32.28
+   "seconds": 29.34
   },
   {
    "size": "S",
@@ -8488,7 +8488,7 @@
      ],
      "expectation": 0.12014337868562103,
      "evaluations": 229,
-     "seconds": 1.628,
+     "seconds": 1.556,
      "valid_share": 1.0000000000000004,
      "mean_valid": 0.12014337868562099,
      "quality": 0.5173559839060858,
@@ -8554,7 +8554,7 @@
      ],
      "expectation": 0.13038585448989404,
      "evaluations": 200,
-     "seconds": 4.544,
+     "seconds": 3.801,
      "valid_share": 1.0000000000000007,
      "mean_valid": 0.13038585448989404,
      "quality": 0.5946776113662668,
@@ -8622,7 +8622,7 @@
      ],
      "expectation": 0.139027113380495,
      "evaluations": 287,
-     "seconds": 6.188,
+     "seconds": 5.83,
      "valid_share": 1.0000000000000018,
      "mean_valid": 0.13902711338049498,
      "quality": 0.6599114682475568,
@@ -8686,7 +8686,7 @@
      ],
      "expectation": -0.001595387683423155,
      "evaluations": 229,
-     "seconds": 1.954,
+     "seconds": 1.845,
      "valid_share": 0.5203552161187093,
      "mean_valid": 0.0962772888936121,
      "quality": 0.3371881280973299,
@@ -8752,7 +8752,7 @@
      ],
      "expectation": 0.03612641475101991,
      "evaluations": 300,
-     "seconds": 8.734,
+     "seconds": 7.733,
      "valid_share": 0.6460441476923664,
      "mean_valid": 0.0968569494212911,
      "quality": 0.3415640520664027,
@@ -8820,7 +8820,7 @@
      ],
      "expectation": 0.04918041950834334,
      "evaluations": 300,
-     "seconds": 9.764,
+     "seconds": 8.99,
      "valid_share": 0.7376696836119967,
      "mean_valid": 0.09732494042032104,
      "quality": 0.34509696992466266,
@@ -8876,7 +8876,7 @@
      ]
     }
    ],
-   "seconds": 33.83
+   "seconds": 30.74
   },
   {
    "size": "S",
@@ -8938,7 +8938,7 @@
      ],
      "expectation": 0.12464322629584818,
      "evaluations": 221,
-     "seconds": 1.628,
+     "seconds": 1.466,
      "valid_share": 1.0,
      "mean_valid": 0.12464322629584818,
      "quality": 0.5164414710024082,
@@ -9004,7 +9004,7 @@
      ],
      "expectation": 0.13271265214382152,
      "evaluations": 185,
-     "seconds": 3.927,
+     "seconds": 3.674,
      "valid_share": 1.0000000000000002,
      "mean_valid": 0.13271265214382152,
      "quality": 0.5660639681034059,
@@ -9072,7 +9072,7 @@
      ],
      "expectation": 0.13388146207308305,
      "evaluations": 300,
-     "seconds": 7.509,
+     "seconds": 6.898,
      "valid_share": 0.9999999999999964,
      "mean_valid": 0.13388146207308302,
      "quality": 0.5732515014445744,
@@ -9136,7 +9136,7 @@
      ],
      "expectation": 0.02988043822463765,
      "evaluations": 239,
-     "seconds": 2.475,
+     "seconds": 2.01,
      "valid_share": 0.5117510377762475,
      "mean_valid": 0.09488229477014927,
      "quality": 0.3334282348465933,
@@ -9202,7 +9202,7 @@
      ],
      "expectation": 0.05882026715408667,
      "evaluations": 181,
-     "seconds": 5.016,
+     "seconds": 4.741,
      "valid_share": 0.6610935590396181,
      "mean_valid": 0.0957390094748095,
      "quality": 0.33869655551144723,
@@ -9270,7 +9270,7 @@
      ],
      "expectation": 0.07333610903998955,
      "evaluations": 300,
-     "seconds": 9.697,
+     "seconds": 8.769,
      "valid_share": 0.8349856047683186,
      "mean_valid": 0.09674443499184014,
      "quality": 0.3448793652607496,
@@ -9326,7 +9326,7 @@
      ]
     }
    ],
-   "seconds": 31.32
+   "seconds": 28.5
   },
   {
    "size": "S",
@@ -9388,7 +9388,7 @@
      ],
      "expectation": 0.1041673358865658,
      "evaluations": 224,
-     "seconds": 1.625,
+     "seconds": 1.501,
      "valid_share": 1.0000000000000002,
      "mean_valid": 0.10416733588656578,
      "quality": 0.5544211232137564,
@@ -9454,7 +9454,7 @@
      ],
      "expectation": 0.1113637451923344,
      "evaluations": 212,
-     "seconds": 4.456,
+     "seconds": 4.33,
      "valid_share": 1.0000000000000004,
      "mean_valid": 0.11136374519233434,
      "quality": 0.6113267962589636,
@@ -9522,7 +9522,7 @@
      ],
      "expectation": 0.11759411538132876,
      "evaluations": 300,
-     "seconds": 7.542,
+     "seconds": 7.055,
      "valid_share": 1.0000000000000022,
      "mean_valid": 0.11759411538132872,
      "quality": 0.6605935060667729,
@@ -9586,7 +9586,7 @@
      ],
      "expectation": -0.0007484008770039519,
      "evaluations": 223,
-     "seconds": 2.051,
+     "seconds": 1.669,
      "valid_share": 0.518483996761392,
      "mean_valid": 0.07749323872255452,
      "quality": 0.34349545355033495,
@@ -9652,7 +9652,7 @@
      ],
      "expectation": 0.0315154557019065,
      "evaluations": 300,
-     "seconds": 8.476,
+     "seconds": 8.015,
      "valid_share": 0.6609399152971722,
      "mean_valid": 0.07824645664618138,
      "quality": 0.34945153123748673,
@@ -9720,7 +9720,7 @@
      ],
      "expectation": 0.04230572242333519,
      "evaluations": 300,
-     "seconds": 9.59,
+     "seconds": 8.658,
      "valid_share": 0.7558138984880303,
      "mean_valid": 0.07872039373313205,
      "quality": 0.3531991931294242,
@@ -9776,7 +9776,7 @@
      ]
     }
    ],
-   "seconds": 34.8
+   "seconds": 32.17
   },
   {
    "size": "S",
@@ -9817,7 +9817,7 @@
      "value": 0.13869695790384715,
      "ratio": 1.0,
      "quality": 1.0,
-     "mask": 312,
+     "mask": 344,
      "optimal": true
     },
     "random": {
@@ -9838,7 +9838,7 @@
      ],
      "expectation": 0.10200528109014632,
      "evaluations": 216,
-     "seconds": 1.329,
+     "seconds": 1.308,
      "valid_share": 0.9999999999999982,
      "mean_valid": 0.10200528109014628,
      "quality": 0.649226490872277,
@@ -9904,7 +9904,7 @@
      ],
      "expectation": 0.11223421462810021,
      "evaluations": 208,
-     "seconds": 4.065,
+     "seconds": 3.871,
      "valid_share": 0.9999999999999991,
      "mean_valid": 0.11223421462810022,
      "quality": 0.7470153962406619,
@@ -9915,7 +9915,7 @@
      "sampled_valid_share": 1.0,
      "sampled_p_opt": 0.055419921875,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 344,
+     "sampled_best_mask": 312,
      "sampled_top": [
       {
        "mask": 306,
@@ -9972,7 +9972,7 @@
      ],
      "expectation": 0.11824651242991391,
      "evaluations": 300,
-     "seconds": 7.282,
+     "seconds": 6.478,
      "valid_share": 0.9999999999999984,
      "mean_valid": 0.11824651242991396,
      "quality": 0.8044931399963141,
@@ -10036,7 +10036,7 @@
      ],
      "expectation": 0.0033646147840136753,
      "evaluations": 235,
-     "seconds": 2.159,
+     "seconds": 2.174,
      "valid_share": 0.5194943754061577,
      "mean_valid": 0.08234731987690361,
      "quality": 0.4612958037009839,
@@ -10047,7 +10047,7 @@
      "sampled_valid_share": 0.521728515625,
      "sampled_p_opt": 0.005126953125,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 344,
+     "sampled_best_mask": 312,
      "sampled_top": [
       {
        "mask": 531,
@@ -10102,7 +10102,7 @@
      ],
      "expectation": 0.0403696513888856,
      "evaluations": 300,
-     "seconds": 8.475,
+     "seconds": 7.687,
      "valid_share": 0.7150849100966967,
      "mean_valid": 0.08311618062736001,
      "quality": 0.4686461350809731,
@@ -10113,7 +10113,7 @@
      "sampled_valid_share": 0.7158203125,
      "sampled_p_opt": 0.008056640625,
      "sampled_best_ratio": 1.0,
-     "sampled_best_mask": 344,
+     "sampled_best_mask": 312,
      "sampled_top": [
       {
        "mask": 293,
@@ -10170,7 +10170,7 @@
      ],
      "expectation": 0.06557789813176068,
      "evaluations": 300,
-     "seconds": 9.627,
+     "seconds": 8.702,
      "valid_share": 0.910054523802207,
      "mean_valid": 0.08406868510042118,
      "quality": 0.47775210584845673,
@@ -10226,7 +10226,7 @@
      ]
     }
    ],
-   "seconds": 34.0
+   "seconds": 31.27
   },
   {
    "size": "S",
@@ -10288,7 +10288,7 @@
      ],
      "expectation": 0.0674923044942804,
      "evaluations": 221,
-     "seconds": 1.628,
+     "seconds": 1.387,
      "valid_share": 0.9999999999999981,
      "mean_valid": 0.06749230449428038,
      "quality": 0.5802254785537242,
@@ -10354,7 +10354,7 @@
      ],
      "expectation": 0.0745074406305535,
      "evaluations": 168,
-     "seconds": 3.697,
+     "seconds": 3.311,
      "valid_share": 0.9999999999999989,
      "mean_valid": 0.07450744063055352,
      "quality": 0.6846292755602572,
@@ -10422,7 +10422,7 @@
      ],
      "expectation": 0.07812301399671603,
      "evaluations": 233,
-     "seconds": 5.773,
+     "seconds": 5.031,
      "valid_share": 0.9999999999999986,
      "mean_valid": 0.07812301399671602,
      "quality": 0.7384385788225595,
@@ -10486,7 +10486,7 @@
      ],
      "expectation": 0.0264878108886063,
      "evaluations": 236,
-     "seconds": 2.249,
+     "seconds": 2.002,
      "valid_share": 0.5059387223495948,
      "mean_valid": 0.055463717911238115,
      "quality": 0.4012082666997824,
@@ -10552,7 +10552,7 @@
      ],
      "expectation": 0.040831807579521734,
      "evaluations": 177,
-     "seconds": 5.59,
+     "seconds": 4.459,
      "valid_share": 0.705320754970226,
      "mean_valid": 0.05600861606174115,
      "quality": 0.40931779369815324,
@@ -10620,7 +10620,7 @@
      ],
      "expectation": 0.051976592841758235,
      "evaluations": 300,
-     "seconds": 10.412,
+     "seconds": 8.912,
      "valid_share": 0.9295561864221257,
      "mean_valid": 0.05666698831726036,
      "quality": 0.4191161157812479,
@@ -10676,7 +10676,7 @@
      ]
     }
    ],
-   "seconds": 30.47
+   "seconds": 26.02
   },
   {
    "size": "S",
@@ -10738,7 +10738,7 @@
      ],
      "expectation": 0.09455984318784105,
      "evaluations": 226,
-     "seconds": 1.625,
+     "seconds": 1.361,
      "valid_share": 0.999999999999998,
      "mean_valid": 0.09455984318784105,
      "quality": 0.44680439308921943,
@@ -10804,7 +10804,7 @@
      ],
      "expectation": 0.10721757470306482,
      "evaluations": 156,
-     "seconds": 3.208,
+     "seconds": 2.837,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.10721757470306484,
      "quality": 0.5228545336679653,
@@ -10872,7 +10872,7 @@
      ],
      "expectation": 0.11470798650706576,
      "evaluations": 252,
-     "seconds": 6.012,
+     "seconds": 5.139,
      "valid_share": 1.0000000000000044,
      "mean_valid": 0.1147079865070657,
      "quality": 0.5678584010672567,
@@ -10936,7 +10936,7 @@
      ],
      "expectation": 0.0185893948167469,
      "evaluations": 223,
-     "seconds": 1.91,
+     "seconds": 1.716,
      "valid_share": 0.5131343441505714,
      "mean_valid": 0.07052820726328275,
      "quality": 0.3024175976984509,
@@ -11002,7 +11002,7 @@
      ],
      "expectation": 0.04510972299559188,
      "evaluations": 300,
-     "seconds": 9.294,
+     "seconds": 7.738,
      "valid_share": 0.7173677700279897,
      "mean_valid": 0.07247439448285341,
      "quality": 0.3141106733070537,
@@ -11070,7 +11070,7 @@
      ],
      "expectation": 0.06512527209210409,
      "evaluations": 300,
-     "seconds": 10.565,
+     "seconds": 8.469,
      "valid_share": 0.9162669336187683,
      "mean_valid": 0.07487172865794134,
      "quality": 0.32851432856000257,
@@ -11126,7 +11126,7 @@
      ]
     }
    ],
-   "seconds": 33.67
+   "seconds": 28.2
   },
   {
    "size": "S",
@@ -11188,7 +11188,7 @@
      ],
      "expectation": 0.08609524550092837,
      "evaluations": 229,
-     "seconds": 1.646,
+     "seconds": 1.475,
      "valid_share": 0.9999999999999994,
      "mean_valid": 0.08609524550092836,
      "quality": 0.6449725366823064,
@@ -11254,7 +11254,7 @@
      ],
      "expectation": 0.09443714828374457,
      "evaluations": 198,
-     "seconds": 4.277,
+     "seconds": 3.805,
      "valid_share": 1.0,
      "mean_valid": 0.09443714828374458,
      "quality": 0.7211984677711013,
@@ -11322,7 +11322,7 @@
      ],
      "expectation": 0.09634018594456123,
      "evaluations": 300,
-     "seconds": 7.476,
+     "seconds": 6.36,
      "valid_share": 1.0000000000000007,
      "mean_valid": 0.09634018594456119,
      "quality": 0.7385878837556179,
@@ -11386,7 +11386,7 @@
      ],
      "expectation": 0.014604474896524416,
      "evaluations": 233,
-     "seconds": 2.209,
+     "seconds": 1.991,
      "valid_share": 0.5158294680211539,
      "mean_valid": 0.0565022145895258,
      "quality": 0.37455985102887723,
@@ -11452,7 +11452,7 @@
      ],
      "expectation": 0.03515976682393415,
      "evaluations": 300,
-     "seconds": 9.481,
+     "seconds": 7.459,
      "valid_share": 0.7254248901687264,
      "mean_valid": 0.05743286259659607,
      "quality": 0.38306384738340127,
@@ -11520,7 +11520,7 @@
      ],
      "expectation": 0.05013788531381236,
      "evaluations": 300,
-     "seconds": 9.741,
+     "seconds": 8.632,
      "valid_share": 0.915963252710043,
      "mean_valid": 0.05864251724095845,
      "quality": 0.394117326902768,
@@ -11576,7 +11576,7 @@
      ]
     }
    ],
-   "seconds": 36.07
+   "seconds": 30.67
   },
   {
    "size": "S",
@@ -11638,7 +11638,7 @@
      ],
      "expectation": 0.11534361163217706,
      "evaluations": 226,
-     "seconds": 1.546,
+     "seconds": 1.378,
      "valid_share": 1.0000000000000009,
      "mean_valid": 0.11534361163217706,
      "quality": 0.3747168886078583,
@@ -11704,7 +11704,7 @@
      ],
      "expectation": 0.1342891149803474,
      "evaluations": 171,
-     "seconds": 3.497,
+     "seconds": 3.049,
      "valid_share": 1.0000000000000016,
      "mean_valid": 0.13428911498034735,
      "quality": 0.4592013834169884,
@@ -11772,7 +11772,7 @@
      ],
      "expectation": 0.1359126017332432,
      "evaluations": 300,
-     "seconds": 7.33,
+     "seconds": 6.133,
      "valid_share": 0.9999999999999998,
      "mean_valid": 0.13591260173324324,
      "quality": 0.46644106745319913,
@@ -11836,7 +11836,7 @@
      ],
      "expectation": 0.008586777970816695,
      "evaluations": 224,
-     "seconds": 1.987,
+     "seconds": 1.774,
      "valid_share": 0.5160110299914407,
      "mean_valid": 0.08119909604310929,
      "quality": 0.22245478730436058,
@@ -11902,7 +11902,7 @@
      ],
      "expectation": 0.044956591837327975,
      "evaluations": 300,
-     "seconds": 9.331,
+     "seconds": 7.524,
      "valid_share": 0.6941189353937989,
      "mean_valid": 0.08419956096469462,
      "quality": 0.23583488908545866,
@@ -11970,7 +11970,7 @@
      ],
      "expectation": 0.06368976993882047,
      "evaluations": 300,
-     "seconds": 9.859,
+     "seconds": 8.586,
      "valid_share": 0.8529248987748539,
      "mean_valid": 0.08758460179363353,
      "quality": 0.25092994668754676,
@@ -12026,7 +12026,7 @@
      ]
     }
    ],
-   "seconds": 34.76
+   "seconds": 29.38
   },
   {
    "size": "S",
@@ -12088,7 +12088,7 @@
      ],
      "expectation": 0.19595501706913726,
      "evaluations": 227,
-     "seconds": 1.82,
+     "seconds": 1.382,
      "valid_share": 0.9999999999999982,
      "mean_valid": 0.1959550170691373,
      "quality": 0.38674772107879474,
@@ -12154,7 +12154,7 @@
      ],
      "expectation": 0.22705052392572764,
      "evaluations": 201,
-     "seconds": 4.216,
+     "seconds": 3.684,
      "valid_share": 0.9999999999999996,
      "mean_valid": 0.22705052392572755,
      "quality": 0.46407115092628587,
@@ -12222,7 +12222,7 @@
      ],
      "expectation": 0.23079314402960557,
      "evaluations": 300,
-     "seconds": 7.145,
+     "seconds": 6.115,
      "valid_share": 0.9999999999999972,
      "mean_valid": 0.2307931440296057,
      "quality": 0.4733777116581203,
@@ -12286,7 +12286,7 @@
      ],
      "expectation": -0.0035682230333451415,
      "evaluations": 223,
-     "seconds": 1.862,
+     "seconds": 1.636,
      "valid_share": 0.5167916887084183,
      "mean_valid": 0.12840604995385066,
      "quality": 0.21877754313321862,
@@ -12352,7 +12352,7 @@
      ],
      "expectation": 0.06297010670851166,
      "evaluations": 300,
-     "seconds": 9.218,
+     "seconds": 7.808,
      "valid_share": 0.7051253490342319,
      "mean_valid": 0.13381549537022275,
      "quality": 0.23222890364957025,
@@ -12420,7 +12420,7 @@
      ],
      "expectation": 0.10298594670320238,
      "evaluations": 300,
-     "seconds": 9.715,
+     "seconds": 9.078,
      "valid_share": 0.8740699377280358,
      "mean_valid": 0.14058035985012957,
      "quality": 0.24905070772731916,
@@ -12476,7 +12476,7 @@
      ]
     }
    ],
-   "seconds": 35.26
+   "seconds": 30.62
   },
   {
    "size": "S",
@@ -12538,7 +12538,7 @@
      ],
      "expectation": 0.07309474034798458,
      "evaluations": 220,
-     "seconds": 1.581,
+     "seconds": 1.333,
      "valid_share": 1.0000000000000013,
      "mean_valid": 0.07309474034798456,
      "quality": 0.5156003645793172,
@@ -12604,7 +12604,7 @@
      ],
      "expectation": 0.07642301716295027,
      "evaluations": 185,
-     "seconds": 4.005,
+     "seconds": 3.506,
      "valid_share": 0.999999999999999,
      "mean_valid": 0.07642301716295029,
      "quality": 0.5595030506671594,
@@ -12672,7 +12672,7 @@
      ],
      "expectation": 0.07722467925423308,
      "evaluations": 300,
-     "seconds": 7.908,
+     "seconds": 6.435,
      "valid_share": 1.0000000000000013,
      "mean_valid": 0.07722467925423307,
      "quality": 0.5700776275724981,
@@ -12736,7 +12736,7 @@
      ],
      "expectation": 0.03243410367551422,
      "evaluations": 236,
-     "seconds": 2.268,
+     "seconds": 2.049,
      "valid_share": 0.5027953129489585,
      "mean_valid": 0.06105420089235918,
      "quality": 0.3567758276082109,
@@ -12802,7 +12802,7 @@
      ],
      "expectation": 0.04673841481102592,
      "evaluations": 300,
-     "seconds": 8.486,
+     "seconds": 8.009,
      "valid_share": 0.7073472574796051,
      "mean_valid": 0.06152417643839101,
      "quality": 0.36297518842267795,
@@ -12870,7 +12870,7 @@
      ],
      "expectation": 0.0555270421925502,
      "evaluations": 300,
-     "seconds": 9.875,
+     "seconds": 8.631,
      "valid_share": 0.8941063663162752,
      "mean_valid": 0.06220974716748026,
      "quality": 0.37201842556415604,
@@ -12926,7 +12926,7 @@
      ]
     }
    ],
-   "seconds": 35.29
+   "seconds": 30.97
   },
   {
    "size": "S",
@@ -12988,7 +12988,7 @@
      ],
      "expectation": 0.1059385091992354,
      "evaluations": 222,
-     "seconds": 1.512,
+     "seconds": 1.366,
      "valid_share": 0.9999999999999998,
      "mean_valid": 0.10593850919923542,
      "quality": 0.3854744917484158,
@@ -13054,7 +13054,7 @@
      ],
      "expectation": 0.11505941536879322,
      "evaluations": 228,
-     "seconds": 5.331,
+     "seconds": 4.59,
      "valid_share": 0.9999999999999969,
      "mean_valid": 0.11505941536879323,
      "quality": 0.4512351811935533,
@@ -13122,7 +13122,7 @@
      ],
      "expectation": 0.11742620587119312,
      "evaluations": 300,
-     "seconds": 7.083,
+     "seconds": 6.601,
      "valid_share": 1.0,
      "mean_valid": 0.11742620587119312,
      "quality": 0.46829946979784737,
@@ -13186,7 +13186,7 @@
      ],
      "expectation": 0.030440149709081182,
      "evaluations": 242,
-     "seconds": 2.396,
+     "seconds": 2.323,
      "valid_share": 0.5085375310806332,
      "mean_valid": 0.08105049971422128,
      "quality": 0.2060347922025319,
@@ -13252,7 +13252,7 @@
      ],
      "expectation": 0.05637434062723021,
      "evaluations": 300,
-     "seconds": 8.457,
+     "seconds": 7.493,
      "valid_share": 0.713744759700977,
      "mean_valid": 0.08271291507915138,
      "quality": 0.21802061669296116,
@@ -13320,7 +13320,7 @@
      ],
      "expectation": 0.07537747149046456,
      "evaluations": 300,
-     "seconds": 9.843,
+     "seconds": 8.841,
      "valid_share": 0.9097835746362501,
      "mean_valid": 0.0851158684853048,
      "quality": 0.23534563569388037,
@@ -13376,7 +13376,7 @@
      ]
     }
    ],
-   "seconds": 35.88
+   "seconds": 32.18
   },
   {
    "size": "S",
@@ -13438,7 +13438,7 @@
      ],
      "expectation": 0.1516110372647925,
      "evaluations": 227,
-     "seconds": 1.477,
+     "seconds": 1.378,
      "valid_share": 1.0,
      "mean_valid": 0.1516110372647925,
      "quality": 0.4426505026001206,
@@ -13504,7 +13504,7 @@
      ],
      "expectation": 0.1861500229747089,
      "evaluations": 163,
-     "seconds": 3.699,
+     "seconds": 3.008,
      "valid_share": 1.0000000000000033,
      "mean_valid": 0.18615002297470873,
      "quality": 0.5842457094829349,
@@ -13572,7 +13572,7 @@
      ],
      "expectation": 0.21260802095824316,
      "evaluations": 262,
-     "seconds": 5.881,
+     "seconds": 5.087,
      "valid_share": 0.999999999999995,
      "mean_valid": 0.21260802095824352,
      "quality": 0.6927122906862188,
@@ -13636,7 +13636,7 @@
      ],
      "expectation": -0.030774730034241138,
      "evaluations": 232,
-     "seconds": 2.081,
+     "seconds": 2.064,
      "valid_share": 0.5225010378647328,
      "mean_valid": 0.10616779603280664,
      "quality": 0.25635246832341346,
@@ -13702,7 +13702,7 @@
      ],
      "expectation": 0.03518858278339054,
      "evaluations": 178,
-     "seconds": 5.066,
+     "seconds": 4.791,
      "valid_share": 0.716770672538116,
      "mean_valid": 0.10930386997905486,
      "quality": 0.2692090427158494,
@@ -13770,7 +13770,7 @@
      ],
      "expectation": 0.08279676738892705,
      "evaluations": 300,
-     "seconds": 9.939,
+     "seconds": 8.699,
      "valid_share": 0.9053363130706921,
      "mean_valid": 0.11344662999836415,
      "quality": 0.2861926034644656,
@@ -13826,7 +13826,7 @@
      ]
     }
    ],
-   "seconds": 29.24
+   "seconds": 25.97
   },
   {
    "size": "S",
@@ -13888,7 +13888,7 @@
      ],
      "expectation": 0.20367131147241038,
      "evaluations": 225,
-     "seconds": 1.642,
+     "seconds": 1.469,
      "valid_share": 0.9999999999999987,
      "mean_valid": 0.20367131147241033,
      "quality": 0.5160720375247961,
@@ -13954,7 +13954,7 @@
      ],
      "expectation": 0.22565710008962894,
      "evaluations": 201,
-     "seconds": 4.562,
+     "seconds": 3.777,
      "valid_share": 1.0000000000000004,
      "mean_valid": 0.225657100089629,
      "quality": 0.585966285265911,
@@ -14022,7 +14022,7 @@
      ],
      "expectation": 0.23984413384207737,
      "evaluations": 276,
-     "seconds": 6.604,
+     "seconds": 5.843,
      "valid_share": 1.0000000000000027,
      "mean_valid": 0.23984413384207734,
      "quality": 0.6310677855609059,
@@ -14086,7 +14086,7 @@
      ],
      "expectation": 0.05568348255899147,
      "evaluations": 228,
-     "seconds": 1.935,
+     "seconds": 1.914,
      "valid_share": 0.5048553281676956,
      "mean_valid": 0.14990775153428357,
      "quality": 0.3451541940403586,
@@ -14152,7 +14152,7 @@
      ],
      "expectation": 0.10599604653593087,
      "evaluations": 300,
-     "seconds": 8.11,
+     "seconds": 7.507,
      "valid_share": 0.7088830759253402,
      "mean_valid": 0.1543474387369249,
      "quality": 0.35926824756088804,
@@ -14220,7 +14220,7 @@
      ],
      "expectation": 0.14278088014348667,
      "evaluations": 300,
-     "seconds": 9.758,
+     "seconds": 8.802,
      "valid_share": 0.9011510501116939,
      "mean_valid": 0.16047883844691002,
      "quality": 0.37876036484586323,
@@ -14276,7 +14276,7 @@
      ]
     }
    ],
-   "seconds": 33.66
+   "seconds": 30.29
   },
   {
    "size": "S",
@@ -14338,7 +14338,7 @@
      ],
      "expectation": 0.07497228926454698,
      "evaluations": 224,
-     "seconds": 1.532,
+     "seconds": 1.303,
      "valid_share": 1.0,
      "mean_valid": 0.07497228926454698,
      "quality": 0.6674363292465978,
@@ -14404,7 +14404,7 @@
      ],
      "expectation": 0.07921574008039418,
      "evaluations": 185,
-     "seconds": 3.589,
+     "seconds": 3.269,
      "valid_share": 1.0000000000000027,
      "mean_valid": 0.07921574008039423,
      "quality": 0.7209353708126242,
@@ -14472,7 +14472,7 @@
      ],
      "expectation": 0.08198746515730602,
      "evaluations": 300,
-     "seconds": 6.595,
+     "seconds": 5.98,
      "valid_share": 1.000000000000001,
      "mean_valid": 0.08198746515730602,
      "quality": 0.7558797218925354,
@@ -14536,7 +14536,7 @@
      ],
      "expectation": 0.0459116402509548,
      "evaluations": 236,
-     "seconds": 2.079,
+     "seconds": 1.935,
      "valid_share": 0.4920352201718103,
      "mean_valid": 0.06511051843958014,
      "quality": 0.5431046684885156,
@@ -14602,7 +14602,7 @@
      ],
      "expectation": 0.05390937080260298,
      "evaluations": 300,
-     "seconds": 8.476,
+     "seconds": 7.389,
      "valid_share": 0.6065835309249912,
      "mean_valid": 0.06570154479683935,
      "quality": 0.5505559964349935,
@@ -14670,7 +14670,7 @@
      ],
      "expectation": 0.05642290476113451,
      "evaluations": 300,
-     "seconds": 9.259,
+     "seconds": 8.529,
      "valid_share": 0.6935718819535859,
      "mean_valid": 0.0659691538871363,
      "quality": 0.5539298613545012,
@@ -14726,7 +14726,7 @@
      ]
     }
    ],
-   "seconds": 32.62
+   "seconds": 29.33
   },
   {
    "size": "S",
@@ -14788,7 +14788,7 @@
      ],
      "expectation": 0.1539728472986973,
      "evaluations": 220,
-     "seconds": 1.448,
+     "seconds": 1.234,
      "valid_share": 0.9999999999999982,
      "mean_valid": 0.1539728472986974,
      "quality": 0.39150509588684584,
@@ -14854,7 +14854,7 @@
      ],
      "expectation": 0.18236864028097638,
      "evaluations": 208,
-     "seconds": 4.048,
+     "seconds": 3.811,
      "valid_share": 0.9999999999999991,
      "mean_valid": 0.1823686402809765,
      "quality": 0.47800899726035034,
@@ -14922,7 +14922,7 @@
      ],
      "expectation": 0.1852496796312132,
      "evaluations": 300,
-     "seconds": 6.42,
+     "seconds": 5.905,
      "valid_share": 0.9999999999999978,
      "mean_valid": 0.1852496796312133,
      "quality": 0.4867856897782033,
@@ -14986,7 +14986,7 @@
      ],
      "expectation": -0.040031291995600515,
      "evaluations": 228,
-     "seconds": 1.965,
+     "seconds": 1.811,
      "valid_share": 0.521914587062828,
      "mean_valid": 0.09683438803563982,
      "quality": 0.21744059105649577,
@@ -15052,7 +15052,7 @@
      ],
      "expectation": 0.016322378665166504,
      "evaluations": 300,
-     "seconds": 8.486,
+     "seconds": 7.705,
      "valid_share": 0.6629013113338371,
      "mean_valid": 0.09993757734352095,
      "quality": 0.22689403305051886,
@@ -15120,7 +15120,7 @@
      ],
      "expectation": 0.039908972303240864,
      "evaluations": 300,
-     "seconds": 8.963,
+     "seconds": 8.114,
      "valid_share": 0.7616817990116693,
      "mean_valid": 0.1026882326297042,
      "quality": 0.2352735283418459,
@@ -15176,7 +15176,7 @@
      ]
     }
    ],
-   "seconds": 32.33
+   "seconds": 29.5
   },
   {
    "size": "S",
@@ -15238,7 +15238,7 @@
      ],
      "expectation": 0.09431718624448715,
      "evaluations": 213,
-     "seconds": 1.265,
+     "seconds": 1.214,
      "valid_share": 0.9999999999999981,
      "mean_valid": 0.09431718624448714,
      "quality": 0.48816883143593964,
@@ -15304,7 +15304,7 @@
      ],
      "expectation": 0.10623936978177997,
      "evaluations": 153,
-     "seconds": 2.982,
+     "seconds": 2.761,
      "valid_share": 0.9999999999999993,
      "mean_valid": 0.10623936978177999,
      "quality": 0.5758737124763016,
@@ -15372,7 +15372,7 @@
      ],
      "expectation": 0.11588521534222203,
      "evaluations": 240,
-     "seconds": 5.186,
+     "seconds": 4.763,
      "valid_share": 1.0000000000000016,
      "mean_valid": 0.11588521534222204,
      "quality": 0.6468328396165614,
@@ -15436,7 +15436,7 @@
      ],
      "expectation": 0.023985518630048885,
      "evaluations": 222,
-     "seconds": 1.927,
+     "seconds": 1.669,
      "valid_share": 0.5147486132489408,
      "mean_valid": 0.07734774104446603,
      "quality": 0.3633340502959457,
@@ -15502,7 +15502,7 @@
      ],
      "expectation": 0.04986179053358239,
      "evaluations": 300,
-     "seconds": 8.257,
+     "seconds": 7.607,
      "valid_share": 0.7125220097176473,
      "mean_valid": 0.07837607102998148,
      "quality": 0.3708989027214897,
@@ -15570,7 +15570,7 @@
      ],
      "expectation": 0.07038339844925132,
      "evaluations": 300,
-     "seconds": 8.292,
+     "seconds": 7.767,
      "valid_share": 0.9295039168075038,
      "mean_valid": 0.07967151680437114,
      "quality": 0.38042877761241783,
@@ -15626,7 +15626,7 @@
      ]
     }
    ],
-   "seconds": 28.98
+   "seconds": 26.7
   }
  ]
 }

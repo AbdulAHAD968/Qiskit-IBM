@@ -43,7 +43,6 @@ def couple_components(problem: ScreeningProblem, max_size: int | None = None):
     """Return (components with at least two people, isolated people, weight of cut links)."""
     weights = problem.w * problem.c
     alive = [t for t in range(len(problem.edges)) if weights[t] > 0]
-    cut = 0.0
     while True:
         comps = _components(problem.n, [problem.edges[t] for t in alive])
         largest = max(comps, key=len)
@@ -51,8 +50,11 @@ def couple_components(problem: ScreeningProblem, max_size: int | None = None):
             break
         inside = [t for t in alive if problem.edges[t][0] in largest]
         weakest = min(inside, key=lambda t: weights[t])
-        cut += float(weights[weakest])
         alive.remove(weakest)
+    # Only links between different final components are really lost: a removed
+    # link whose two ends stay together is kept by ScreeningProblem.restrict.
+    member = {v: ci for ci, comp in enumerate(comps) for v in comp}
+    cut = float(sum(weights[t] for t, (i, j) in enumerate(problem.edges) if member[i] != member[j]))
     return [c for c in comps if len(c) > 1], [c[0] for c in comps if len(c) == 1], cut
 
 

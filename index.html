@@ -94,7 +94,7 @@
       <div class="card reveal">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="5" r="3"/><path d="M12 8v5M5 13h14M5 13v3M19 13v3"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/></svg></div>
         <h3>Cascade screening finds couples</h3>
-        <p class="small">In the study that introduced it in Pakistan, 17 of 214 married couples in families with an affected child were both carriers, which is 8 percent. Among 350 randomly chosen pregnant women there was no at-risk couple at all.<sup class="ref"><a href="#ref1">1</a></sup></p>
+        <p class="small">In the study that introduced it in Pakistan, 17 of 214 married couples in families with an affected child were both carriers, which is 8%. Among 350 randomly chosen pregnant women there was no at-risk couple at all.<sup class="ref"><a href="#ref1">1</a></sup></p>
       </div>
       <div class="card reveal" style="--d:.08s">
         <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
@@ -190,7 +190,8 @@
       </div>
       <div class="card reveal" style="--d:.1s">
         <h3>Where the weights come from</h3>
-        <p class="small">A pedigree engine applies Mendel's rules to the family tree, given the affected child and a 5 percent population carrier rate, and computes every probability exactly, loops from cousin marriages included. It is checked against textbook values before any optimisation runs.</p>
+        <p class="small">A pedigree engine applies Mendel's rules to the family tree, given the affected child and a 5% population carrier rate, and computes every probability exactly, loops from cousin marriages included. It is checked against textbook values before any optimisation runs.</p>
+        <p class="small" id="mc-note"></p>
         <div class="table-wrap"><table id="genetics-table">
           <tr><th>Relative of the affected child</th><th>Textbook</th><th class="r">Engine</th></tr>
         </table></div>
@@ -381,9 +382,9 @@
 
     <div class="grid g4 mt2">
       <div class="card stat reveal"><div class="v num" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></div><div class="l">quality of constrained QAOA at depth 3 on 16 qubits. A random valid plan scores <b data-v="bench.M.random.0.quality.mean" data-f="n2"></b>.</div></div>
-      <div class="card stat reveal" style="--d:.08s"><div class="v num"><span data-v="bench.M.constrained.3.p_opt_gain.mean" data-f="n0"></span><small>&times;</small></div><div class="l">higher chance that one shot is the best plan than a random valid pick, 16 qubits, depth 3</div></div>
+      <div class="card stat reveal" style="--d:.08s"><div class="v num"><span data-v="bench.M.constrained.3.p_opt_gain.mean" data-f="n0"></span><small>&times;</small></div><div class="l">higher chance, on average over families, that one shot is the best plan than a random valid pick (median <b data-v="bench.M.constrained.3.p_opt_gain.median" data-f="n0"></b>&times;); 16 qubits, depth 3</div></div>
       <div class="card stat reveal" style="--d:.16s"><div class="v num">100<small>%</small></div><div class="l">of constrained-QAOA shots use exactly k kits. Penalty QAOA: <b data-v="bench.M.penalty.3.valid_share.mean" data-f="pct0"></b>.</div></div>
-      <div class="card stat reveal" style="--d:.24s"><div class="v num"><span data-v="decomposition.rows.0.n" data-f="int"></span><small>people</small></div><div class="l">in linked families solved to the proven optimum with circuits of at most <b id="max-qubits"></b> qubits</div></div>
+      <div class="card stat reveal" style="--d:.24s"><div class="v num"><span data-v="decomposition.rows.0.n" data-f="int"></span><small>people</small></div><div class="l">in linked families solved to the proven optimum with circuits of at most <b id="max-qubits"></b> qubits; the pieces are small, so this is a scaling route, not an advantage</div></div>
     </div>
 
     <h3 class="mt2 reveal">Is the problem trivial? No.</h3>
@@ -414,7 +415,7 @@
     </div>
 
     <h3 class="mt2 reveal">Under noise</h3>
-    <p class="small reveal">Aer noise model on the 10-qubit instances: a depolarising error after every CZ gate (the horizontal axis shows its probability), a tenth of that on single-qubit gates, and a readout error at twice that rate. Shots without exactly k ones are discarded and the surviving share is reported. No real quantum processor was used.</p>
+    <p class="small reveal">Aer noise model on the 10-qubit instances: a depolarising error after every CZ gate (the horizontal axis shows its probability), a tenth of that on single-qubit gates, and a readout error at twice the CZ rate. Shots without exactly k ones are discarded and the surviving share is reported. No real quantum processor was used.</p>
     <div class="chart-legend reveal"><span><i class="bg-constrained"></i>Constrained, p = 1</span><span style="color:var(--c-constrained)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Constrained, p = 2</em></span><span><i class="bg-penalty"></i>Penalty, p = 1</span><span style="color:var(--c-penalty)"><i class="dashed"></i><em style="font-style:normal;color:var(--ink-2)">Penalty, p = 2</em></span></div>
     <div class="grid g3" style="margin-top:6px">
       <div class="card chart-card reveal"><h3>Valid shots</h3><div class="sub">Percent of shots with exactly k kits.</div><div id="noise-valid"></div></div>
@@ -436,6 +437,7 @@
       <h3>Full table</h3>
       <p class="small">Every number comes from <span class="mono">results/benchmark.json</span>, produced by <span class="mono">python -m kinship.evaluate all</span>.</p>
       <div class="table-wrap"><table id="bench-table"></table></div>
+      <p class="src" style="margin-top:12px">Quality is computed over valid shots; "best plan per shot" counts all shots. Shots for 95%: shots needed to see the best plan with 95% probability, median over families. Returns the best plan: for classical rules, the share of families where the rule's plan is optimal; for QAOA, the share where the best of 4,096 measured plans is optimal.</p>
     </div>
   </div>
 </section>
@@ -451,10 +453,10 @@
       <div class="card limit reveal" style="--d:.12s"><h3>Expected quality is modest</h3><p class="small">At depth 3 constrained QAOA reaches <span class="n" data-v="bench.M.constrained.3.quality.mean" data-f="n2"></span> on 16 qubits. A classical greedy heuristic reaches <span class="n" data-v="bench.M.greedy.0.quality.mean" data-f="n2"></span>. QAOA beats the field rule and random picks, not the stronger classical heuristics.</p></div>
       <div class="card limit reveal"><h3>Penalty QAOA barely beats random</h3><p class="small">Its valid shots score <span class="n" data-v="bench.M.penalty.3.quality.mean" data-f="n2"></span> against <span class="n" data-v="bench.M.random.0.quality.mean" data-f="n2"></span> for a random valid plan on 16 qubits, and <span class="n" id="penalty-invalid"></span> of its shots break the kit limit at depth 3.</p></div>
       <div class="card limit reveal" style="--d:.06s"><h3>A cheaper start state failed</h3><p class="small">Starting from the field officer's plan instead of the Dicke state needs only k X gates, but at depth 3 its chance of the best plan was <span class="n" id="abl-field"></span> against <span class="n" id="abl-dicke"></span> for the Dicke start, on <span data-v="ablation.instances" data-f="int"></span> small instances.</p></div>
-      <div class="card limit reveal" style="--d:.12s"><h3>Noise costs most of the shots</h3><p class="small">The Dicke start state alone takes <span class="n" data-v="circ.S.all.dicke_only.0.two_qubit" data-f="int"></span> CZ gates on 10 qubits. At 1 percent two-qubit error only <span class="n" id="noise-valid-1"></span> of constrained shots still use exactly k kits.</p></div>
+      <div class="card limit reveal" style="--d:.12s"><h3>Noise costs most of the shots</h3><p class="small">The Dicke start state alone takes <span class="n" data-v="circ.S.all.dicke_only.0.two_qubit" data-f="int"></span> CZ gates on 10 qubits. At 1% two-qubit error only <span class="n" id="noise-valid-1"></span> of constrained shots still use exactly k kits.</p></div>
       <div class="card limit reveal"><h3>Simulator only</h3><p class="small">No real quantum processor was used. The noise model is generic and assumes all-to-all connectivity; on a line of qubits the depth-1 circuit grows from <span class="n" data-v="circ.S.all.constrained.1.two_qubit" data-f="int"></span> to <span class="n" data-v="circ.S.line.constrained.1.two_qubit" data-f="int"></span> CZ gates.</p></div>
       <div class="card limit reveal" style="--d:.06s"><h3>Sampling flatters small instances</h3><p class="small">With thousands of shots and only 210 or 4,368 valid plans, even uniform sampling usually contains the best plan. That is why the charts report the chance per shot and the expected quality, not the best of all shots.</p></div>
-      <div class="card limit reveal" style="--d:.12s"><h3>Synthetic families, simple genetics</h3><p class="small">Families are generated, not observed. The average carrier share among testable relatives is <span class="n" data-v="genetics.calibration.carrier_share_candidates" data-f="pct0"></span> against 31 percent in the 2002 study. The model covers one visit, one gene, a perfect test, and no step-by-step testing. The kit budget as the binding limit and the field officer's rule as the baseline are our assumptions, not programme protocol.</p></div>
+      <div class="card limit reveal" style="--d:.12s"><h3>Synthetic families, simple genetics</h3><p class="small">Families are generated, not observed. The average carrier share among testable relatives is <span class="n" data-v="genetics.calibration.carrier_share_candidates" data-f="pct0"></span> against 31% in the 2002 study. The model covers one visit, one gene, a perfect test, and no step-by-step testing. The kit budget as the binding limit and the field officer's rule as the baseline are our assumptions, not programme protocol.</p></div>
     </div>
 
     <div class="grid g2 mt2" id="ethics">
@@ -475,7 +477,7 @@
 pip install -r requirements.txt
 python -m kinship.demo            <span class="c"># one family, one plan, about 20 s</span>
 python -m kinship.evaluate all    <span class="c"># every number on this page</span>
-pytest                            <span class="c"># 47 checks</span></pre>
+pytest                            <span class="c"># 57 checks</span></pre>
         <p class="small" style="margin-top:14px">Versions used: Qiskit <span data-v="meta.qiskit" data-f="raw"></span>, Qiskit Aer <span data-v="meta.qiskit_aer" data-f="raw"></span>, NumPy <span data-v="meta.numpy" data-f="raw"></span>, SciPy <span data-v="meta.scipy" data-f="raw"></span>, Python <span data-v="meta.python" data-f="raw"></span>. Results generated <span data-v="meta.generated" data-f="date"></span>.</p>
       </div>
       <div class="card reveal" style="--d:.1s">
@@ -500,7 +502,7 @@ pytest                            <span class="c"># 47 checks</span></pre>
       <li id="ref1">Ahmed S, Saleem M, Modell B, Petrou M. Screening extended families for genetic hemoglobin disorders in Pakistan. N Engl J Med. 2002;347(15):1162-1168. <a href="https://doi.org/10.1056/NEJMsa013234" rel="noopener">doi:10.1056/NEJMsa013234</a></li>
       <li id="ref2">Ahmed S, Jafri H, Faran M, Ahmed WN, Rashid Y, Ehsan Y, Ahmed M. Cascade screening for beta-thalassaemia in Pakistan: relatives' experiences of a decision support intervention in routine practice. Eur J Hum Genet. 2022;30(4):406-412. <a href="https://doi.org/10.1038/s41431-021-00974-y" rel="noopener">doi:10.1038/s41431-021-00974-y</a></li>
       <li id="ref3">National Institute of Population Studies and ICF. Pakistan Demographic and Health Survey 2017-18. 2019. See also Iqbal S et al. BMC Women's Health. 2022;22:118. <a href="https://doi.org/10.1186/s12905-022-01704-2" rel="noopener">doi:10.1186/s12905-022-01704-2</a></li>
-      <li id="ref4">Dawn, 11 March 2026, report on the National Assembly passing the Islamabad Capital Territory compulsory thalassaemia screening bill, <a href="https://www.dawn.com/news/1980653" rel="noopener">dawn.com/news/1980653</a>; Associated Press of Pakistan, 11 May 2026, report on its passage by the Senate.</li>
+      <li id="ref4">Dawn, 11 March 2026, report on the National Assembly passing the Islamabad Capital Territory compulsory thalassaemia screening bill, <a href="https://www.dawn.com/news/1980653" rel="noopener">dawn.com/news/1980653</a>; <a href="https://www.app.com.pk/national/5-private-member-bills-smoothly-sail-through-senate/" rel="noopener">Associated Press of Pakistan</a>, 11 May 2026, report on its passage by the Senate.</li>
       <li id="ref5">Cook J, Eidenbenz S, B&auml;rtschi A. The Quantum Alternating Operator Ansatz on Maximum k-Vertex Cover. IEEE QCE 2020, 83-92. <a href="https://arxiv.org/abs/1910.13483" rel="noopener">arXiv:1910.13483</a></li>
       <li id="ref6">B&auml;rtschi A, Eidenbenz S. Deterministic Preparation of Dicke States. FCT 2019, LNCS, 126-139. <a href="https://arxiv.org/abs/1904.07358" rel="noopener">arXiv:1904.07358</a></li>
       <li id="ref7">Farhi E, Goldstone J, Gutmann S. A Quantum Approximate Optimization Algorithm. 2014. <a href="https://arxiv.org/abs/1411.4028" rel="noopener">arXiv:1411.4028</a></li>

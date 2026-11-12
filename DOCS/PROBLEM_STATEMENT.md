@@ -8,16 +8,16 @@ large as possible.
 
 ## Motivation
 
-- Thalassaemia major appears only when both parents are carriers. About 5 percent of people in
+- Thalassaemia major appears only when both parents are carriers. About 5% of people in
   Pakistan carry beta-thalassaemia, and one estimate puts affected births at about 5,250 a year [1].
 - Screening the relatives of an affected child (cascade screening) is far more productive than
-  screening at random: 31 percent of tested relatives in such families were carriers against 0 of
-  397 in control families, and 8 percent of married couples in those families were both carriers [1].
-- Relatives marry each other: 49.6 percent of ever-married women in the 2017-18 Demographic and
+  screening at random: 31% of tested relatives in such families were carriers against 0 of
+  397 in control families, and 8% of married couples in those families were both carriers [1].
+- Relatives marry each other: 49.6% of ever-married women in the 2017-18 Demographic and
   Health Survey were married to a first cousin [3]. At-risk couples therefore cluster inside families.
 - Capacity is limited. The Punjab Thalassaemia Prevention Project covers 36 districts with 48 field
   officers and reports low uptake of cascade testing [2]. A 2026 bill passed by the National Assembly
-  and the Senate makes screening and counselling of patients' blood relatives a duty in the
+  and the Senate would make screening and counselling of patients' blood relatives a duty in the
   Islamabad Capital Territory [4].
 
 **Users.** Field officers planning one visit; programme managers spreading kits across families.
@@ -51,6 +51,9 @@ subject to  sum over i of x_i = k,     x_i in {0, 1}
 - **Constraint.** Exactly k people are tested. No weight is negative, so using every kit is never
   worse than using fewer. People who are absent or decline are fixed to 0.
   The affected child and the parents (obligate carriers) are not decision variables.
+- **What is not valued.** The objective counts confirmed at-risk couples only. The reassurance from
+  one negative test, which rules a couple out, earns nothing; this belongs to the step-by-step
+  model listed as a limitation.
 - **Measurable outcome.** Expected at-risk couples found per visit; every method is scored against
   the exact optimum.
 
@@ -59,8 +62,8 @@ subject to  sum over i of x_i = k,     x_i in {0, 1}
 | Size | Relatives (qubits) | Kits | Valid plans | Used for |
 |---|---:|---:|---:|---|
 | S | 10 | 4 | 210 | brute force, noise study, worked example |
-| M | 16 | 5 | 4,368 | main simulator results |
-| L | 48 in 4 linked families | 12 | about 7 x 10^10 | exact integer programme, decomposition |
+| M | 16 | 5 | 4,368 | main simulator results, trade-off curve |
+| L | 48 in 4 linked families | 12 | about 7 × 10^10 | exact integer programme, decomposition |
 
 All families are synthetic and seeded. No patient data is used.
 

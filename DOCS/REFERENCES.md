@@ -7,6 +7,7 @@
    - About 5% of the population carries beta-thalassaemia; about 5,250 affected births a year (estimate).
    - 15 families: 10 with an index case, 5 controls. Index families: 183 of 591 tested were carriers
      (31%). Control families: 0 of 397. 17 of 214 married couples were both carriers (8%).
+   - Among 350 randomly selected pregnant women there were 17 carriers (5%) and no at-risk couple.
 2. Ahmed S, Jafri H, Faran M, Ahmed WN, Rashid Y, Ehsan Y, Ahmed M. Cascade screening for
    beta-thalassaemia in Pakistan: relatives' experiences of a decision support intervention in
    routine practice. Eur J Hum Genet. 2022;30(4):406-412. doi:10.1038/s41431-021-00974-y
@@ -19,16 +20,17 @@
    - 49.6% of ever-married women married to a first cousin; about 64% to a relative.
 4. Dawn, 11 March 2026: National Assembly passes the Islamabad Capital Territory compulsory
    thalassaemia screening bill, https://www.dawn.com/news/1980653. Associated Press of Pakistan,
-   11 May 2026: passage by the Senate.
+   11 May 2026: passage by the Senate,
+   https://www.app.com.pk/national/5-private-member-bills-smoothly-sail-through-senate/.
    - Premarital screening reports through the Nikah registrar; screening and counselling of patients'
      blood relatives. Presidential assent could not be confirmed at the time of writing.
 
 ## Methods
 
-5. Cook J, Eidenbenz S, Baertschi A. The Quantum Alternating Operator Ansatz on Maximum k-Vertex
+5. Cook J, Eidenbenz S, Bärtschi A. The Quantum Alternating Operator Ansatz on Maximum k-Vertex
    Cover. IEEE QCE 2020, 83-92. arXiv:1910.13483. Source of the constrained design: Dicke start
    state and XY mixer.
-6. Baertschi A, Eidenbenz S. Deterministic Preparation of Dicke States. FCT 2019, Lecture Notes in
+6. Bärtschi A, Eidenbenz S. Deterministic Preparation of Dicke States. FCT 2019, Lecture Notes in
    Computer Science, 126-139. arXiv:1904.07358. Source of the Dicke-state circuit.
 7. Farhi E, Goldstone J, Gutmann S. A Quantum Approximate Optimization Algorithm. 2014.
    arXiv:1411.4028
@@ -41,14 +43,16 @@
 10. Zhou L, Wang S-T, Choi S, Pichler H, Lukin MD. Quantum Approximate Optimization Algorithm:
     Performance, Mechanism, and Implementation on Near-Term Devices. Phys Rev X. 2020;10:021067.
     arXiv:1812.01041. Source of the INTERP warm start.
-11. Kotil A, Pelofske E, Riedmueller S, Egger DJ, Eidenbenz S, Koch T, Woerner S. Quantum
+11. Kotil A, Pelofske E, Riedmüller S, Egger DJ, Eidenbenz S, Koch T, Woerner S. Quantum
     approximate multi-objective optimization. Nat Comput Sci. 2025;5:1168-1177. arXiv:2503.22797.
     Idea behind the trade-off sweep.
 12. Bhaskara A, Charikar M, Chlamtac E, Feige U, Vijayaraghavan A. Detecting high log-densities: an
     O(n^1/4) approximation for densest k-subgraph. STOC 2010, 201-210. arXiv:1001.2891
 13. Manurangsi P. Almost-polynomial ratio ETH-hardness of approximating densest k-subgraph. STOC
-    2017, 954-961. arXiv:1611.05991. The arXiv version was revised by the author in October 2026
-    with a weaker assumption, so we do not rely on this result.
+    2017, 954-961. arXiv:1611.05991. The arXiv version was revised by the author in October 2026:
+    it now states the result under a different assumption ("Almost-ETH") because, according to the
+    author's note, the assumptions of the published version no longer hold. We therefore quote only
+    NP-hardness and the n^(1/4) approximation guarantee and do not rely on this conditional result.
 
 ## Software
 
