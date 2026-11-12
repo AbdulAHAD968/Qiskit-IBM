@@ -1,0 +1,9 @@
+# Pinned versions used to produce every number in results/ and in the report.
+# Python 3.11 was used; Python 3.10 to 3.13 should work with these pins.
+qiskit==2.6.2
+qiskit-aer==0.18.2
+numpy==2.4.6
+scipy==1.17.1
+matplotlib==3.11.2
+python-docx==1.2.0
+pytest==9.2.0
