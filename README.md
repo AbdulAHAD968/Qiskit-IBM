@@ -11,17 +11,17 @@ answer against the exact optimum.
 
 **Team:** Syed Muhammad Saad Bukhari, Abdul Ahad, Faizan
 
-**Live site: [qiskit.sevenlabs.site](https://qiskit.sevenlabs.site/)**, with the visit planner and the circuit
-running in your browser.
+**Live site: [kinship.sevenlabs.site](https://kinship.sevenlabs.site/)**, with the visit planner and the circuit
+running in your browser. **Video pitch and demo:** [watch on Google Drive](https://drive.google.com/file/d/11Vun5EijHmykErL0_m3xQiPCX5_Lap2u/view?usp=sharing).
 
 | Deliverable | Where |
 |---|---|
 | Working, reproducible Qiskit code | this repository, `kinship/` and `tests/` |
 | Report (.docx) with results, exact comparison and limitations | [report/Kinship_QAOA_Report.docx](report/Kinship_QAOA_Report.docx) |
 | Architecture diagram | [report/architecture.png](report/architecture.png), also Figure 1 of the report |
-| Project website with the interactive walkthrough and a live simulation of the circuit | [qiskit.sevenlabs.site](https://qiskit.sevenlabs.site/), or `index.html` in a browser after cloning |
+| Project website with the interactive walkthrough and a live simulation of the circuit | [kinship.sevenlabs.site](https://kinship.sevenlabs.site/), or `index.html` in a browser after cloning |
 | Problem statement, benchmark report, limitations, references | [DOCS/](DOCS) |
-| 3-minute video pitch and demo | link submitted with the entry form; script in [DOCS/VIDEO_SCRIPT.md](DOCS/VIDEO_SCRIPT.md) |
+| 3-minute video pitch and demo | [watch on Google Drive](https://drive.google.com/file/d/11Vun5EijHmykErL0_m3xQiPCX5_Lap2u/view?usp=sharing); script in [DOCS/VIDEO_SCRIPT.md](DOCS/VIDEO_SCRIPT.md) |
 
 ## The problem
 
@@ -137,7 +137,7 @@ python -m kinship.evaluate all --quick   # reduced matrix, about 2 minutes (over
 python -m kinship.validate_genetics  # independent Monte Carlo check of the genetics engine, about 1 minute
 python -m kinship.validate_web_sim   # the website's in-browser simulator against the Qiskit circuits (needs Node.js)
 python -m kinship.compare_runs DIR   # compare results/ with the results folder DIR of another run
-python -m kinship.plots              # results/figures/*.png and report/architecture.png
+python -m kinship.plots              # results/figures/*.png (report/architecture.png is drawn from report/architecture.mmd)
 python -m kinship.report_md          # DOCS/BENCHMARKS.md
 python -m kinship.export_web         # web/data/results.js for the website
 python report/build_report.py        # report/Kinship_QAOA_Report.docx

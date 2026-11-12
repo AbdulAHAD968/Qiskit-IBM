@@ -453,8 +453,10 @@ def fig_architecture(path: Path | None = None) -> Path:
     return path
 
 
+# report/architecture.png is now drawn from report/architecture.mmd (see report/render_architecture.html);
+# fig_architecture() is kept for reference and is no longer part of the default run.
 ALL = [fig_pedigree, fig_gate1, fig_quality, fig_popt, fig_valid, fig_noise, fig_tradeoff, fig_circuits,
-       fig_decomposition, fig_histogram, fig_architecture]
+       fig_decomposition, fig_histogram]
 
 
 def main() -> int:

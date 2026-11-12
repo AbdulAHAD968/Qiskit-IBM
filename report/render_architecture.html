@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Architecture render</title>
+<!-- Renders report/architecture.mmd for the report. Serve the repository folder and open this page:
+     python -m http.server 8000, then http://localhost:8000/report/render_architecture.html,
+     and screenshot #diagram (or use your browser's "capture node screenshot"). -->
+<style>
+  body { margin: 0; background: #faf9f5; font-family: Inter, "Segoe UI", Roboto, sans-serif; }
+  #frame { display: inline-block; padding: 36px 40px 30px; background: #faf9f5; }
+  #frame h1 { margin: 0 0 4px; font: 600 26px/1.2 Georgia, "Times New Roman", serif; color: #141413; letter-spacing: -0.01em; }
+  #frame p { margin: 0 0 18px; font: 400 14px/1.4 "Segoe UI", Roboto, sans-serif; color: #6c6a64; }
+  .legend { display: flex; gap: 26px; margin-top: 18px; font: 400 17px/1 "Segoe UI", Roboto, sans-serif; color: #3d3d3a; }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { width: 20px; height: 15px; border-radius: 3px; display: inline-block; }
+</style>
+</head>
+<body>
+<div id="frame">
+  <div id="diagram"></div>
+  <div class="legend">
+    <span><i style="background:#c2613f"></i>quantum circuit</span>
+    <span><i style="background:#f6e6dc;border:1.5px solid #c2613f"></i>Qiskit primitives</span>
+    <span><i style="background:#efe9de;border:1px solid #cfc6b8"></i>classical computation</span>
+    <span><i style="background:#faf9f5;border:1.5px solid #2a8c7a"></i>classical checks</span>
+    <span><i style="background:#181715"></i>outputs</span>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js" integrity="sha384-WmdflGW9aGfoBdHc4rRyWzYuAjEmDwMdGdiPNacbwfGKxBW/SO6guzuQ76qjnSlr" crossorigin="anonymous"></script>
+<script>
+  mermaid.initialize({
+    startOnLoad: false,
+    securityLevel: "loose",
+    theme: "base",
+    flowchart: { htmlLabels: true, curve: "basis", nodeSpacing: 34, rankSpacing: 58, padding: 14 },
+    themeVariables: {
+      fontFamily: "Segoe UI, Inter, Roboto, sans-serif", fontSize: "18px",
+      primaryTextColor: "#141413", lineColor: "#6c6a64",
+      clusterBkg: "#ffffff", clusterBorder: "#d9d1c6", titleColor: "#141413",
+      edgeLabelBackground: "#faf9f5",
+    },
+  });
+  fetch("architecture.mmd", { cache: "reload" }).then(function (r) { return r.text(); }).then(function (src) {
+    return mermaid.render("arch", src);
+  }).then(function (out) {
+    document.getElementById("diagram").innerHTML = out.svg;
+    document.body.dataset.ready = "1";
+  }).catch(function (e) { document.getElementById("diagram").textContent = "Render failed: " + e; document.body.dataset.ready = "err"; });
+</script>
+</body>
+</html>

@@ -422,7 +422,9 @@ p = para("**Team:** Syed Muhammad Saad Bukhari, Abdul Ahad, Faizan", size=10.5, 
 p = para("**Repository:** ", size=10.5, after=2)
 link(p, REPO, REPO.replace("https://", ""), size=10.5)
 p = para("**Live site:** ", size=10.5, after=2)
-link(p, "https://qiskit.sevenlabs.site/", "qiskit.sevenlabs.site", size=10.5)
+link(p, "https://kinship.sevenlabs.site/", "kinship.sevenlabs.site", size=10.5)
+p = para("**Video:** ", size=10.5, after=2)
+link(p, "https://drive.google.com/file/d/11Vun5EijHmykErL0_m3xQiPCX5_Lap2u/view?usp=sharing", "3-minute pitch and demo on Google Drive", size=10.5)
 para("**Date:** 12 November 2026.  **Software:** Qiskit %s, Qiskit Aer %s, Python %s. Simulator only."
      % (META["qiskit"], META["qiskit_aer"], META["python"]), size=10.5, after=10)
 
@@ -619,8 +621,9 @@ para("**Assumptions and limits of the quantum part.** Results are noise-free sta
 heading("4. Architecture and implementation")
 para("Classical code prepares the weights, tunes the circuit and checks the answers. The quantum circuit is the step "
      "that proposes screening plans (Figure 1).", align="justify")
-figure(ROOT / "report" / "architecture.png", "Figure 1. System architecture in eight parts. Part 5 is the quantum "
-       "component, built, tuned and sampled through Qiskit primitives.")
+figure(ROOT / "report" / "architecture.png", "Figure 1. System architecture in four stages. Stage 2 is the quantum "
+       "component: the Dicke state, cost layer and XY mixer, tuned through the Estimator by COBYLA and read out by the Sampler. "
+       "Stages 1 and 3 are classical: they build the instance and check every answer against the exact optimum.")
 table(["Module", "Role"], [
     ["`kinship/pedigree.py`", "Seeded synthetic families with cousin and exchange marriages; layout for drawing"],
     ["`kinship/genetics.py`", "Exact carrier and couple probabilities by variable elimination"],

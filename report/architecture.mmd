@@ -1,0 +1,51 @@
+%% System architecture of Kinship Screening with QAOA.
+%% Rendered to report/architecture.png by report/render_architecture.html (Mermaid 10.9.1).
+flowchart TB
+  classDef cls fill:#efe9de,stroke:#cfc6b8,color:#141413,stroke-width:1px
+  classDef q fill:#c2613f,stroke:#a9583e,color:#ffffff,stroke-width:1px
+  classDef qs fill:#f6e6dc,stroke:#c2613f,color:#141413,stroke-width:1.5px
+  classDef chk fill:#ffffff,stroke:#2a8c7a,color:#141413,stroke-width:1.5px
+  classDef out fill:#181715,stroke:#181715,color:#faf9f5,stroke-width:1px
+
+  subgraph PREP["1. Prepare the instance (classical Python)"]
+    direction LR
+    GEN["<b>Family generator</b><br/>pedigree.py<br/>seeded synthetic families"]:::cls
+    GENE["<b>Genetics engine</b><br/>genetics.py<br/>exact carrier p<sub>i</sub> and<br/>couple risk w<sub>ij</sub>"]:::cls
+    PROB["<b>Problem builder</b><br/>problem.py<br/>max Σ c<sub>ij</sub>w<sub>ij</sub>x<sub>i</sub>x<sub>j</sub> + λ Σ r<sub>i</sub>p<sub>i</sub>x<sub>i</sub><br/>subject to Σ x<sub>i</sub> = k, as Ising H"]:::cls
+    GEN --> GENE --> PROB
+  end
+
+  subgraph QPU["2. Quantum module (Qiskit 2.6, Aer simulator)"]
+    direction LR
+    DICKE["<b>Dicke state</b><br/>|D<sup>n</sup><sub>k</sub>⟩ from gates<br/>all plans with k kits"]:::q
+    COST["<b>Cost layer</b><br/>e<sup>−iγH</sup><br/>RZZ and RZ"]:::q
+    MIX["<b>XY ring mixer</b><br/>e<sup>−iβ(XX+YY)/2</sup><br/>kit count fixed"]:::q
+    SAMP["<b>Sampler</b><br/>4,096 measured plans"]:::qs
+    EST["<b>Estimator</b><br/>⟨H⟩"]:::qs
+    OPT["<b>COBYLA</b><br/>classical optimiser<br/>tunes γ, β"]:::cls
+    DICKE --> COST --> MIX --> SAMP
+    MIX -. "p = 1, 2, 3" .-> COST
+    MIX --> EST --> OPT
+    OPT -- "new angles" --> COST
+  end
+
+  subgraph CHECK["3. Check every answer (classical Python)"]
+    direction LR
+    EXACT["<b>Exact optimum</b><br/>brute force, integer programme"]:::chk
+    BASE["<b>Baselines</b><br/>field officer's rule, greedy,<br/>annealing, random"]:::chk
+    NOISE["<b>Noise model</b><br/>depolarising CZ and readout"]:::chk
+    DEC["<b>Decomposition</b><br/>one circuit per family cluster"]:::chk
+    EXACT ~~~ BASE ~~~ NOISE ~~~ DEC
+  end
+
+  subgraph OUT["4. Outputs"]
+    direction LR
+    PLAN["<b>Screening plan</b><br/>who to test on this visit"]:::out
+    EVAL["<b>Evaluation</b><br/>quality, chance of the best plan,<br/>valid shots, fixed seeds"]:::out
+    PUB["<b>Report and website</b><br/>live circuit checked against<br/>Qiskit to 1e-16"]:::out
+    PLAN --> EVAL --> PUB
+  end
+
+  PREP == "n qubits, k kits, Hamiltonian H" ==> QPU
+  QPU == "measured plans, checked against the same instance" ==> CHECK
+  CHECK == "best plan, exact answer and baselines" ==> OUT
