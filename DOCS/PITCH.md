@@ -51,6 +51,48 @@ See the demo script below.
 
 **Backup:** if the site is slow, run `python -m kinship.demo`; it prints the same plan in about 20 seconds.
 
+## Website map: what to open, and when
+
+The site has five pages, the tabs at the top. Every link below opens the right page and scrolls to the section. Open the site before the pitch starts, at full screen, and keep this list beside you.
+
+### During the talk
+
+| When you say | Open | What to point at |
+|---|---|---|
+| The opening line | [Overview](https://kinship.sevenlabs.site/#/) | The family tree at the top. Wait 5 seconds: relatives glow in superposition, then one plan lights up. The caption under the tree names the shot. |
+| "Every relative has a carrier probability" | Overview, scroll the hero slowly | The shading fills each person by their carrier probability. |
+| "The obvious rule fails" | Overview, keep scrolling | The field rule lights three siblings and an aunt: zero couples. Then the QAOA plan: two siblings and two cousins, the exact optimum. |
+| The problem in Pakistan | [Overview, the problem](https://kinship.sevenlabs.site/#problem) | The four numbers: 5%, 5,250, 31%, 49.6%. |
+| "The value sits on couples" | [Overview, pairs](https://kinship.sevenlabs.site/#pairs) | The two pair cards, then 2.6% against the struck-out 26%. |
+| "Every shot is a plan" | [Overview, live shots](https://kinship.sevenlabs.site/#feed) | The rows of qubits streaming in, and the running best-plan rate heading to about 8%. |
+| The quantum method | [Overview, the circuit](https://kinship.sevenlabs.site/#flow) | Scroll through it: 210 equal bars, the cost layer changes colours only, the mixer grows the good plans, the readout ends on 8.31%. |
+| The live demo | [Plan a visit](https://kinship.sevenlabs.site/#/plan) | Tap Cousin 1 and Cousin 2. Point at the status line, the new plan, and its "Why" line. Press + for 5 kits. |
+| "Why the kit limit is built in" | Plan a visit, open "Explore the circuit", scroll to the bottom | The penalty circuit's shots spill onto 3 and 5 kits; ours stay 100% on 4. |
+| Results | [Results](https://kinship.sevenlabs.site/#/results) | The four headline numbers. Use the topic tabs only if asked. |
+| Limits | [Limits and team](https://kinship.sevenlabs.site/#/about) | The "No quantum speedup" card at the top. |
+
+### When a judge asks
+
+| Question | Open | What to point at |
+|---|---|---|
+| Why not just test the closest relatives? | [Results](https://kinship.sevenlabs.site/#/results), tab "Against simple rules" | One dot per family: the field rule sits far left of 100%. |
+| Did quantum beat classical? | Results, tab "QAOA against random" | Constrained QAOA above random and the field rule; then say greedy and annealing do better. |
+| Why constrained and not standard QAOA? | [Plan a visit](https://kinship.sevenlabs.site/#/plan), "Explore the circuit", the last panel | Valid shots 100% against 90% at depth 3; switch to depth 1 to show about half the penalty shots wasted. |
+| Is the quantum part doing real work? | Plan a visit, "Explore the circuit", then "Measure 100 shots" | The best plan comes up far more often than 1 in 210. |
+| What does the optimiser do? | Plan a visit, "Explore the circuit", the landscape | Pick depth 1 and press "Tune the angles here": the path climbs to Qiskit's marked optimum. |
+| What happens on a real chip? | Results, tab "Under noise" | Valid shots falling as two-qubit error rises to 1%. |
+| What does the circuit cost? | Results, tab "Kit limit and cost" | CZ gate counts; the Dicke state is the expensive part. |
+| How does it scale? | Results, tab "Trade-off and scaling" | Linked families: decomposition plus QAOA reaches 100% of the proven optimum. |
+| How are the probabilities computed? | [How it works, formulation](https://kinship.sevenlabs.site/#formulation) | Open "Show the variables, the genetics checks and the test instances": engine values against textbook values. |
+| What is the exact objective? | How it works, formulation | The formula at the top. |
+| How is the circuit built? | [How it works, quantum method](https://kinship.sevenlabs.site/#method) | Scroll the four steps beside the circuit diagram; the playhead moves with them. |
+| Show the architecture | [How it works, architecture](https://kinship.sevenlabs.site/#architecture) | The diagram of the eight parts. |
+| Compare all the plans for one family | [How it works, live plan](https://kinship.sevenlabs.site/#demo) | Switch between field rule, relevance rule, greedy, QAOA and exact. |
+| Is the data real? Is this ethical? | [Limits and team](https://kinship.sevenlabs.site/#/about) | The "Synthetic families" and "Ethics" cards. |
+| Can we reproduce it? | Limits and team, scroll to the bottom | The four commands and the GitHub link. |
+
+**If the network fails:** the whole site runs from the repository. Run `python -m http.server 8000` in the repo folder and open `http://localhost:8000`.
+
 ## Numbers to know by heart
 
 | What | Number |
