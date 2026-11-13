@@ -10,6 +10,46 @@ Qiskit Fall Fest 2026, final round. What to say, what to show, and how to answer
 
 **Our honest position:** we do not claim a speedup. We show a real problem that QAOA represents directly, a circuit that cannot break the kit limit, and an honest comparison against exact answers.
 
+## The main point
+
+Say these three things, in this order, and everything else supports them.
+
+1. **The problem is real and it is about pairs.** In cascade screening, a test only confirms an at-risk couple when both partners are tested. So choosing who to test is a choice of pairs under a fixed number of kits, and the obvious rule (test the likeliest carriers) gets it wrong in 98% of our families.
+2. **That problem is exactly what QAOA is built for.** Yes-or-no decisions with values on pairs map one to one onto qubits and ZZ rotations. The kit limit is enforced by the circuit itself, so every single shot is a usable plan.
+3. **We checked every answer.** Every plan the circuit gives is compared with the exact optimum, simple rules, strong classical heuristics and noise. QAOA beats random picks and the field rule, and we say plainly that classical solvers still win at this size.
+
+## The technical aspect, explained
+
+Use the short version in the pitch. Use the full version when a judge asks "how exactly does it work?".
+
+**Short version (30 seconds):**
+
+> We turn the family tree into exact pair weights with a Bayesian genetics engine. The objective becomes an Ising Hamiltonian, one ZZ term per couple. The circuit starts in a Dicke state with exactly k ones, applies the cost layer, then an XY mixer that only swaps a one with a zero, so the kit count never changes. COBYLA tunes the angles through the Qiskit Estimator, the Sampler gives 4,096 plans, and we keep the best one.
+
+**Full version, step by step:**
+
+1. **Family to probabilities (`kinship/genetics.py`).** The family tree is a Bayesian network over genotypes (AA, carrier, affected), one gene, Mendel's rules, founders at a 5% carrier rate. We condition on the affected child and compute every probability exactly by variable elimination, which also handles the loops that cousin marriages create. Output: each relative's carrier probability p<sub>i</sub>, and each couple's probability w<sub>ij</sub> that both are carriers. These are joint probabilities, not products: two grandparents are 51% each but only 2.6% together. Checked against textbook values, full enumeration, and an independent Monte Carlo simulation.
+
+2. **Probabilities to an optimisation problem (`kinship/problem.py`).** A binary variable x<sub>i</sub> per relative. Maximise F(x) = Σ c<sub>ij</sub> w<sub>ij</sub> x<sub>i</sub> x<sub>j</sub> + λ Σ r<sub>i</sub> p<sub>i</sub> x<sub>i</sub> subject to Σ x<sub>i</sub> = k. The first term is the expected number of at-risk couples confirmed; c<sub>ij</sub> is the chance the couple is real (1 if married, lower for a possible future match); the second term is a small reward (λ = 0.05) for single carriers found. With equal weights this is densest-k-subgraph, which is NP-hard in general.
+
+3. **Problem to a Hamiltonian.** Substitute x<sub>i</sub> = (1 − z<sub>i</sub>)/2, so qubit state |1⟩ means "test this relative". F becomes a constant plus Σ a<sub>i</sub> Z<sub>i</sub> + Σ b<sub>ij</sub> Z<sub>i</sub>Z<sub>j</sub>, with b<sub>ij</sub> = c<sub>ij</sub>w<sub>ij</sub>/4. Only couples get a ZZ term, so the circuit is as sparse as the family. Coefficients are divided by their root mean square so the angles are of order one. A test checks that this Hamiltonian equals F on every one of the 2<sup>n</sup> inputs.
+
+4. **The start state (`kinship/quantum/circuits.py`).** A Dicke state |D<sup>n</sup><sub>k</sub>⟩: the equal superposition of all C(n, k) plans with exactly k kits (210 for 10 relatives and 4 kits). Qiskit has no built-in one, so we build it from gates with the deterministic scheme of Bärtschi and Eidenbenz: split-and-cyclic-shift blocks of CNOTs and controlled RY rotations, order k·n gates and no helper qubits. A test confirms it prepares the exact state.
+
+5. **One QAOA layer.** The cost layer e<sup>−iγH</sup> is RZZ(2γb<sub>ij</sub>) on each couple and RZ(2γa<sub>i</sub>) on each relative: it changes only the phase of each plan, in proportion to its value. The mixer is a ring of `XXPlusYYGate` rotations applied in parity order. Each one moves amplitude between |01⟩ and |10⟩ on two neighbours, which preserves the number of ones, so the circuit never leaves the valid plans. Mixing turns those phase differences into probability: good plans grow, bad plans shrink. We repeat the layer p = 1, 2 or 3 times.
+
+6. **Training and read-out (`kinship/quantum/qaoa.py`).** The Aer Estimator primitive returns the expected objective for given angles, and SciPy's COBYLA maximises it. Depth 1 starts from the best points of a 16 by 10 grid; deeper circuits start from the tuned shallower angles (the INTERP rule and an identity layer), so a deeper circuit never starts worse. The Aer Sampler then measures 4,096 shots; the best measured valid plan is the one handed to the field officer.
+
+7. **The baseline it is compared with.** Standard penalty QAOA: start from all 2<sup>n</sup> bitstrings, RX mixer, and subtract A(Σx<sub>i</sub> − k)<sup>2</sup> with A = 1.1 × the largest gain of one extra test. The penalty needs a ZZ rotation on every pair of qubits (45 per layer for 10 qubits against 6 for ours) and the optimiser spends its effort on the constraint, so 39% of its shots break the kit limit at 16 qubits.
+
+8. **How we judge every result (`kinship/classical.py`, `kinship/evaluate.py`).** The exact optimum by brute force (and an integer programme with HiGHS for large networks), plus the field rule, a relevance rule, greedy, simulated annealing and random valid plans. Three metrics: quality (expected value of a shot, scaled so the worst plan is 0 and the best is 1), the chance that one shot is the best plan, and the share of shots that use exactly k kits. Fixed seeds, 20 and 12 families, depths 1 to 3.
+
+9. **Noise and scale (`kinship/quantum/noise.py`, `kinship/decompose.py`).** Circuits are transpiled to RZ, SX, X and CZ and run under a depolarising noise model; shots without exactly k ones are discarded and counted. For large linked families the couple graph splits into connected components that interact only through the kit budget: QAOA solves each component for each budget, and a dynamic programme shares out the kits exactly.
+
+10. **The website (`web/qaoa-sim.js`).** A browser cannot run Qiskit, so the same two circuits are re-implemented in JavaScript (the constrained one inside the 210 valid plans, the penalty one on all 1,024 bitstrings). A script runs it under Node.js against the Qiskit circuit, and every probability agrees to 1e-15. Every number in the report comes from the Qiskit code.
+
+**Who explains which part:** Saad takes steps 1 and 2 (the problem and the genetics), Abdul Ahad takes steps 3 to 7 (the quantum part), Faizan takes steps 8 to 10 (evaluation, noise, scale and the website).
+
 ## Talk track (about 4 minutes)
 
 Saad opens and frames the problem, Abdul Ahad does the quantum method and the live demo, Faizan closes with results and limits.
